@@ -1,0 +1,9 @@
+<div class="card-header row align-items-baseline p-0 m-0 header">
+  <button class="btn m-0 p-0 align-self-center align-items-center text-center" (click)="header.backClick()" *ngIf="header.withBackBtn">
+    <i class="material-icons ml-2 mr-1">&#xe5c4;</i>
+  </button>
+  <h2 class="col-sm-12 col-xl col-xs col-md font-weight-bold" >{{header.title}}</h2>
+  <div *ngIf="header.withBtn" class="text-right  col-sm-12 col-xl-4 col-xs-4 col-md-4 pr-0 mr-0 ">
+    <button  [classList]="['btn text-white border-0 ' +header.btn.bg]" (click)="header.btnClick()">{{header?.btn?.libelle}}</button>
+  </div>
+</div>

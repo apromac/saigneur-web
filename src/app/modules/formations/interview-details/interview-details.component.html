@@ -1,0 +1,91 @@
+<div (click)="openInfo.emit()" class="offcanvas-header row">
+  <div class="col-7">
+    <circle-progress
+      [percent]="85"
+      [radius]="100"
+      [responsive]="true"
+      [outerStrokeWidth]="16"
+      [innerStrokeWidth]="8"
+      [outerStrokeColor]="'#78C000'"
+      [innerStrokeColor]="'#C7E596'"
+      [animation]="true"
+      [animationDuration]="300"
+    ></circle-progress>
+  </div>
+  <div class="d-flex m-auto col-4" style="width: max-content; height: 150px">
+    <img height="250" src="assets/images/avatars/1.jpg" alt="" class="img-thumbnail"/>
+  </div>
+  <p class="offcanvas-title h5 col-12 text-center">N'GUESSAN Kouadio Hervé</p>
+</div>
+<div class="offcanvas-body mt-0">
+  <div class="overflow-auto" style="max-height: 50vh">
+    <ngb-accordion #acc="ngbAccordion" activeIds="config-panel-one">
+      <ngb-panel title="MOTIVATION (8/10)" id="config-panel-one">
+        <ng-template ngbPanelContent>
+          <ul class="list-group">
+            <li class="list-group-item mb-0">
+              <p class="pl-0 ml-0 pt-0 mt-0 mb-0"><b>Organisation de la journée</b></p>
+              <ul class="border-left">
+                <li class="list-group-item border-0 mb-0 ">
+                  <small class="mt-0" style="font-size: 10px"><i>Heure de réveil</i></small>
+                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Avant 6h</p>
+                </li>
+                <li class="list-group-item mb-0 border-0 border-left">
+                  <small class="mt-0" style="font-size: 10px"><i>Heure de couché</i></small>
+                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Avant 00h</p>
+                </li>
+                <li class="list-group-item mb-0 border-0 border-left">
+                  <small class="mt-0" style="font-size: 10px"><i>Occupation de la journée</i></small>
+                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Lecture / Coding / Learning</p>
+                </li>
+              </ul>
+            </li>
+
+            <li class="list-group-item mb-0">
+              <p class="pl-0 ml-0 pt-0 mt-0 mb-0"><b>Obscurité</b></p>
+              <ul class="border-left">
+                <li class="list-group-item border-0 mb-0 ">
+                  <small class="mt-0" style="font-size: 10px"><i>Avez-vous peur de l'obscurité?</i></small>
+                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">NON</p>
+                </li>
+
+              </ul>
+            </li>
+          </ul>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel title="ENDURANCE (5/5)">
+        <ng-template ngbPanelContent>
+          <ul class="list-group">
+            <li class="list-group-item border-0 mb-0 ">
+              <small class="mt-0" style="font-size: 10px"><i>Faites-vous du sport?</i></small>
+              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">OUI</p>
+            </li>
+
+            <li class="list-group-item border-0 mb-0 ">
+              <small class="mt-0" style="font-size: 10px"><i>Quelles est la plus longue distance déjà faite à pied ?</i></small>
+              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">>3km </p>
+            </li>
+          </ul>
+        </ng-template>
+      </ngb-panel>
+
+      <ngb-panel title="ADAPTATION EN MILIEU RURAL (5/5)">
+        <ng-template ngbPanelContent>
+          <ul class="list-group">
+            <li class="list-group-item border-0 mb-0 ">
+              <small class="mt-0" style="font-size: 10px"><i>Savez-vous monter à vélo ?</i></small>
+              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">OUI</p>
+            </li>
+
+            <li class="list-group-item border-0 mb-5 ">
+              <small class="mt-0" style="font-size: 10px"><i>Avez-vous déjà été une fois dans une plantation ? </i></small>
+              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">OUI</p>
+            </li>
+          </ul>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>

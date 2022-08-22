@@ -1,0 +1,77 @@
+<app-custom-table
+  [header]="tableHeader"
+  [menus]="getMenus()"
+  [tableHeader]="[
+  'Nom',
+  'Prénoms',
+  'Téléphone',
+  'Adresse',
+  ]"
+  [tableRow]="[
+  'nom',
+  'prenom',
+  'age',
+  'email',
+  'tel'
+  ]"
+  [tableData]="allApplicants"
+></app-custom-table>
+
+<button id="btnmodal" class="d-none" (click)="openModal(nwcampagne)"></button>
+
+<ng-template id="newcampagne" #nwcampagne>
+  <div class="modal-header">
+    <h4 class="modal-title">Edition d'utilisateur</h4>
+    <button type="button" (click)="close()" class="btn-close" aria-label="Close" ></button>
+  </div>
+  <div class="modal-body">
+    <!--    <h6><b>IDENTITE</b></h6>-->
+    <div class="tab-pane border p-2">
+      <div class="row g-2">
+        <div class="col-md">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="name" placeholder="Nom" value="">
+            <label for="name">Nom</label>
+          </div>
+        </div>
+
+        <div class="col-md">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="surname" placeholder="Prénoms" value="">
+            <label for="surname">Prénoms</label>
+          </div>
+        </div>
+
+        <div class="row g-2">
+          <div class="col-md">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="level" placeholder="Email" value="">
+              <label for="level">Email </label>
+            </div>
+          </div>
+
+          <div class="col-md">
+            <div class="form-floating">
+              <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
+              <input type="text" class="form-control" id="tel" placeholder="Métier actuel" value="">
+              <label for="tel">Téléphone</label>
+            </div>
+          </div>
+
+          <div class="col-md">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="adresse" placeholder="Adresse" value="">
+              <label for="adresse">Adresse</label>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="close()">Enregistrer</button>
+    <button type="button" class="btn btn-outline-danger" (click)="close()">Fermer</button>
+  </div>
+</ng-template>

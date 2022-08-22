@@ -1,0 +1,152 @@
+<app-custom-table
+  [header]="tableHeader"
+  [menus]="getMenus()"
+  [tableHeader]="[
+  'Nom',
+  'Prénoms',
+  'Age',
+  'Téléphone',
+  'Niveau étude',
+  'Zone',
+  'Adresse',
+  'Inscrit le',
+  ]"
+  [tableRow]="[
+  'nom',
+  'prenom',
+  'age',
+  'email',
+  'tel',
+  'zone',
+  'dinscrit',
+  'profil'
+  ]"
+  [tableData]="allApplicants"
+>
+  <div class="col-md">
+    <div class="form-floating">
+      <select (change)="comboCampagneChange($event.target.value)" class="form-select" id="campagne"
+              aria-label="Sélectionnez une campagne">
+        <option value="2022" selected>Campagne 2022</option>
+        <option value="2021">Campagne 2021</option>
+        <option value="2020">Campagne 2020</option>
+        <option value="2019">Campagne 2019</option>
+        <option value="2018">Campagne 2018</option>
+        <option value="2017">Campagne 2017</option>
+      </select>
+      <label for="campagne">Sélectionnez une campagne</label>
+    </div>
+  </div>
+</app-custom-table>
+
+<button id="btnmodal" class="d-none" (click)="oldCandidat(oldcandidat)"></button>
+
+<ng-template id="oldcandidat" #oldcandidat>
+
+  <div class="modal-header">
+    <h4 class="modal-title">Rechercher le candidat à inscrire</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+  </div>
+  <div class="modal-body">
+<!--    <app-custom-table-->
+<!--      [withoutHeader]="true"-->
+<!--      [menus]="getMenus()"-->
+<!--      [tableHeader]="[-->
+<!--  'Nom',-->
+<!--  'Prénoms',-->
+<!--  'Age',-->
+<!--  'Téléphone',-->
+<!--  'Niveau étude',-->
+<!--  'Zone',-->
+<!--  'Adresse',-->
+<!--  'Inscrit le',-->
+<!--  ]"-->
+<!--      [tableRow]="[-->
+<!--  'nom',-->
+<!--  'prenom',-->
+<!--  'age',-->
+<!--  'email',-->
+<!--  'tel',-->
+<!--  'zone',-->
+<!--  'dinscrit',-->
+<!--  'profil'-->
+<!--  ]"-->
+<!--      [tableData]="allApplicants"-->
+<!--    >-->
+<!--      <h6><b>Liste des candidats existant</b></h6>-->
+<!--    </app-custom-table>-->
+
+    <div class="row">
+      <div class="col-md-9">
+        <app-custom-table
+         [withoutHeader]="true"
+          [menus]="getMenus()"
+          [tableHeader]="[
+  'Nom',
+  'Prénoms',
+  'Téléphone',
+  'Niveau étude',
+  'Zone',
+  'Adresse',
+  'Inscrit le',
+  ]"
+          [tableRow]="[
+  'nom',
+  'prenom',
+  'email',
+  'tel',
+  'zone',
+  'dinscrit',
+  'profil'
+  ]"
+          [tableData]="allApplicants"
+        ></app-custom-table>
+
+      </div>
+      <div class="col-md">
+        <div class="card h-80">
+          <div class="card-body row">
+<!--            <div class="d-flex m-auto" style="width: max-content">-->
+<!--              &lt;!&ndash;        <div style="">&ndash;&gt;-->
+<!--              <img width="200" height="200" src="assets/images/avatars/1.jpg" alt="" class="rounded mx-auto d-block"/>-->
+<!--              &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--            </div>-->
+            <ul class="list-group">
+              <h5 class="text-center font-weight-bold">N'GUESSAN Kouadio Hervé</h5>
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Age</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">35 ans</p>
+              </li>
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Métier actuel</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Aucun métier</p>
+              </li>
+              <li class="list-group-item mb-0">
+                <small  class="mt-0" style="font-size: 10px"><i>Formation</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Formé au métier de saigneur</p>
+              </li>
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Emploi</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">En activité</p>
+                <!--          </li>-->
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Motivation</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Parrainer par un planteur</p></li>
+            </ul>
+
+            <div class="row mt-2 border-top pt-2 m-auto">
+              <div class="col-md-6 col-sm-12 m-auto">
+                <button class="btn btn-outline-success">
+                  Inscrire
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</ng-template>

@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="col-md-9">
+    <app-custom-table
+      [header]="tableHeader"
+      [menus]="getMenus()"
+      [tableHeader]="[
+  'Nom',
+  'Prénoms',
+  'Téléphone',
+  'Niveau étude',
+  'Zone',
+  'Adresse',
+  'Inscrit le',
+  ]"
+      [tableRow]="[
+  'nom',
+  'prenom',
+  'email',
+  'tel',
+  'zone',
+  'dinscrit',
+  'profil'
+  ]"
+      [tableData]="allApplicants"
+    ></app-custom-table>
+
+  </div>
+  <div class="col-md" style="z-index: -1 !important;">
+    <div class="card h-80">
+      <div class="card-body row">
+       <div class="d-flex m-auto" style="width: max-content">
+<!--        <div style="">-->
+          <img width="200" height="200" src="assets/images/avatars/1.jpg" alt="" class="rounded mx-auto d-block"/>
+<!--        </div>-->
+       </div>
+        <ul class="list-group">
+          <h5 class="text-center font-weight-bold">N'GUESSAN Kouadio Hervé</h5>
+          <li class="list-group-item mb-0">
+            <small class="mt-0" style="font-size: 10px"><i>Age</i></small>
+            <p class="pl-0 ml-0 pt-0 mt-0 mb-0">35 ans</p>
+          </li>
+          <li class="list-group-item mb-0">
+            <small class="mt-0" style="font-size: 10px"><i>Métier actuel</i></small>
+            <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Aucun métier</p>
+          </li>
+          <li class="list-group-item mb-0">
+            <small  class="mt-0" style="font-size: 10px"><i>Formation</i></small>
+            <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Formé au métier de saigneur</p>
+          </li>
+          <li class="list-group-item mb-0">
+            <small class="mt-0" style="font-size: 10px"><i>Emploi</i></small>
+            <p class="pl-0 ml-0 pt-0 mt-0 mb-0">En activité</p>
+<!--          </li>-->
+          <li class="list-group-item mb-0">
+            <small class="mt-0" style="font-size: 10px"><i>Motivation</i></small>
+            <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Parrainer par un planteur</p></li>
+        </ul>
+        <button (click)="openEnd(content)" class="btn btn-outline-info  m-auto p-0 m-0">
+          Voir toutes les informations
+        </button>
+
+        <div class="row mt-2 border-top pt-2 m-auto">
+          <div class="col-md-6 col-sm-12 m-auto">
+            <button (click)="confirmValidation()" class="btn btn-outline-success">
+              VALIDER
+            </button>
+          </div>
+          <div class="col-md-6 col-sm-12 m-auto">
+            <button class="btn btn-outline-warning">
+              PASSER
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-offcanvas>
+  <app-info-applicant></app-info-applicant>
+</ng-template>

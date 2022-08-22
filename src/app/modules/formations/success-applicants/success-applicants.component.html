@@ -1,0 +1,31 @@
+<app-custom-table
+  [header]="tableHeader"
+  [menus]="getMenus()"
+  [tableHeader]="[
+  'Nom',
+  'Prénoms',
+  'Age',
+  'Téléphone',
+  'Niveau étude',
+  'Zone',
+  'Adresse',
+  'Inscrit le',
+  ]"
+  [tableRow]="[
+  'nom',
+  'prenom',
+  'age',
+  'email',
+  'tel',
+  'zone',
+  'dinscrit',
+  'profil'
+  ]"
+  [tableData]="allApplicants"
+></app-custom-table>
+
+<button (click)="openEnd(contentApplicant)" class="btn btn-outline-info m-auto p-0 m-0">
+</button>
+<ng-template #contentApplicant let-offcanvas>
+  <app-info-applicant></app-info-applicant>
+</ng-template>

@@ -1,0 +1,278 @@
+<div [classList]="[(withoutHeader ? '' : 'row') + ' animated fadeInDown']">
+  <div [classList]="[withoutHeader ? '' : 'col-sm col-xl col-xs col-md card']">
+    <app-table-header
+      *ngIf="!withoutHeader"
+      [header]="header"
+    ></app-table-header>
+    <div class="text-right p-0 m-0 pt-2 pb-2" *ngIf="!withouSearch">
+      <div class="row">
+        <div class="col pr-0 mr-0 text-left align-items-start align-content-start align-self-start">
+          <ng-content></ng-content>
+        </div>
+       <div class="row col-6">
+         <div (click)="reload($event)" class="btn btn-dark col-1" matTooltip="Rafraichir">
+           <i class="fa fa-refresh"></i>
+         </div>
+         <div class="col d-flex m-auto">
+           <div class="bbbootstrap w-100">
+             <div class="container p-0">
+               <div class="d-flex align-items-center bg-primary input-group">
+                <span
+                  style="margin: 0px 12px"
+                  role="status"
+                  aria-live="polite"
+                  class="fa fa-search"
+                ></span>
+
+                 <!--                <div class="input-group">-->
+                 <input
+                   [(ngModel)]="value"
+                   (ngModelChange)="onChange($event)"
+                   type="search"
+                   placeholder="Rechercher"
+                   role="searchbox"
+                   class="form-control"
+                 />
+
+                 <div ngbDropdown class="input-group-append" *ngIf="searchWithCriteras">
+                   <button ngbDropdownToggle class="btn text-white" type="button">Critères
+                   </button>
+                   <div style="z-index: 10000000000 !important;" ngbDropdownMenu class="pt-0">
+                     <h6 class="dropdown-header bg-light">Cochez les colonnes cibles</h6>
+                     <div class="dropdown-divider"></div>
+                     <div style="height: 25vh; overflow-y: scroll">
+                       <div class="form-check ml-2">
+                         <input (change)="checkBoxChange($event, -1)" class="form-check-input" type="radio"
+                                [checked]="allCheck || !hasCriterias" id="all">
+                         <label class="form-check-label" for="all">
+                           Toutes les colonnes
+                         </label>
+                       </div>
+                       <div class="dropdown-divider"></div>
+                       <div *ngFor="let cr of tableHeader; let i=index" class="form-check ml-2">
+                         <input (change)="checkBoxChange($event, i)"
+                                [checked]="searchCriterias[i] && searchCriterias[i].checked || allCheck"
+                                class="form-check-input" type="checkbox" value="" [id]="tableRow[i]">
+                         <label class="form-check-label" [for]="tableRow[i]">
+                           {{cr.libelle || cr}}
+                         </label>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 <!--                </div>-->
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+      </div>
+
+    </div>
+    <table
+      class="table border-primary table-striped table-bordered table-hover table-responsive-lg"
+    >
+      <thead style="color: black; font-size: .85em; font-weight: initial !important">
+      <tr class="font-weight-lighter">
+        <th *ngIf="multiselectRow" class="border-primary">
+          <input [checked]="tableData && tableData.length === rowSelectedLength"
+                 (change)="rowSelectChange($event, 'allrow', -1)"
+                 type="checkbox"/></th>
+        <th *ngFor="let h of tableHeader; let i = index; trackBy:formatHeader"
+            [ngStyle]="h.style || {}" class="border-primary ">
+          {{ h.libelle || h }} <i *ngIf="searchCriterias[i] && searchCriterias[i].checked || allCheck"
+                                  class="fa fa-search"></i>
+
+        </th>
+        <th *ngIf="menus && menus.length>0" class="text-center border-primary" style="min-width: 6%">
+          Action
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of tableData | fqPagination: config; let i = index; trackBy:setIndex"
+          [class.highlight]="item._itemIndex === _currentIndex"
+          [class.checked]="item.isChecked"
+          class="{{item.className}} bg-{{item.style}}" style="color: black"
+          (click)="selected($event, i, item)">
+        <!--Checkbox to activate multiselect row -->
+        <td *ngIf="multiselectRow" class="p-0 m-0 text-center">
+          <input (change)="rowSelectChange($event, item, i)"
+                 [checked]="item.isChecked"
+                 class="m-0 p-0 text-center" type="checkbox"/></td>
+        <!-- all data to display -->
+        <td
+          *ngFor="let r of tableRow; let ind = index"
+          [ngStyle]="
+              !item[r]?.libelle && !item[r.libelle || r] && hasRowColSpan
+                ? { display: 'none' }
+                : { display: 'normal' }
+            "
+          [className]="r.class + ' animated fadeInLeft'"
+          [attr.rowspan]="item[r.libelle || r]?.rowspan"
+          [attr.colspan]="item[r.libelle || r]?.colspan"
+        >
+          <!-- Line for text-->
+          <div *ngIf="!r.isIcon">{{ checkIfMount({iData: i, iRow: ind}) }}</div>
+          <!--Line for icon-->
+          <div *ngIf="r.isIcon">
+            <i class="fa fa-{{ item[r.libelle || r] }}" aria-hidden="true">
+            </i>
+          </div>
+        </td>
+
+        <!-- if can show actions -->
+        <td *ngIf="menus && menus.length>0" style="padding: 4px !important;">
+
+          <div ngbDropdown class="btn-group d-flex" *ngIf="menus && menus.length>2">
+            <button
+              type="button"
+              style="padding: 3px; text-transform: initial"
+              class="btn dropdown-toggle btn-primary"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              ngbDropdownToggle
+            >
+              Options
+            </button>
+            <div  ngbDropdownMenu class="dropdown-menu">
+              <div
+                [id]="m.id"
+                class="dropdown-item d-flex"
+                *ngFor="let m of menus"
+                (click)="m.click(item)"
+              >
+                <ng-container *ngTemplateOutlet="icon; context: {menu: m}"></ng-container>
+                <span [ngStyle]="{ color: m.color }">{{ m.title }} </span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="menus && menus.length<=2" class="d-flex">
+            <div
+              class="m-0 p-0 m-auto d-flex"
+              [ngStyle]="{ 'cursor': 'pointer'}"
+              *ngFor="let m of menus"
+              (click)="m.click(item)"
+            >
+              <i
+                *ngIf="m.isMatDesign"
+                class="material-icons m-0 p-0 m-auto "
+                [ngStyle]="{ color: m?.color }"
+              >{{ m.icon }}</i
+              >
+              <div
+                *ngIf="!m.isMatDesign"
+                class="btn p-0 m-0 pr-3 pl-3 btn-sm btn-{{m.color}}"
+                aria-expanded="false"
+              >
+                <i class="fa fa-{{m.icon}}"></i>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr *ngIf="!tableData || tableData.length <= 0">
+        <td style="height: 50vh" [attr.colspan]="getcolSpan()">
+          <app-table-loading *ngIf="isLoading"></app-table-loading>
+          <app-not-found
+            *ngIf="!isLoading"
+            [message]="notFoundMsg"
+            (click)="reload($event)"
+            btnTitle="Actualiser"
+          ></app-not-found>
+        </td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr *ngIf="lastRow && tableData && tableData.length > 0">
+        <td [attr.colspan]="lastRow.colspan">
+          <label class="font-weight-bold">{{ lastRow.title }}</label>
+        </td>
+        <td *ngFor="let v of lastRow.values" [classList]="v.class">
+          <label class="font-weight-bold">{{ v.value }}</label>
+        </td>
+      </tr>
+      <tr *ngIf="rowSelectedLength>0 && tableData && tableData.length>0">
+        <td [attr.colspan]="getcolSpan()">
+          <div>
+            {{rowSelectedLength}} <span *ngIf="rowSelectedLength===1">ligne sélectionnée</span>
+            <span *ngIf="rowSelectedLength>1">lignes sélectionnées</span>
+          </div>
+        </td>
+      </tr>
+      <tr
+        *ngIf="tableData && tableData.length>0 && (searchList.length >  config.itemsPerPage || bottomMenus && bottomMenus.length>0)">
+        <td [attr.colspan]="getcolSpan()">
+          <div class="row">
+            <div *ngIf="tableData && searchList.length > config.itemsPerPage"
+                 class="{{(bottomMenus && bottomMenus.length>0)? 'col-sm-4 col-md-4 col-xl-4 col-xs-4':''}}">
+              <div class="cdp" actpage="1">
+                <a (click)="pageChanged('#!-1')"  class="cdp_i"> < </a>
+                <a *ngFor="let p of getPagination(); let i=index" (click)="pageChanged('#!'+(i+1))"
+                   class="cdp_i">{{i + 1}}</a>
+                <a (click)="pageChanged('#!+1')" class="cdp_i"> ></a>
+              </div>
+            </div>
+
+            <div
+              *ngIf="bottomMenus && bottomMenus.length>0"
+              class="col-sm col-md col-xl col-xs text-right"
+            >
+              <div *ngIf="bottomMenus && bottomMenus.length<=4" class="row">
+                <div *ngFor="let bm of bottomMenus" class="col text-right">
+                  <div (click)="bm.click(item)"
+                       class="ml-4 btn text-center btn-primary btn-{{bm.color}}">
+                    <!--                  <i class="material-icons">{{bm.icon}}</i>-->
+                    <ng-container *ngTemplateOutlet="icon; context: {menu: bm}"></ng-container>
+
+                    {{bm.title}}
+                  </div>
+                </div>
+
+              </div>
+              <div *ngIf="bottomMenus && bottomMenus.length>4" class="btn-group">
+                <button
+                  type="button"
+                  [classList]="['btn  dropdown-toggle btn-primary']"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Action
+                </button>
+                <div class="dropdown-menu">
+                  <div
+                    [id]="m.id"
+                    class="dropdown-item d-flex"
+                    *ngFor="let m of bottomMenus"
+                    (click)="m.click(m)"
+                  >
+                    <ng-container *ngTemplateOutlet="icon; context: {menu: m}"></ng-container>
+                    {{ m.title }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+<ng-template #icon let-m="menu">
+  <i
+    *ngIf="m.isMatDesign"
+    class="material-icons"
+    [ngStyle]="{ color: m.color }"
+  >{{ m.icon }}</i
+  >
+  <i
+    *ngIf="!m.isMatDesign"
+    [classList]="[m.icon]"
+    [ngStyle]="{ color: m.color }"
+    style="font-size: 18px; margin-right: 10px;"
+  ></i>
+</ng-template>

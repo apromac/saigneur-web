@@ -1,0 +1,978 @@
+<div class="modal-header">
+  <h4 class="modal-title">Identification du Candidat au métier de saigneur</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+  <ng-stepper #cdkStepper [linear]="true">
+    <cdk-step [stepControl]="stepOne.stepOneForm" [optional]="false">
+      <ng-template cdkStepLabel>
+        <div class="step-bullet">1</div>
+        <h6><b>LOCALITE</b></h6>
+        <!--        <div class="step-title">Personal Details <span class="required">*</span></div>-->
+      </ng-template>
+      <div #stepOne>
+        <hr>
+        <div class="row g-2">
+          <div class="col-md">
+            <div class="form-floating">
+              <select class="form-select" id="tdh" aria-label="TDH">
+                <option value="tdh1" selected>KOUASSI MATHIEU</option>
+                <option value="tfh2">KONAN FREJUS</option>
+              </select>
+              <label for="sexe">TDH</label>
+            </div>
+          </div>
+        </div>
+        <!--        <button type="button" class="btn btn-outline-success" (click)="activeModal.close('Close click')">Enregistrer</button>-->
+        <hr>
+        <button type="button" class="btn btn-outline-info" cdkStepperNext>Suivant</button>
+      </div>
+    </cdk-step>
+
+    <cdk-step [stepControl]="stepTwo.stepTwoForm" [optional]="true">
+      <ng-template cdkStepLabel>
+        <div class="step-bullet">2</div>
+        <h6><b>IDENTITE</b></h6>
+      </ng-template>
+      <div #stepTwo>
+        <hr>
+        <div class="tab-pane border p-2">
+          <div class="row g-2">
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="name" placeholder="Nom" value="">
+                <label for="name">Nom</label>
+              </div>
+            </div>
+
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="surname" placeholder="Prénoms" value="">
+                <label for="surname">Prénoms</label>
+              </div>
+            </div>
+
+            <div class="row g-2">
+              <div class="col-md">
+                <div class="form-floating">
+                  <select class="form-select" id="sexe" aria-label="Sexe">
+                    <option value="M" selected>Masculin</option>
+                    <option value="F">Féminin</option>
+                  </select>
+                  <label for="sexe">Sexe</label>
+                </div>
+              </div>
+
+              <div class="col-md">
+                <div class="form-floating">
+                  <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
+                  <input [max]="maxBirthday" type="date" class="form-control" id="birthday"
+                         placeholder="Date de naissance"
+                         value="01/01/2000">
+                  <label for="birthday">Date de naissance</label>
+                </div>
+              </div>
+
+
+              <div class="col-md">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="birthplace" placeholder="Lieu de naissance" value="">
+                  <label for="birthplace">Lieu de Naissance</label>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row g-2">
+              <div class="col-md">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="level" placeholder="Niveau d'étude" value="">
+                  <label for="level">Niveau d'étude </label>
+                </div>
+              </div>
+
+              <div class="col-md">
+                <div class="form-floating">
+                  <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
+                  <input type="text" class="form-control" id="job" placeholder="Métier actuel" value="">
+                  <label for="job">Métier actuel</label>
+                </div>
+              </div>
+
+
+              <div class="col-md">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="home" placeholder="Lieu de résidence" value="">
+                  <label for="home">Lieu de résidence</label>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row g-2">
+              <div class="col-md">
+                <div class="form-floating">
+                  <input type="number" [min]="0" class="form-control" id="distance"
+                         placeholder="Distance par rapport à l'école " value="">
+                  <label for="level">Distance par rapport à l'école </label>
+                </div>
+              </div>
+
+              <div class="col-md">
+                <div class="form-floating">
+                  <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
+                  <input type="tel" class="form-control" id="contact" placeholder="Ex : +225 0123456789" value="">
+                  <label for="contact">Contacts</label>
+                </div>
+              </div>
+
+
+              <div class="col-md">
+                <div class="form-floating">
+                  <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
+                  <input type="tel" class="form-control" id="morecontact" placeholder="Ex : +225 0123456789" value="">
+                  <label for="morecontact">Autres contacts</label>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row g-2">
+              <div class="col-md">
+                <div class="form-floating">
+                  <select (change)="typePieceChange($event.target.value)" class="form-select" id="typepiece"
+                          aria-label="Type de pièce">
+                    <option value="cni" selected>Carte Nationale d'Identité</option>
+                    <option value="attestation">Attestation d'identité</option>
+                    <option value="autre">Autres</option>
+                  </select>
+                  <label for="sexe">Type de pièce</label>
+                </div>
+              </div>
+
+              <div class="col-md animated fadeInUp" *ngIf="typePiece === 'autre'">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="otherdoc" placeholder="Autre pièce" value="">
+                  <label for="otherdoc">Préciser le type de document</label>
+                </div>
+              </div>
+
+              <div class="col-md">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="numpiece" placeholder="Numéro de pièce" value="">
+                  <label for="numpiece">Numéro de pièce</label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md">
+            <button type="button" class="btn btn-outline-dark" cdkStepperPrevious>Précédent</button>
+          </div>
+          <div class="col-md text-right">
+            <button type="button" class="btn btn-outline-info" cdkStepperNext>Suivant</button>
+          </div>
+        </div>
+      </div>
+    </cdk-step>
+
+    <cdk-step [stepControl]="stepFour.stepFourForm" [optional]="true" [state]="stepFour.state">
+      <ng-template cdkStepLabel>
+        <div class="step-bullet">4</div>
+        <h6><b>FORMATION</b></h6>
+        <!--        <div class="step-title">Contact Information</div>-->
+      </ng-template>
+      <div #stepFour>
+        <hr>
+
+        <div class="tab-pane border p-2">
+          <div class="row g-2 mt-2 mb-2">
+            <div class="col-md">
+              <div class="form-check form-switch">
+                <input role="switch" id="forme" (change)="alreadyTrainedChange($event.srcElement.checked)" type="checkbox" class="form-check-input">
+                <label for="forme">Déjà formé au métier de saigneur?</label>
+              </div>
+            </div>
+          </div>
+         <div *ngIf="trained" class="animated fadeInUp">
+           <div class="row">
+             <div class="col-md ">
+               <!--        <div class="col-md animated fadeInUp" *ngIf="typePiece === 'autre'">-->
+               <div class="form-floating">
+                 <input type="text" class="form-control" id="structureformation" placeholder="Par quelle structure?"
+                        value="">
+                 <label for="structureformation">Par quelle structure?</label>
+               </div>
+             </div>
+
+             <div class="col-md">
+               <div class="form-floating">
+                 <input bsDaterangepicker
+                        [bsConfig]="{
+                  rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY',
+                    isAnimated: true,
+                    adaptivePosition: true,
+                    containerClass: 'theme-primary',
+                    showWeekNumbers: false }"
+                        (bsValueChange)="getRangeDate($event)"
+                        class="form-control" id="periodeformation" placeholder="Période de Formation" value="">
+                 <label for="periodeformation">Période de Formation</label>
+               </div>
+             </div>
+           </div>
+           <div class="row g-2 pt-2">
+             <div class="col-md">
+               <div class="form-check form-switch">
+                 <input (change)="trainedAndPractice($event.srcElement.checked)" id="trained" type="checkbox" class="form-check-input">
+                 <label class="form-check-label" for="trained">Formation mise en application</label>
+               </div>
+             </div>
+             <div class="animated fadeInUp" *ngIf="practice">
+               <div class="row">
+                 <div class="col-md">
+                   <div class="form-floating">
+                     <input type="text" class="form-control" id="placeformation" placeholder="Lieu de formation" value="">
+                     <label for="placeformation">Lieu formation</label>
+                   </div>
+                 </div>
+
+
+               </div>
+             <div class="row g-2 mt-2 mb-2">
+               <div class="col-md">
+                 <div class="form-floating">
+                   <input id="typeahead-focus"
+                          type="text"
+                          class="form-control"
+                          [ngbTypeahead]="search"
+                          (focus)="focus$.next($any($event).target.value)"
+                          (click)="click$.next($any($event).target.value)"
+                          #instance="ngbTypeahead">
+                   <label for="typeahead-focus">Type formation</label>
+
+                 </div>
+               </div>
+               <div class="col-md">
+                 <div class="form-floating">
+                   <select class="form-select" id="typesaigne" aria-label="Type saigné">
+                     <option value="asc" selected>Ascendant</option>
+                     <option value="desc">Descendant</option>
+                   </select>
+                   <label for="sexe">Type saigné</label>
+                 </div>
+               </div>
+             </div>
+
+               <div class="border mt-2 p-2">
+                 <div class="row">
+                   <div class="form-group col-md">
+                     <div class="input-group-btn">
+                       <div class="input-group-prepend">
+                         <span class="input-group-text">Nom du planteur</span>
+                         <input id="name" type="text" class="form-control"/>
+                       </div>
+                     </div>
+                   </div>
+
+                   <div class="form-group col-md">
+                     <div class="input-group-btn">
+                       <div class="input-group-prepend">
+                         <span class="input-group-text">Matricule du planteur</span>
+                         <input id="mle" type="text" class="form-control"/>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 <div class="row">
+                   <div class="col-md-4">
+                     <div class="form-group">
+                       <div class="input-group-btn">
+                         <div class="input-group-prepend">
+                           <span class="input-group-text">Contacts</span>
+                           <input id="contactpl" type="text" class="form-control"/>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+
+                   <div class="col-md-4">
+                     <div class="form-group">
+                       <div class="input-group-btn">
+                         <div class="input-group-prepend">
+                           <span class="input-group-text">Localité</span>
+                           <input id="local" type="text" class="form-control"/>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+
+                   <div class="col-md-4">
+                     <div class="form-group">
+                       <div class="input-group-btn">
+                         <div class="input-group-prepend">
+                           <span class="input-group-text">Année</span>
+                           <input class="date-own form-control" [min]="1900" [max]="currentYear" style="width: 300px;"
+                                  type="number">
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+
+           </div>
+         </div>
+
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md">
+            <button type="button" class="btn btn-outline-dark" cdkStepperPrevious>Précédent</button>
+          </div>
+          <div class="col-md text-right">
+            <button type="button" class="btn btn-outline-info" cdkStepperNext>Suivant</button>
+          </div>
+        </div>
+      </div>
+    </cdk-step>
+
+    <cdk-step [stepControl]="stepFive.stepFourForm" [optional]="true" [state]="stepFive.state">
+      <ng-template cdkStepLabel>
+        <div class="step-bullet">5</div>
+        <h6><b>EMPLOI</b></h6>
+        <!--        <div class="step-title">Contact Information</div>-->
+      </ng-template>
+      <div #stepFive>
+        <hr>
+        <div class="tab-pane border p-2">
+          <div class="row g-2">
+            <div class="col-md-12 row g-2">
+              <div class="col-md">
+                <div class="form-check form-switch">
+                  <input [(ngModel)]="propositionEmploi" id="proposition" type="checkbox" class="form-check-input">
+                  <label class="form-check-label" for="proposition">Avez-vous déjà reçu une proposition d'emploi
+                    ?</label>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="border mt-2 p-2 animated fadeInUp" *ngIf="propositionEmploi">
+              <div class="row">
+                <div class="form-group col-md">
+                  <div class="input-group-btn">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Nom du planteur</span>
+                      <input id="name" type="text" class="form-control"/>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group col-md">
+                  <div class="input-group-btn">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Matricule du planteur</span>
+                      <input id="mle" type="text" class="form-control"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <div class="input-group-btn">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Contacts</span>
+                        <input id="contactpl" type="text" class="form-control"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <div class="input-group-btn">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Localité</span>
+                        <input id="local" type="text" class="form-control"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <div class="input-group-btn">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Année</span>
+                        <input class="date-own form-control" [min]="1900" [max]="currentYear" style="width: 300px;"
+                               type="number">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="col-md-12 row g-2 pt-2">
+              <div class="col-md mb-2 mt-2">
+                <div class="form-check form-switch">
+                  <input [(ngModel)]="isActive" id="active" type="checkbox" class="form-check-input">
+                  <label class="form-check-label" for="active">Êtes vous en activité ?</label>
+
+                </div>
+              </div>
+
+              <div class="border mt-2 p-2 animated fadeInUp" *ngIf="isActive">
+                <div class="row">
+                  <div class="form-group col-md">
+                    <div class="input-group-btn">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Nom du planteur</span>
+                        <input id="name" type="text" class="form-control"/>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-md">
+                    <div class="input-group-btn">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Matricule du planteur</span>
+                        <input id="mle" type="text" class="form-control"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <div class="input-group-btn">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Contacts</span>
+                          <input id="contactpl" type="text" class="form-control"/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <div class="input-group-btn">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Localité</span>
+                          <input id="local" type="text" class="form-control"/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <div class="input-group-btn">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Année</span>
+                          <input class="date-own form-control" [min]="1900" [max]="currentYear" style="width: 300px;"
+                                 type="number">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md">
+            <button type="button" class="btn btn-outline-dark" cdkStepperPrevious>Précédent</button>
+          </div>
+          <div class="col-md text-right">
+            <button type="button" class="btn btn-outline-info" cdkStepperNext>Suivant</button>
+          </div>
+        </div>
+      </div>
+    </cdk-step>
+
+    <cdk-step [stepControl]="stepSix.stepFourForm" [optional]="true" [state]="stepSix.state">
+      <ng-template cdkStepLabel>
+        <div class="step-bullet">6</div>
+        <h6><b>MOTIVATION</b></h6>
+        <!--        <div class="step-title">Contact Information</div>-->
+      </ng-template>
+      <div #stepSix>
+        <hr>
+
+        <div class="tab-pane border p-2">
+          <div class="row g-2">
+
+            <div class="col-md-12">
+              <div class="form-floating">
+                <input id="motivation"
+                       type="text"
+                       class="form-control"
+                       [(ngModel)]="motivation"
+                       (ngModelChange)="motivationChange($event)"
+                       [ngbTypeahead]="motivationSearch"
+                       (focus)="focus$.next($any($event).target.value)"
+                       (click)="click$.next($any($event).target.value)"
+                       #instance="ngbTypeahead">
+                <label for="typeahead-focus">Pourquoi désirez vous cette formation ?</label>
+
+              </div>
+
+            </div>
+
+
+            <div class="col-12 animated fadeInUp" *ngIf="motivation === 'Autre'">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="othermotiv" placeholder="Préciser la motivation" value="">
+                <label for="othermotiv">Préciser la motivation</label>
+              </div>
+            </div>
+
+<!--            <div class="col-md">-->
+<!--              <div class="form-check form-group">-->
+<!--                &lt;!&ndash;          <ul class="list-group form-group">&ndash;&gt;-->
+<!--                &lt;!&ndash;            <li class="list-group-item">&ndash;&gt;-->
+<!--                <div class="form-check">-->
+<!--                  <input id="motif1" name="motif" type="radio" class="form-check-input">-->
+<!--                  <label class="form-check-label" for="motif1">Saigner votre propre plantation</label>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;            </li>&ndash;&gt;-->
+<!--                &lt;!&ndash;            <li class="list-group-item">&ndash;&gt;-->
+<!--                <div class="form-check">-->
+<!--                  <input id="motif2" name="motif" type="radio" class="form-check-input">-->
+<!--                  <label class="form-check-label" for="motif2">Saigner la plantation d'un proche</label>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;            </li>&ndash;&gt;-->
+
+<!--                &lt;!&ndash;            <li class="list-group-item">&ndash;&gt;-->
+<!--                <div class="form-check">-->
+<!--                  <input id="motif3" name="motif" type="radio" class="form-check-input">-->
+<!--                  <label class="form-check-label" for="motif3">Exercer le métier de saigneur dans une autre-->
+<!--                    plantation</label>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;            </li>&ndash;&gt;-->
+
+<!--                &lt;!&ndash;            <li class="list-group-item">&ndash;&gt;-->
+<!--                <div class="form-check">-->
+<!--                  <input id="motif4" name="motif" type="radio" class="form-check-input">-->
+<!--                  <label class="form-check-label" for="motif4">Contrôler la saignée dans votre plantation</label>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;            </li>&ndash;&gt;-->
+
+<!--                &lt;!&ndash;            <li class="list-group-item">&ndash;&gt;-->
+<!--                <div class="form-check">-->
+<!--                  <input id="motif5" name="motif" type="radio" class="form-check-input">-->
+<!--                  <label class="form-check-label" for="motif5">Parrainer par un planteur</label>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;            </li>&ndash;&gt;-->
+
+<!--                &lt;!&ndash;            <li class="list-group-item">&ndash;&gt;-->
+<!--                <div class="form-check">-->
+<!--                  <input id="motif6" name="motif" type="radio" class="form-check-input">-->
+<!--                  <label class="form-check-label" for="motif6">Autre, Laquelle ?</label>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;            </li>&ndash;&gt;-->
+<!--              </div>-->
+<!--              <div class="col-md animated fadeInUp">-->
+<!--                <div class="form-floating">-->
+<!--                  <input type="text" class="form-control" id="othermotiv" placeholder="Autre pièce" value="">-->
+<!--                  <label for="otherdoc">Préciser la motivation</label>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash;          </ul>&ndash;&gt;-->
+<!--            </div>-->
+          </div>
+        </div>
+
+        <hr>
+        <div class="row">
+          <div class="col-md">
+            <button type="button" class="btn btn-outline-dark" cdkStepperPrevious>Précédent</button>
+          </div>
+          <div class="col-md text-right">
+            <button type="button" class="btn btn-outline-primary" cdkStepperNext>Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    </cdk-step>
+  </ng-stepper>
+
+
+  <!--  <form class="needs-validation">-->
+  <!--    <h6><b>TDH</b></h6>-->
+  <!--    <div class="row g-2">-->
+  <!--      <div class="col-md">-->
+  <!--        <div class="form-floating">-->
+  <!--          <select class="form-select" id="tdh" aria-label="TDH">-->
+  <!--            <option value="tdh1" selected>KOUASSI MATHIEU</option>-->
+  <!--            <option value="tfh2">KONAN FREJUS</option>-->
+  <!--          </select>-->
+  <!--          <label for="sexe">TDH</label>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--    <hr>-->
+  <!--    <h6><b>IDENTITE</b></h6>-->
+  <!--    <div class="tab-pane border p-2">-->
+  <!--      <div class="row g-2">-->
+  <!--        <div class="col-md">-->
+  <!--          <div class="form-floating">-->
+  <!--            <input type="text" class="form-control" id="name" placeholder="Nom" value="">-->
+  <!--            <label for="name">Nom</label>-->
+  <!--          </div>-->
+  <!--        </div>-->
+
+  <!--        <div class="col-md">-->
+  <!--          <div class="form-floating">-->
+  <!--            <input type="text" class="form-control" id="surname" placeholder="Prénoms" value="">-->
+  <!--            <label for="surname">Prénoms</label>-->
+  <!--          </div>-->
+  <!--        </div>-->
+
+  <!--        <div class="row g-2">-->
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-floating">-->
+  <!--              <select class="form-select" id="sexe" aria-label="Sexe">-->
+  <!--                <option value="M" selected>Masculin</option>-->
+  <!--                <option value="F">Féminin</option>-->
+  <!--              </select>-->
+  <!--              <label for="sexe">Sexe</label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-floating">-->
+  <!--              &lt;!&ndash;             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>&ndash;&gt;-->
+  <!--              <input [max]="maxBirthday" type="date" class="form-control" id="birthday" placeholder="Date de naissance"-->
+  <!--                     value="01/01/2000">-->
+  <!--              <label for="birthday">Date de naissance</label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-floating">-->
+  <!--              <input type="text" class="form-control" id="birthplace" placeholder="Lieu de naissance" value="">-->
+  <!--              <label for="birthplace">Lieu de Naissance</label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+  <!--        </div>-->
+
+  <!--        <div class="row g-2">-->
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-floating">-->
+  <!--              <input type="text" class="form-control" id="level" placeholder="Niveau d'étude" value="">-->
+  <!--              <label for="level">Niveau d'étude </label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-floating">-->
+  <!--              &lt;!&ndash;             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>&ndash;&gt;-->
+  <!--              <input type="text" class="form-control" id="job" placeholder="Métier actuel" value="">-->
+  <!--              <label for="job">Métier actuel</label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-floating">-->
+  <!--              <input type="text" class="form-control" id="home" placeholder="Lieu de résidence" value="">-->
+  <!--              <label for="home">Lieu de résidence</label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+  <!--        </div>-->
+
+  <!--        <div class="row g-2">-->
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-floating">-->
+  <!--              <input type="number" [min]="0" class="form-control" id="distance"-->
+  <!--                     placeholder="Distance par rapport à l'école " value="">-->
+  <!--              <label for="level">Distance par rapport à l'école </label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-floating">-->
+  <!--              &lt;!&ndash;             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>&ndash;&gt;-->
+  <!--              <input type="tel" class="form-control" id="contact" placeholder="Ex : +225 0123456789" value="">-->
+  <!--              <label for="contact">Contacts</label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-floating">-->
+  <!--              &lt;!&ndash;             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>&ndash;&gt;-->
+  <!--              <input type="tel" class="form-control" id="morecontact" placeholder="Ex : +225 0123456789" value="">-->
+  <!--              <label for="morecontact">Autres contacts</label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+  <!--        </div>-->
+
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--    <hr>-->
+  <!--    <h6><b>DOCUMENT</b></h6>-->
+  <!--    <div class="tab-pane border p-2">-->
+  <!--      <div class="row g-2">-->
+  <!--        <div class="col-md">-->
+  <!--          <div class="form-floating">-->
+  <!--            <select (change)="typePieceChange($event.target.value)" class="form-select" id="typepiece"-->
+  <!--                    aria-label="Type de pièce">-->
+  <!--              <option value="cni" selected>Carte Nationale d'Identité</option>-->
+  <!--              <option value="attestation">Attestation d'identité</option>-->
+  <!--              <option value="autre">Autres</option>-->
+  <!--            </select>-->
+  <!--            <label for="sexe">Type de pièce</label>-->
+  <!--          </div>-->
+  <!--        </div>-->
+
+  <!--        <div class="col-md animated fadeInUp" *ngIf="typePiece === 'autre'">-->
+  <!--          <div class="form-floating">-->
+  <!--            <input type="text" class="form-control" id="otherdoc" placeholder="Autre pièce" value="">-->
+  <!--            <label for="otherdoc">Préciser le type de document</label>-->
+  <!--          </div>-->
+  <!--        </div>-->
+
+  <!--        <div class="col-md">-->
+  <!--          <div class="form-floating">-->
+  <!--            <input type="text" class="form-control" id="numpiece" placeholder="Numéro de pièce" value="">-->
+  <!--            <label for="numpiece">Numéro de pièce</label>-->
+  <!--          </div>-->
+  <!--        </div>-->
+
+  <!--      </div>-->
+  <!--    </div>-->
+
+  <!--    <hr>-->
+  <!--    <h6><b>FORMATION</b></h6>-->
+  <!--    <div class="tab-pane border p-2">-->
+  <!--      <div class="row g-2">-->
+  <!--        <div class="col-md">-->
+  <!--          <div class="form-check form-switch">-->
+  <!--            <input id="forme" type="checkbox" class="form-check-input">-->
+  <!--            <label for="forme">Déjà formé au métier de saigneur?</label>-->
+  <!--          </div>-->
+  <!--        </div>-->
+
+  <!--        <div class="row">-->
+  <!--          <div class="col-md ">-->
+  <!--            &lt;!&ndash;        <div class="col-md animated fadeInUp" *ngIf="typePiece === 'autre'">&ndash;&gt;-->
+  <!--            <div class="form-floating">-->
+  <!--              <input type="text" class="form-control" id="structureformation" placeholder="Par quelle structure?"-->
+  <!--                     value="">-->
+  <!--              <label for="structureformation">Par quelle structure?</label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-floating">-->
+  <!--              <input bsDaterangepicker-->
+  <!--                     [bsConfig]="{-->
+  <!--                  rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY',-->
+  <!--                    isAnimated: true,-->
+  <!--                    adaptivePosition: true,-->
+  <!--                    containerClass: 'theme-primary',-->
+  <!--                    showWeekNumbers: false }"-->
+  <!--                     (bsValueChange)="getRangeDate($event)"-->
+  <!--                     class="form-control" id="periodeformation" placeholder="Période de Formation" value="">-->
+  <!--              <label for="periodeformation">Période de Formation</label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+
+  <!--      </div>-->
+  <!--      <div class="row g-2 pt-2">-->
+  <!--        <div class="col-md">-->
+  <!--          <div class="form-check form-switch">-->
+  <!--            <input id="trained" type="checkbox" class="form-check-input">-->
+  <!--            <label class="form-check-label" for="trained">Formation mise en application</label>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--        <div class="row">-->
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-floating">-->
+  <!--              <input type="text" class="form-control" id="placeformation" placeholder="Lieu de formation" value="">-->
+  <!--              <label for="placeformation">Lieu formation</label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-floating">-->
+  <!--              <input id="typeahead-focus"-->
+  <!--                     type="text"-->
+  <!--                     class="form-control"-->
+  <!--                     [ngbTypeahead]="search"-->
+  <!--                     (focus)="focus$.next($any($event).target.value)"-->
+  <!--                     (click)="click$.next($any($event).target.value)"-->
+  <!--                     #instance="ngbTypeahead">-->
+  <!--              <label for="typeahead-focus">Type formation</label>-->
+
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--        <div class="border p-2">-->
+  <!--          <div class="row">-->
+  <!--            <div class="form-group col-md">-->
+  <!--              <div class="input-group-btn">-->
+  <!--                <div class="input-group-prepend">-->
+  <!--                  <span class="input-group-text">Nom du planteur</span>-->
+  <!--                  <input id="name" type="text" class="form-control"/>-->
+  <!--                </div>-->
+  <!--              </div>-->
+  <!--            </div>-->
+
+  <!--            <div class="form-group col-md">-->
+  <!--              <div class="input-group-btn">-->
+  <!--                <div class="input-group-prepend">-->
+  <!--                  <span class="input-group-text">Matricule du planteur</span>-->
+  <!--                  <input id="mle" type="text" class="form-control"/>-->
+  <!--                </div>-->
+  <!--              </div>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--          <div class="row">-->
+  <!--            <div class="col-md-4">-->
+  <!--              <div class="form-group">-->
+  <!--                <div class="input-group-btn">-->
+  <!--                  <div class="input-group-prepend">-->
+  <!--                    <span class="input-group-text">Contacts</span>-->
+  <!--                    <input id="contactpl" type="text" class="form-control"/>-->
+  <!--                  </div>-->
+  <!--                </div>-->
+  <!--              </div>-->
+  <!--            </div>-->
+
+  <!--            <div class="col-md-4">-->
+  <!--              <div class="form-group">-->
+  <!--                <div class="input-group-btn">-->
+  <!--                  <div class="input-group-prepend">-->
+  <!--                    <span class="input-group-text">Localité</span>-->
+  <!--                    <input id="local" type="text" class="form-control"/>-->
+  <!--                  </div>-->
+  <!--                </div>-->
+  <!--              </div>-->
+  <!--            </div>-->
+
+  <!--            <div class="col-md-4">-->
+  <!--              <div class="form-group">-->
+  <!--                <div class="input-group-btn">-->
+  <!--                  <div class="input-group-prepend">-->
+  <!--                    <span class="input-group-text">Année</span>-->
+  <!--                    <input class="date-own form-control" [min]="1900" [max]="currentYear" style="width: 300px;" type="number">-->
+  <!--                  </div>-->
+  <!--                </div>-->
+  <!--              </div>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+
+  <!--      </div>-->
+
+
+  <!--    </div>-->
+  <!--    <hr>-->
+  <!--    <h6><b>EMPLOI</b></h6>-->
+  <!--    <div class="tab-pane border p-2">-->
+  <!--      <div class="row g-2">-->
+  <!--        <div class="col-md row g-2">-->
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-check form-switch">-->
+  <!--              <input id="proposition" type="checkbox" class="form-check-input">-->
+  <!--              <label class="form-check-label" for="proposition">Avez-vous déjà reçu une proposition d'emploi ?</label>-->
+  <!--            </div>-->
+
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--        <div class="col-md row g-2 pt-2">-->
+  <!--          <div class="col-md">-->
+  <!--            <div class="form-check form-switch">-->
+  <!--              <input id="active" type="checkbox" class="form-check-input">-->
+  <!--              <label class="form-check-label" for="active">Êtes vous en activité ?</label>-->
+
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--    <hr>-->
+  <!--    <h6><b>MOTIVATION</b></h6>-->
+  <!--    <div class="tab-pane border p-2">-->
+  <!--      <div class="row g-2">-->
+  <!--        <div class="col-md">-->
+  <!--          <div class="form-check form-group">-->
+  <!--            &lt;!&ndash;          <ul class="list-group form-group">&ndash;&gt;-->
+  <!--            &lt;!&ndash;            <li class="list-group-item">&ndash;&gt;-->
+  <!--            <div class="form-check">-->
+  <!--              <input id="motif1" name="motif" type="radio" class="form-check-input">-->
+  <!--              <label class="form-check-label" for="motif1">Saigner votre propre plantation</label>-->
+  <!--            </div>-->
+  <!--            &lt;!&ndash;            </li>&ndash;&gt;-->
+  <!--            &lt;!&ndash;            <li class="list-group-item">&ndash;&gt;-->
+  <!--            <div class="form-check">-->
+  <!--              <input id="motif2" name="motif" type="radio" class="form-check-input">-->
+  <!--              <label class="form-check-label" for="motif2">Saigner la plantation d'un proche</label>-->
+  <!--            </div>-->
+  <!--            &lt;!&ndash;            </li>&ndash;&gt;-->
+
+  <!--            &lt;!&ndash;            <li class="list-group-item">&ndash;&gt;-->
+  <!--            <div class="form-check">-->
+  <!--              <input id="motif3" name="motif" type="radio" class="form-check-input">-->
+  <!--              <label class="form-check-label" for="motif3">Exercer le métier de saigneur dans une autre-->
+  <!--                plantation</label>-->
+  <!--            </div>-->
+  <!--            &lt;!&ndash;            </li>&ndash;&gt;-->
+
+  <!--            &lt;!&ndash;            <li class="list-group-item">&ndash;&gt;-->
+  <!--            <div class="form-check">-->
+  <!--              <input id="motif4" name="motif" type="radio" class="form-check-input">-->
+  <!--              <label class="form-check-label" for="motif4">Contrôler la saignée dans votre plantation</label>-->
+  <!--            </div>-->
+  <!--            &lt;!&ndash;            </li>&ndash;&gt;-->
+
+  <!--            &lt;!&ndash;            <li class="list-group-item">&ndash;&gt;-->
+  <!--            <div class="form-check">-->
+  <!--              <input id="motif5" name="motif" type="radio" class="form-check-input">-->
+  <!--              <label class="form-check-label" for="motif5">Parrainer par un planteur</label>-->
+  <!--            </div>-->
+  <!--            &lt;!&ndash;            </li>&ndash;&gt;-->
+
+  <!--            &lt;!&ndash;            <li class="list-group-item">&ndash;&gt;-->
+  <!--            <div class="form-check">-->
+  <!--              <input id="motif6" name="motif" type="radio" class="form-check-input">-->
+  <!--              <label class="form-check-label" for="motif6">Autre, Laquelle ?</label>-->
+  <!--            </div>-->
+  <!--            &lt;!&ndash;            </li>&ndash;&gt;-->
+  <!--          </div>-->
+  <!--          <div class="col-md animated fadeInUp">-->
+  <!--            <div class="form-floating">-->
+  <!--              <input type="text" class="form-control" id="othermotiv" placeholder="Autre pièce" value="">-->
+  <!--              <label for="otherdoc">Préciser la motivation</label>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--          &lt;!&ndash;          </ul>&ndash;&gt;-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </form>-->
+
+
+</div>
+<!--<div class="modal-footer">-->
+<!--&lt;!&ndash;  <button type="button" class="btn btn-outline-success" (click)="activeModal.close('Close click')">Enregistrer</button>&ndash;&gt;-->
+<!--  <button type="button" class="btn btn-outline-danger" (click)="activeModal.close('Close click')">Fermer</button>-->
+<!--</div>-->

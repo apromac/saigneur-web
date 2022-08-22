@@ -1,0 +1,25 @@
+<app-custom-table
+  [header]="tableHeader"
+  [menus]="getMenus()"
+  [tableHeader]="[
+  'Nom',
+  'Prénoms',
+  'Age',
+  'Téléphone',
+  'Niveau étude',
+  'Zone',
+  'Adresse',
+  'Inscrit le',
+  ]"
+  [tableRow]="[
+  'nom',
+  'prenom',
+  'age',
+  'email',
+  'tel',
+  'zone',
+  'dinscrit',
+  'profil'
+  ]"
+  [tableData]="allApplicants"
+></app-custom-table>

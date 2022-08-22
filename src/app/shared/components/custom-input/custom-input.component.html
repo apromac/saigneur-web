@@ -1,0 +1,107 @@
+<div>
+
+  <div *ngIf="input==='daterange'" class="{{isInLine?'input-group':'form-group '}} input-group-sm col-sm col-xl col-md p-0">
+    <ng-container *ngTemplateOutlet="label;"></ng-container>
+    <input type="text" name="daterange" autocomplete="off" bsDaterangepicker
+           [bsConfig]="{
+                  rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY',
+                    isAnimated: true,
+                    adaptivePosition: true,
+                    containerClass: 'theme-primary',
+                    maxDate:max,
+                    showWeekNumbers: false }"
+           id="DateOfBirth" placeholder="Sélectionnez la période"
+
+           (bsValueChange)="sendTime($event)"
+           class="form-control"/>
+  </div>
+  <div *ngIf="input==='textbox'"
+       class="{{isInLine?'input-group':'form-group '}} input-group-sm col-sm col-xl col-md p-0">
+    <ng-container *ngTemplateOutlet="label;"></ng-container>
+    <input [ngModelOptions]="ngModelOptions"
+           [pattern]="inp_pattern"
+           (keyup.enter)="onKeyupEnter.emit($event)"
+           (blur)="onBlur.emit($event)"
+           [ngStyle]="(!isValide && required && dirty)? {'border-color':'red'} : {'border-color' : '#ccc'}"
+           class="form-control"
+           [maxlength]="maxLength"
+           aria-label="{{inputInfo?.label}}"
+           [type]="type" [readOnly]="readonly" [min]="min" [max]="max"
+           (ngModelChange)="change($event)"
+           [ngClass]="{'is-valid':isValide && required, 'is-invalid': !isValide && required && dirty}"
+           [(ngModel)]="value" [placeholder]="inputInfo.placeholder"/>
+    <div *ngIf="appendright" class="input-group-append">
+      <span class="input-group-text">{{appendright}}</span>
+    </div>
+    <p *ngIf="!isValide && required && dirty" class="msg invalid-feedback">
+      <span *ngIf="msgError">{{msgError}}</span>
+      <span *ngIf="!msgError">Veuillez renseigner le champ {{inputInfo.label | lowercase}}</span>
+    </p>
+  </div>
+
+  <div *ngIf="input==='select'"
+       class="{{isInLine?'input-group':'form-group '}} input-group-sm col-sm col-xl col-md p-0">
+    <ng-container *ngTemplateOutlet="label;"></ng-container>
+    <ng-select
+      [ngModelOptions]="ngModelOptions"
+      [disabled]="readonly"
+      [bindLabel]="bindLabel"
+      [bindValue]="bindValue"
+      aria-label="{{inputInfo?.label}}"
+      class="bootstrap col" [multiple]="multiple"
+      [(ngModel)]="value" (ngModelChange)="change($event)"
+      [placeholder]="inputInfo?.placeholder"
+      notFoundText="Aucun élément trouvé"
+      [ngClass]="{'is-valid':isValide && required, 'is-invalid': !isValide && required && dirty}"
+      [items]="selectItem">
+      <ng-option *ngFor="let d of selectItem" [style.display]="select_option? 'initial':'none'"
+                 [value]="d[bindValue]"
+      >
+        {{select_option}}
+      </ng-option>
+    </ng-select>
+    <p *ngIf="!isValide && required && dirty" class="msg invalid-feedback">
+      <span *ngIf="msgError">{{msgError}}</span>
+      <span *ngIf="!msgError">Veuillez renseigner le champ {{inputInfo.label | lowercase}}</span>
+    </p>
+  </div>
+
+  <div class="form-group {{isInLine?'input-group':'form-group '}}" *ngIf="input==='textarea'">
+    <ng-container *ngTemplateOutlet="label;"></ng-container>
+    <textarea [ngModelOptions]="ngModelOptions" [rows]="inputInfo.row"
+              [ngStyle]="(!isValide && required && dirty)? {'border-color':'red'} : {'border-color' : '#ccc'}"
+              class="form-control"
+              [maxLength]="maxLength"
+              aria-label="{{inputInfo?.label}}"
+              [readOnly]="readonly" [minLength]="min" [maxlength]="max"
+              (ngModelChange)="change($event)"
+              [ngClass]="{'is-valid':isValide && required, 'is-invalid': !isValide && required && dirty}"
+              [(ngModel)]="value" [placeholder]="inputInfo.placeholder"></textarea>
+  </div>
+
+  <div *ngIf="input === 'checkbox'">
+    <div class="form-check form-switch border" style="padding: 1em 2em">
+      <input
+        [ngModelOptions]="ngModelOptions"
+        (ngModelChange)="change($event)"
+        [(ngModel)]="value"
+        [ngStyle]="(!isValide && required && dirty)? {'border-color':'red'} : {'border-color' : 'rgb(204, 204, 204)'}"
+        class="form-check-input"
+        [ngClass]="{'is-valid':isValide && required, 'is-invalid': !isValide && required && dirty}"
+        type="checkbox"
+        id="flexSwitchCheckChecked">
+      <label class="form-check-label" for="flexSwitchCheckChecked">{{inputInfo.label}}</label>
+    </div>
+  </div>
+</div>
+
+<ng-template #label>
+  <label *ngIf="!isInLine && inputInfo?.label" class="col-form-label {{labelClassName}}">{{inputInfo?.label}}
+    <span *ngIf="required" class="badge msg mb-0 pb-0">*</span>
+  </label>
+  <div *ngIf="inputInfo?.label && isInLine" class="input-group-prepend {{labelClassName}}">
+      <span class="input-group-text {{labelClassName}}">{{inputInfo?.label}}
+        <span *ngIf="required" class="badge msg mb-0 pb-0">*</span>
+      </span>
+  </div>
+</ng-template>

@@ -1,0 +1,64 @@
+<app-custom-table
+  [header]="tableHeader"
+  [menus]="getMenus()"
+  [tableHeader]="[
+  'Nom',
+  'Prénoms',
+  'Age',
+  'Téléphone',
+  'Niveau étude',
+  'Zone',
+  'Adresse',
+  'Inscrit le',
+  ]"
+  [tableRow]="[
+  'nom',
+  'prenom',
+  'age',
+  'email',
+  'tel',
+  'zone',
+  'dinscrit',
+  'profil'
+  ]"
+  [tableData]="allApplicants"
+>
+  <div class="col-md">
+    <div class="form-floating">
+      <select class="form-select" id="campagne"
+              aria-label="Sélectionnez une campagne">
+        <option value="2022" selected>Campagne 2022</option>
+        <option value="2021">Campagne 2021</option>
+        <option value="2020">Campagne 2020</option>
+        <option value="2019">Campagne 2019</option>
+        <option value="2018">Campagne 2018</option>
+        <option value="2017">Campagne 2017</option>
+      </select>
+      <label for="campagne">Sélectionnez une campagne</label>
+    </div>
+  </div>
+</app-custom-table>
+
+<button id="btnmodal" class="d-none" (click)="openModal(nwcampagne)"></button>
+
+<ng-template id="newcampagne" #nwcampagne>
+  <div class="modal-header">
+    <h4 class="modal-title">Edition de campagne</h4>
+    <button type="button" (click)="close()" class="btn-close" aria-label="Close" ></button>
+  </div>
+  <div class="modal-body">
+    <div class="form-floating">
+      <input type="text" class="form-control" id="numpiece" placeholder="Libellé campgagne" value="">
+      <label for="numpiece">Libellé campgagne</label>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="close()">Enregistrer</button>
+    <button type="button" class="btn btn-outline-danger" (click)="close()">Fermer</button>
+  </div>
+</ng-template>
+
+
+<ng-template #contentInfo let-offcanvas>
+  <app-info-applicant></app-info-applicant>
+</ng-template>

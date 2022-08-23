@@ -5,6 +5,8 @@
 /tmp
 /out-tsc
 .gitfq/
+.github/
+.gitlab/
 /bazel-out
 
 # Node

@@ -2,8 +2,8 @@
   <h4 class="modal-title">Identification du Candidat au métier de saigneur</h4>
   <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 </div>
-<div class="modal-body">
-  <ng-stepper #cdkStepper [linear]="true">
+<div class="modal-body h-50">
+  <ng-stepper  #cdkStepper [linear]="true">
     <cdk-step [stepControl]="stepOne.stepOneForm" [optional]="false">
       <ng-template cdkStepLabel>
         <div class="step-bullet">1</div>
@@ -12,7 +12,7 @@
       </ng-template>
       <div #stepOne>
         <hr>
-        <div class="row g-2">
+        <div class="row g-2" style="min-height: 53vh !important;">
           <div class="col-md">
             <div class="form-floating">
               <select class="form-select" id="tdh" aria-label="TDH">
@@ -189,7 +189,7 @@
       <div #stepFour>
         <hr>
 
-        <div class="tab-pane border p-2">
+        <div class="tab-pane border p-2" style="min-height: 53vh !important;">
           <div class="row g-2 mt-2 mb-2">
             <div class="col-md">
               <div class="form-check form-switch">
@@ -349,7 +349,7 @@
       </ng-template>
       <div #stepFive>
         <hr>
-        <div class="tab-pane border p-2">
+        <div class="tab-pane border p-2" style="min-height: 53vh !important;">
           <div class="row g-2">
             <div class="col-md-12 row g-2">
               <div class="col-md">
@@ -510,7 +510,7 @@
       <div #stepSix>
         <hr>
 
-        <div class="tab-pane border p-2">
+        <div class="tab-pane border p-2" style="min-height: 53vh !important;">
           <div class="row g-2">
 
             <div class="col-md-12">

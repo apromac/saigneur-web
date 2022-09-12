@@ -13,8 +13,9 @@
   ]"
   [tableData]="allParams"
 >
-  <div class="col-md">
-    <div class="form-floating">
+<!--  <div class="col-md mr-md-2">-->
+    <div class="input-group">
+      <label class="input-group-text" for="campagne">AFFICHER</label>
       <select class="form-select" id="campagne"
               aria-label="Sélectionnez une campagne">
         <option value="2022" selected>Tous les paramètres</option>
@@ -23,9 +24,8 @@
         <option value="2020">Campagne</option>
         <option value="2019">Type de saigné</option>
       </select>
-      <label for="campagne">AFFICHER</label>
     </div>
-  </div>
+<!--  </div>-->
 </app-custom-table>
 
 <button id="btnmodal" class="d-none" (click)="openModal(nwparams)"></button>

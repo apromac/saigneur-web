@@ -12,7 +12,7 @@
     }
 
     .logo-src {
-      width: 20px;
+      width: 8px;
       margin: 0 auto;
     }
 
@@ -53,6 +53,9 @@
       }
     }
 
+  }
+  .app-header__logo{
+    padding: 0 !important;
   }
 
   .app-header .app-header__content {

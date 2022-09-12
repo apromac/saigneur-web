@@ -1,12 +1,12 @@
 @import "variable";
 .bg-primary {
-  //background-image: linear-gradient(to right, var(--primary), rgba(var(--primary),1)) !important
-  background-image: linear-gradient(to right, var(--primary) .5%, var(--primary) 2%, var(--primary) 100%) !important
+  //background-image: linear-gradient(to right, var(--bs-primary), rgba(var(--bs-primary),1)) !important
+  background-image: linear-gradient(to right, var(--bs-primary) .5%, var(--bs-primary) 2%, var(--bs-primary) 100%) !important
 
 }
 
 .theme-primary .bs-datepicker-head {
-  background-color: var(--primary);
+  background-color: var(--bs-primary);
 }
 
 //.bg-night-sky {
@@ -19,13 +19,16 @@
 .h-80 {
   height: 98% !important;
 }
+.h-90 {
+  height: 98% !important;
+}
 
 table tbody tr.highlight td{
-  background-color: rgba(7, 137, 193, 0.2);
+  background-color: rgba(var(--bs-secondary), 0.2);
   //color: white;
 }
 table tbody tr.checked td{
-  background-color: rgba(var(--primary), 0.7);
+  background-color: rgba(var(--bs-primary), 0.7);
   color: white;
 }
 .table td, .table th {
@@ -128,9 +131,9 @@ td {
     padding: 1rem;
   }
   &.tab-content-primary{
-    background-color: var(--primary);
+    background-color: var(--bs-primary);
     color: #fff;
-    border-color:var(--primary);
+    border-color:var(--bs-primary);
   }
   &.tab-content-success{
     background-color: var(--success);
@@ -176,7 +179,7 @@ p {
   background-color: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--primary);
+  background-color: var(--bs-primary);
   border-radius: 100px;
 }
 ::-webkit-scrollbar-thumb:hover {

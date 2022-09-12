@@ -44,8 +44,8 @@ import { InterviewDetailsComponent } from './interview-details/interview-details
       outerStrokeWidth: 16,
       innerStrokeWidth: 8,
 
-      outerStrokeColor: '#78C000',
-      innerStrokeColor: '#C7E596',
+      outerStrokeColor: '#008220',
+      innerStrokeColor: '#85c55c',
       animationDuration: 300,
     })
   ]

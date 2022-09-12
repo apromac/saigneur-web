@@ -226,7 +226,8 @@ $container-max-widths: map-merge(
 // Set the number of columns and specify the width of the gutters.
 
 $grid-columns:                12 !default;
-$grid-gutter-width:           30px !default;
+$grid-gutter-width:           10px !default;
+$grid-padding:           20px !default;
 
 
 // Components

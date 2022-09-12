@@ -2,7 +2,10 @@
      (mouseout)="sidebarHover()">
   <div class="app-header__logo">
 <!--    <div class="logo-src"></div>-->
-    <div  class="logo-src font-weight-bold h5">APRO-SAIGNEUR</div>
+    <div class="m-auto d-flex" style="width: max-content; height: 4em">
+      <img class="img-thumbnail bg-transparent border-0"  src="assets/images/logo.png" alt="Logo" />
+    </div>
+<!--    <div  class="logo-src font-weight-bold h5">APRO-SAIGNEUR</div>-->
     <div class="header__pane ml-auto">
       <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
               [ngClass]="{'is-active' : globals.toggleSidebar}" (click)="toggleSidebar()">
@@ -25,7 +28,7 @@
               </ngb-panel>
               <ngb-panel id="dashboardsMenu">
                 <ng-template ngbPanelHeader>
-                  <button class="vsm-link">
+                  <button routerLink="./" class="vsm-link">
                     <i class="vsm-icon pe-7s-monitor"></i>
                     <span class="vsm-title">Tableau de board</span>
 <!--                    <i class="vsm-arrow"></i>-->

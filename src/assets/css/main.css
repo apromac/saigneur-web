@@ -484,6 +484,9 @@ input.input100 {
   background: var(--bs-secondary);
 }
 
+.login100-form-btn:disabled {
+  background: var(--bs-secondary);
+}
 
 
 /*------------------------------------------------------------------

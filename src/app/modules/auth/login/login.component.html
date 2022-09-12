@@ -1,24 +1,18 @@
 <div class="limiter">
   <div class="container-login100">
     <div class="wrap-login100">
-      <form class="login100-form validate-form">
-        <div class="m-auto d-flex" style="width: max-content; height: 10em">
+      <form  [formGroup]="loginForm" class="login100-form validate-form" (ngSubmit)="subMitForm(loginForm.value)">
+        <div class="m-auto d-flex" style="width: max-content; height: 5em">
           <img class="img-thumbnail bg-transparent border-0"  src="./assets/images/logo.png" alt="Logo" />
         </div>
 					<span class="login100-form-title p-b-43 font-weight-bold">
 						CONNEXION
 					</span>
 
-
-<!--        <div class="wrap-input100 validate-input" data-validate="Login requis">-->
-<!--          <input class="input100" type="text" name="login">-->
-<!--          <span class="focus-input100"></span>-->
-<!--          <span class="label-input100">Login</span>-->
-<!--        </div>-->
         <div class="tab-pane border g-2 m-2 p-b-2 w-100">
         <div class="col-md">
           <div class="form-floating">
-            <input type="text" class="form-control" id="name" placeholder="Login" value="">
+            <input formControlName="username" type="text" class="form-control" id="name" placeholder="Login">
             <label for="name">Nom d'utilisateur</label>
           </div>
         </div>
@@ -27,14 +21,17 @@
         <div class="tab-pane border g-2 m-2 p-b-2 w-100">
           <div class="col-md">
             <div class="form-floating b-radius-5">
-              <input type="password" class="form-control" id="pass" placeholder="Mot de passe" value="">
+              <input formControlName="password" type="password" class="form-control" id="pass" placeholder="Mot de passe">
               <label for="pass">Mot de passe</label>
             </div>
           </div>
         </div>
         <div class="container-login100-form-btn g-2 m-2 p-b-2">
-          <button (click)="login()" class="login100-form-btn">
-            Se connecter
+          <button [disabled]="isSendig" type="button" (click)="subMitForm(loginForm.value)" class="login100-form-btn">
+            <span *ngIf="!isSendig">Se connecter</span>
+            <span *ngIf="isSendig">Connexion en cours</span>
+            <span *ngIf="isSendig" class="spinner-grow ml-3" role="status">
+            </span>
           </button>
         </div>
 

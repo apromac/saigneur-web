@@ -128,6 +128,7 @@ $input-group-addon-bg: lighten($dropdown-link-hover-bg, 3%);
 
 $table-accent-bg: rgba($black, .03);
 $table-hover-bg: $dropdown-link-hover-bg;
+$table-hover-bg: rgba($primary, 0.2);
 $table-active-bg: $table-hover-bg;
 $table-border-color: $gray-200;
 $table-head-bg: $gray-100;

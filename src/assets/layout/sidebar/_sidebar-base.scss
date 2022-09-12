@@ -45,7 +45,7 @@ $sidebar-box-shadow: 7px 0 60px rgba(0, 0, 0, 0.05);
 
   .app-header__logo {
     padding: 0 $layout-spacer-x;
-    height: $app-header-height;
+    height: 86px;
     width: $app-sidebar-width;
     display: flex;
     align-items: center;
@@ -87,11 +87,11 @@ $sidebar-box-shadow: 7px 0 60px rgba(0, 0, 0, 0.05);
   }
 }
 
-//.logo-src {
-//  height: $logo-height;
-//  width: $logo-width;
-//  background: url('/assets/images/logo-inverse.png');
-//}
+.logo-src {
+  height: $logo-height;
+  width: $logo-width;
+  background: url('../../images/logo.png');
+}
 
 // Sidebar Menu
 

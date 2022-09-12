@@ -1,6 +1,6 @@
 
 #notfound h3 {
-  font-family: 'Maven Pro', sans-serif;
+  //font-family: 'Maven Pro', sans-serif;
   font-size: 30px;
   color: #000;
   font-weight: 900;
@@ -9,7 +9,7 @@
 }
 
 #notfound p {
-  font-family: 'Maven Pro', sans-serif;
+  //font-family: 'Maven Pro', sans-serif;
   font-size: 13px;
   color: #000;
   text-align: center;
@@ -19,7 +19,7 @@
 }
 
 #notfound button {
-  font-family: 'Maven Pro', sans-serif;
+  //font-family: 'Maven Pro', sans-serif;
   font-size: 14px;
   text-decoration: none;
   text-transform: uppercase;
@@ -107,7 +107,7 @@
 //}
 
 .notfound a {
-  font-family: 'Raleway', sans-serif;
+  //font-family: 'Raleway', sans-serif;
   font-size: 14px;
   text-decoration: none;
   text-transform: uppercase;
@@ -126,6 +126,9 @@
 .notfound a:hover {
   color: #fff;
   background-color: #00b5c3;
+}
+#notfound:hover {
+  background-color: transparent !important;
 }
 
 @media only screen and (max-width: 480px) {

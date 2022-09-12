@@ -19,7 +19,7 @@ export class SuccessApplicantsComponent implements OnInit {
     //   bg: 'btn-primary',
     //   libelle: 'Nouveau candidat',
     // },
-    title: 'Candidats retenus pour la formation ' + new Date().getFullYear(),
+    title: 'Candidats retenus pour la campagne de l\'année',
   };
 
   constructor(private offcanvasService: NgbOffcanvas) {

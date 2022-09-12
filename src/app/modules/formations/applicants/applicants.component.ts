@@ -14,12 +14,12 @@ import DismissReason from 'sweetalert2';
 })
 export class ApplicantsComponent implements OnInit {
   public allApplicants;
-  title = 'Campagne ' + new Date().getFullYear();
+  title = 'Candidats';
   public tableHeader: CustomTableHeaderInfo = {
     withBtn: true,
     btn: {
       bg: 'btn-primary',
-      libelle: 'Nouveau candidat',
+      libelle: 'Inscrire',
     },
     btnClick: () => {
      this.startInscription();
@@ -41,28 +41,32 @@ export class ApplicantsComponent implements OnInit {
     this.modalService.dismissAll();
   }
   startInscription(): void {
-    Swal.fire({
-      title: 'INSCRIPTION D\'UN CANDIDAT',
-      text: '',
-      icon: 'question',
-      showCloseButton : true,
-      showCancelButton: true,
-      confirmButtonColor: '#34c38f',
-      cancelButtonColor: '#f46a6a',
-      confirmButtonText: 'Nouveau candidat',
-      cancelButtonText: 'Ancien Candidat!'
-    }).then(result => {
-      console.log(result);
-      if (result.value) {
-        const modalRef = this.modalService.open(NewApplicantComponent, {centered: true, size: 'lg', backdrop : 'static'});
-        modalRef.componentInstance.name = 'World';
-      } else if (result.dismiss === Swal.DismissReason.cancel)  {
-        document.getElementById('btnmodal').click();
-        // DismissReason.getCloseButton().addEventListener( 'click', (r, )=> {
-        //
-        // })
-      }
-    });
+
+    const modalRef = this.modalService.open(NewApplicantComponent, {centered: true, size: 'lg', backdrop : 'static'});
+    modalRef.componentInstance.name = 'World';
+
+    // Swal.fire({
+    //   title: 'INSCRIPTION D\'UN CANDIDAT',
+    //   text: '',
+    //   icon: 'question',
+    //   showCloseButton : true,
+    //   showCancelButton: true,
+    //   confirmButtonColor: '#34c38f',
+    //   cancelButtonColor: '#f46a6a',
+    //   confirmButtonText: 'Nouveau candidat',
+    //   cancelButtonText: 'Ancien Candidat!'
+    // }).then(result => {
+    //   console.log(result);
+    //   if (result.value) {
+    //     const modalRef = this.modalService.open(NewApplicantComponent, {centered: true, size: 'lg', backdrop : 'static'});
+    //     modalRef.componentInstance.name = 'World';
+    //   } else if (result.dismiss === Swal.DismissReason.cancel)  {
+    //     document.getElementById('btnmodal').click();
+    //     // DismissReason.getCloseButton().addEventListener( 'click', (r, )=> {
+    //     //
+    //     // })
+    //   }
+    // });
   }
 
   oldCandidat(cont): void {

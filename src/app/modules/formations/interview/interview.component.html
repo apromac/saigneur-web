@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-9">
+  <div class="col-9">
     <app-custom-table
       [header]="tableHeader"
       [menus]="getMenus()"
@@ -29,23 +29,24 @@
     ></app-custom-table>
 
   </div>
-  <div class="col-md" style="z-index: -1 !important;">
-    <div class="card h-80">
+  <div class="col-3">
+    <div class="card h-100">
       <div class="card-body row">
         <div (click)="openInfo(contentInfo)" class="d-flex m-auto" style="width: max-content">
           <!--        <div style="">-->
           <img width="200" height="200" src="assets/images/avatars/1.jpg" alt="" class="rounded mx-auto d-block"/>
           <!--        </div>-->
         </div>
-        <ul class="list-group">
+        <ul class="list-group d-flex m-auto">
           <h5 (click)="openInfo(contentInfo)" class="text-center font-weight-bold">N'GUESSAN Kouadio Hervé</h5>
           <circle-progress
             [percent]="85"
+            class="list-group d-flex m-auto"
             [radius]="100"
             [outerStrokeWidth]="16"
             [innerStrokeWidth]="8"
-            [outerStrokeColor]="'#78C000'"
-            [innerStrokeColor]="'#C7E596'"
+            [outerStrokeColor]="'#008220'"
+            [innerStrokeColor]="'#85c55c'"
             [animation]="true"
             [animationDuration]="300"
             (click)="openInterview(contentInterview)"

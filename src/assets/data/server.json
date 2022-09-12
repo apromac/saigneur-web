@@ -1,7 +1,7 @@
 {
   "protocol": "http://",
-  "address": "localhost",
-  "protocol_ws": "ws://",
-  "port": "8090",
+  "address": "78.138.45.243/",
+  "approot": "",
+  "port": "9003",
   "baseHref": "./"
 }

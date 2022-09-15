@@ -1,7 +1,8 @@
 {
   "protocol": "http://",
-  "address": "78.138.45.243/",
+  "address": "78.138.45.243",
   "approot": "",
-  "port": "9003",
+  "port": "9004",
+  "portCdt": "9003",
   "baseHref": "./"
 }

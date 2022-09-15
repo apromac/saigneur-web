@@ -14,14 +14,11 @@
         <hr>
         <div class="row g-2" style="min-height: 53vh !important;">
           <form [formGroup]="localForm">
-            <div>
-              <!--           <label class="">Campgne 2022</label>-->
-            </div>
             <div class="col-md-12 p-0 m-0 ">
               <div class="form-floating">
-                <select formControlName="poste" class="form-select" id="tdh" aria-label="TDH">
-                  <option value="tdh1" selected>TDH DE SAN PEDRO</option>
-                  <option value="tfh2">TDH DE VAVOUA</option>
+                <select [value]="0" formControlName="poste" class="form-select" id="tdh" aria-label="TDH">
+                  <option [value]="zone.zoneID" *ngFor="let zone of listZone">TDH DE {{zone.libelleZone}}</option>
+                  <option value="" *ngIf="!listZone || listZone && listZone.length ===0">Aucune zone trouvée</option>
                 </select>
                 <label for="sexe">Poste du TDH</label>
               </div>
@@ -30,8 +27,7 @@
             <div class="row">
               <div class="col-md mt-2">
                 <div class="form-floating">
-                  <input formControlName="nom" readonly type="text" class="form-control" id="nametdh" placeholder="Nom"
-                         value="Nom">
+                  <input formControlName="nom" readonly type="text" class="form-control" id="nametdh" placeholder="Nom">
                   <label for="nametdh">Nom du TDH</label>
                 </div>
               </div>
@@ -48,7 +44,9 @@
             <div class="row">
               <div class="col-md-6 mt-2">
                 <div class="form-floating">
-                  <input formControlName="zone" readonly type="text" class="form-control" id="Departement"
+                  <input formControlName="zone"
+                         readonly type="text" class="form-control" id="Departement"
+                         [value]="posteSelected?.libelleZone"
                          placeholder="Zone du TDH"
                          value="Zone">
                   <label for="Departement">Zone du TDH</label>
@@ -59,20 +57,23 @@
                 <div class="form-floating">
                   <input formControlName="district" readonly type="text" class="form-control" id="District"
                          placeholder="District"
+                         [value]="posteSelected?.district?.libelleDistrict"
                          value="District">
                   <label for="District">District</label>
                 </div>
               </div>
-            </div>
 
-            <div class="col-md mt-2">
-              <div class="form-floating">
-                <input formControlName="numero" readonly type="text" class="form-control text-danger" id="nametdh"
-                       placeholder="Numéro"
-                       value="Numéro">
-                <label class="text-primary" for="nametdh">Numéro</label>
+              <div class="col-md-12 mt-2">
+                <div class="form-floating">
+                  <input formControlName="numero" readonly type="text" class="form-control text-danger" id="numero"
+                         placeholder="Numéro"
+                         value="Numéro">
+                  <label class="text-primary" for="nametdh">Numéro</label>
+                </div>
               </div>
             </div>
+
+
           </form>
         </div>
         <!--        <button type="button" class="btn btn-outline-success" (click)="activeModal.close('Close click')">Enregistrer</button>-->
@@ -90,12 +91,13 @@
 
         <ng-template #cdtTemplate let-r="result" let-t="term">
           <!--          <img alt="" [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px"/>-->
+<!--          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>-->
           <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
         </ng-template>
 
 
         <hr>
-       <form [formGroup]="idForm">
+<!--       <form>-->
          <div class="tab-pane border p-2">
            <div class="row g-2">
              <div class="col-md">
@@ -152,10 +154,10 @@
 
                  <div class="form-floating">
                    <select class="form-select" id="level" aria-label="Level">
-                     <option value="tdh1" selected>Aucun</option>
-                     <option value="tfh2">Primaire</option>
-                     <option value="tfh3">Secondaire</option>
-                     <option value="tfh4">Supérieur</option>
+                     <option value="0" selected>Aucun</option>
+                     <option value="1">Primaire</option>
+                     <option value="2">Secondaire</option>
+                     <option value="3">Supérieur</option>
                    </select>
                    <label for="level">Niveau d'étude </label>
                  </div>
@@ -190,9 +192,9 @@
                  <div class="form-floating">
                    <!--                  <input type="text" class="form-control" id="home" placeholder="Lieu de résidence" value="">-->
                    <select class="form-select" id="home"
+                           [value]="posteSelected?.zoneID"
                            aria-label="Lieu de résidence">
-                     <option value="h0" selected>Vavoua</option>
-                     <option value="h1">Zuenoula</option>
+                     <option *ngFor="let zone of listZone" [value]="zone.zoneID">{{zone.libelleZone}}</option>
                    </select>
                    <label for="home">Lieu de résidence</label>
                  </div>
@@ -262,7 +264,7 @@
            </div>
 
          </div>
-       </form>
+<!--       </form>-->
         <hr>
         <div class="row">
           <div class="col-md">
@@ -275,7 +277,7 @@
       </div>
     </cdk-step>
 
-    <cdk-step [stepControl]="stepFour.stepFourForm" [optional]="true" [state]="stepFour.state">
+    <cdk-step [stepControl]="trainingForm" [optional]="true" [state]="stepFour.state">
       <ng-template cdkStepLabel>
         <div class="step-bullet">4</div>
         <h6><b>FORMATION</b></h6>
@@ -303,7 +305,9 @@
                   <!--                        value="">-->
                   <select class="form-select" id="structureformation"
                           aria-label="Structure">
-                    <option value="cni" selected>APROMAC</option>
+                    <option value="0" selected>APROMAC</option>
+                    <option value="1" >FIRCA</option>
+                    <option value="2">ANADER</option>
                     <!--                   <option value="attestation">Classique</option>-->
                     <!--                   <option value="passport">PLP</option>-->
                   </select>
@@ -431,7 +435,7 @@
       </div>
     </cdk-step>
 
-    <cdk-step [stepControl]="stepFive.stepFourForm" [optional]="true" [state]="stepFive.state">
+    <cdk-step [stepControl]="jobForm" [optional]="true" [state]="stepFive.state">
       <ng-template cdkStepLabel>
         <div class="step-bullet">5</div>
         <h6><b>EMPLOI</b></h6>
@@ -444,7 +448,9 @@
             <div class="col-md-12 row g-2">
               <div class="col-md">
                 <div class="form-check form-switch">
-                  <input [(ngModel)]="propositionEmploi" id="proposition" type="checkbox" class="form-check-input">
+                  <input [(ngModel)]="propositionEmploi"
+                         [ngModelOptions]="{standalone: true}"
+                         id="proposition" type="checkbox" class="form-check-input">
                   <label class="form-check-label" for="proposition">Avez-vous déjà reçu une proposition d'emploi
                     ?</label>
                 </div>
@@ -497,7 +503,9 @@
             <div class="col-md-12 row g-2 pt-2">
               <div class="col-md mb-2 mt-2">
                 <div class="form-check form-switch">
-                  <input [(ngModel)]="isActive" id="active" type="checkbox" class="form-check-input">
+                  <input [(ngModel)]="isActive"
+                         [ngModelOptions]="{standalone: true}"
+                         id="active" type="checkbox" class="form-check-input">
                   <label class="form-check-label" for="active">Êtes vous en activité ?</label>
 
                 </div>
@@ -558,7 +566,7 @@
       </div>
     </cdk-step>
 
-    <cdk-step [stepControl]="stepSix.stepFourForm" [optional]="true" [state]="stepSix.state">
+    <cdk-step [stepControl]="motivationForm" [optional]="true" [state]="stepSix.state">
       <ng-template cdkStepLabel>
         <div class="step-bullet">6</div>
         <h6><b>MOTIVATION</b></h6>
@@ -570,15 +578,19 @@
         <form [formGroup]="motivationForm">
           <div class="tab-pane border p-2" style="min-height: 53vh !important;">
             <div class="row g-2">
-
+              <ng-template #motvTplt let-r="result" let-t="term">
+                <!--          <img alt="" [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px"/>-->
+<!--                <ngb-highlight [see]="t.description" [term]="t"></ngb-highlight>-->
+                <label >{{r.description}}</label>
+              </ng-template>
               <div class="col-md-12">
                 <div class="form-floating">
                   <input id="motivation"
                          type="text"
                          class="form-control"
-                         [(ngModel)]="motivation"
-                         (ngModelChange)="motivationChange($event)"
+                         [inputFormatter]="formatter"
                          [ngbTypeahead]="motivationSearch"
+                         [resultTemplate]="motvTplt"
                          (focus)="focus$.next($any($event).target.value)"
                          (click)="click$.next($any($event).target.value)"
                          #instance="ngbTypeahead">

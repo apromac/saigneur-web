@@ -36,6 +36,7 @@
     "ng-circle-progress": "^1.6.0",
     "ngx-bootstrap": "^9.0.0",
     "ngx-perfect-scrollbar": "^10.1.1",
+    "ngx-toastr": "^15.0.0",
     "pe7-icon": "^1.0.4",
     "redux": "4.0.0",
     "rxjs": "^7.5.6",

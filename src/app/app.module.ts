@@ -4,6 +4,7 @@ import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+import {ToastrModule} from 'ngx-toastr';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -49,6 +50,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgbModule,
     SharedModule,
     AppRoutingModule,
+    ToastrModule.forRoot(),
     BrowserAnimationsModule,
   ],
   providers: [

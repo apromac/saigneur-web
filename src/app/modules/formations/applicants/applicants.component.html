@@ -1,6 +1,8 @@
 <app-custom-table
   [header]="tableHeader"
   [menus]="getMenus()"
+  [isLoading]="isLoading"
+  (actualiser)="getListApplicant()"
   [tableHeader]="[
   'Nom',
   'Prénoms',
@@ -31,12 +33,8 @@
         <div class="input-group-text">Sélectionnez une campagne</div>
         <select (change)="comboCampagneChange($event.target.value)" class="form-select" id="campagne"
                 aria-label="Sélectionnez une campagne">
-          <option value="2022" selected>Campagne 2022</option>
-          <option value="2021">Campagne 2021</option>
-          <option value="2020">Campagne 2020</option>
-          <option value="2019">Campagne 2019</option>
-          <option value="2018">Campagne 2018</option>
-          <option value="2017">Campagne 2017</option>
+          <option *ngFor="let c  of allCampagnes" [value]="c.campagneID">{{c.libelleCampagne}}</option>
+          <option value="" *ngIf="!allCampagnes || allCampagnes && allCampagnes.length ===0">Aucune campagne trouvée</option>
         </select>
 <!--        <input type="text" class="form-control" id="specificSizeInputGroupUsername" placeholder="Username">-->
       </div>

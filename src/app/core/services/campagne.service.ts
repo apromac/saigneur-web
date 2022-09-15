@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 
-const basrUrl = environment.apiUrl + 'campagne/';
+const basrUrl = environment.apiCandidatUrl + 'campagne/';
 
 @Injectable({
   providedIn: 'root'

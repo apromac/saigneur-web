@@ -16,8 +16,12 @@ import {
   tap
 } from 'rxjs';
 import {CandidatService} from '../../../core/services/candidat.service';
+import {ParamsService} from '../../../core/services/params.service';
+import {ZoneService} from '../../../core/services/zone.service';
 import {Campagne} from '../../../data/schemas/campagne';
 import {Candidat} from '../../../data/schemas/candidat';
+import {Params} from '../../../data/schemas/params';
+import {ZoneApromac} from '../../../data/schemas/zone-apromac';
 
 @Component({
   selector: 'app-new-applicant',
@@ -38,9 +42,12 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
 
   campgne : Campagne;
   candidat : Candidat;
+  posteSelected : ZoneApromac = {};
 
   // campgne : Campagne;
   listCandidats : Candidat[] = [];
+  listZone : ZoneApromac[] = [];
+  listMotivations : Params[] = [];
 
   touchUi = false;
   focus$ = new Subject<string>();
@@ -80,16 +87,17 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     );
   };
 
-  motivationSearch: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) => {
+  motivationSearch: OperatorFunction<string, readonly Params[]> = (text$: Observable<string>) => {
     const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
     const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
     const inputFocus$ = this.focus$;
 
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-      map(term => (term === '' ? this.allMotivations
-        : this.allMotivations.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
+      map(term => (term === '' ? this.listMotivations
+        : this.listMotivations.filter(v => v.description.toLowerCase().indexOf((term as string).toLowerCase()) > -1)).slice(0, 10))
     );
   };
+  formatter = (x: Params) => x.description;
 
 
   searchUser: OperatorFunction<string, readonly Candidat[]> = (text$: Observable<string>) =>
@@ -110,26 +118,73 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
 
   currentYear = new Date().getFullYear();
 
-  constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, private candidatService : CandidatService) {
+  constructor(public activeModal: NgbActiveModal,
+              private fb: FormBuilder,
+              private zoneService : ZoneService,
+              private paramsService: ParamsService,
+              private candidatService : CandidatService) {
   }
 
   ngOnInit(): void {
+    this.fetchCombosData();
 
+    this.initForm();
+    this.localForm.controls['poste'].valueChanges.subscribe((val) => {
+      this.posteSelected = this.listZone.find((r)=> r.zoneID == val);
+      console.log(this.localForm);
+      this.localForm.controls['zone'].setValue(this.posteSelected.zoneID);
+      this.localForm.controls['district'].setValue(this.posteSelected.district.districtID);
+    } )
   }
 
+  fetchCombosData() {
+    /**
+     * fill Zone
+     */
+    this.zoneService.getAllZone().subscribe({
+      next : (resp)=> {
+        console.log(resp);
+        this.listZone = (resp as any as ZoneApromac[])
+      },
+      error : (err) => {
+        console.error(err);
+      },
+      complete : () => {
+        console.log('complete')
+      }
+    });
+
+    /**
+     * motivation
+     */
+
+    this.paramsService.getAllMotivation().subscribe({
+      next : (resp)=> {
+        console.log(resp);
+        this.listMotivations = (resp as Params[]);
+        // this.listZone = (resp as any as ZoneApromac[])
+      },
+      error : (err) => {
+        console.error(err);
+      },
+      complete : () => {
+        console.log('complete')
+      }
+    });
+  }
   initForm(): void {
-    this.localForm.reset();
+
     this.localForm = this.fb.group({
       poste: ['', [Validators.required]],
-      nom: ['', [Validators.required]],
-      prenom: ['', [Validators.required]],
+      nom: [''],
+      prenom: [''],
       zone: ['', [Validators.required]],
       district: ['', [Validators.required]],
-      numero: ['', [Validators.required]],
+      numero: [''],
     });
 
 
-    this.idForm.reset();
+
     this.idForm = this.fb.group({
       nom : ['',Validators.required],
       prenom : ['',Validators.required],
@@ -146,13 +201,13 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     });
 
 
-    this.trainingForm.reset();
-
-
-    this.jobForm.reset();
-
-
-    this.motivationForm.reset();
+    // this.trainingForm.reset();
+    //
+    //
+    // this.jobForm.reset();
+    //
+    //
+    // this.motivationForm.reset();
     this.motivationForm = this.fb.group({
       motivation : ['', Validators.required]
     });

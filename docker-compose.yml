@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  docker-saigneur-web:
+    image: saigneur-web
+    container_name: msaigneur-web
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "4001:4001"
+    restart: always
+    networks:
+      - saigneur-network
+
+networks:
+  saigneur-network:
+    external: true

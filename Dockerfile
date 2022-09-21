@@ -6,11 +6,13 @@
 FROM node:alpine3.16 as builder-node
 WORKDIR /app
 COPY . .
-RUN npm ci && npm run build
+
+RUN npm install && npm run build --prod
 
 # Stage 2
 FROM nginx:stable-alpine
-COPY --from=builder-node /app/dist/aprosaigneur/ /usr/share/nginx/html
+WORKDIR /usr/share/nginx/html
+COPY --from=builder-node /app/dist/aprosaigneur /usr/share/nginx/html
 
 EXPOSE 4001
 

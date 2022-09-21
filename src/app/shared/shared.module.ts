@@ -8,6 +8,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgSelectModule} from '@ng-select/ng-select';
 import {LoadingBarModule} from '@ngx-loading-bar/core';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {FqPaginationPipe} from '../core/pipes/fq-pagination.pipe';
@@ -51,6 +52,7 @@ import { YearPickerComponent } from './components/year-picker/year-picker.compon
     NgReduxModule,
     PerfectScrollbarModule,
     LoadingBarModule,
+    NgSelectModule,
 
     NgbModule,
     FormsModule,
@@ -78,6 +80,7 @@ import { YearPickerComponent } from './components/year-picker/year-picker.compon
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
+    NgSelectModule
   ]
 })
 export class SharedModule { }

@@ -1,8 +1,10 @@
 import {CdkStepper} from '@angular/cdk/stepper';
+import {HttpErrorResponse} from '@angular/common/http';
 import {AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment';
+import {ToastrService} from 'ngx-toastr';
 import {
   catchError,
   debounceTime,
@@ -17,10 +19,12 @@ import {
 } from 'rxjs';
 import {CandidatService} from '../../../core/services/candidat.service';
 import {ParamsService} from '../../../core/services/params.service';
+import {PosteService} from '../../../core/services/poste.service';
 import {ZoneService} from '../../../core/services/zone.service';
 import {Campagne} from '../../../data/schemas/campagne';
 import {Candidat} from '../../../data/schemas/candidat';
 import {Params} from '../../../data/schemas/params';
+import {PosteModel} from '../../../data/schemas/poste.model';
 import {ZoneApromac} from '../../../data/schemas/zone-apromac';
 
 @Component({
@@ -33,21 +37,22 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
   @Input() name;
   @ViewChild('instance', {static: true}) instance: NgbTypeahead;
 
-  localForm : FormGroup;
+  localForm: FormGroup;
   _yearPickerCtrl: FormControl = new FormControl();
-  idForm : FormGroup;
-  trainingForm : FormGroup;
-  jobForm : FormGroup;
-  motivationForm : FormGroup;
+  idForm: FormGroup;
+  trainingForm: FormGroup;
+  jobForm: FormGroup;
+  motivationForm: FormGroup;
 
-  campgne : Campagne;
-  candidat : Candidat;
-  posteSelected : ZoneApromac = {};
+  campgne: Campagne;
+  candidat: Candidat;
+  posteSelected: PosteModel = {};
 
   // campgne : Campagne;
-  listCandidats : Candidat[] = [];
-  listZone : ZoneApromac[] = [];
-  listMotivations : Params[] = [];
+  listCandidats: Candidat[] = [];
+  listZone: ZoneApromac[] = [];
+  listMotivations: Params[] = [];
+  listPostes: PosteModel[] = [];
 
   touchUi = false;
   focus$ = new Subject<string>();
@@ -120,9 +125,11 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
 
   constructor(public activeModal: NgbActiveModal,
               private fb: FormBuilder,
-              private zoneService : ZoneService,
+              private zoneService: ZoneService,
               private paramsService: ParamsService,
-              private candidatService : CandidatService) {
+              private posteService: PosteService,
+              private toast: ToastrService,
+              private candidatService: CandidatService) {
   }
 
   ngOnInit(): void {
@@ -130,11 +137,11 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
 
     this.initForm();
     this.localForm.controls['poste'].valueChanges.subscribe((val) => {
-      this.posteSelected = this.listZone.find((r)=> r.zoneID == val);
+      this.posteSelected = this.listPostes.find((p) => p.posteID == val);
       console.log(this.localForm);
-      this.localForm.controls['zone'].setValue(this.posteSelected.zoneID);
-      this.localForm.controls['district'].setValue(this.posteSelected.district.districtID);
-    } )
+      // this.localForm.controls['zone'].setValue(this.posteSelected.zoneID);
+      // this.localForm.controls['district'].setValue(this.posteSelected.district.districtID);
+    });
   }
 
   fetchCombosData() {
@@ -142,15 +149,15 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
      * fill Zone
      */
     this.zoneService.getAllZone().subscribe({
-      next : (resp)=> {
+      next: (resp) => {
         console.log(resp);
-        this.listZone = (resp as any as ZoneApromac[])
+        this.listZone = (resp as any as ZoneApromac[]);
       },
-      error : (err) => {
+      error: (err) => {
         console.error(err);
       },
-      complete : () => {
-        console.log('complete')
+      complete: () => {
+        console.log('complete');
       }
     });
 
@@ -159,19 +166,31 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
      */
 
     this.paramsService.getAllMotivation().subscribe({
-      next : (resp)=> {
+      next: (resp) => {
         console.log(resp);
         this.listMotivations = (resp as Params[]);
         // this.listZone = (resp as any as ZoneApromac[])
       },
-      error : (err) => {
+      error: (err) => {
         console.error(err);
       },
-      complete : () => {
-        console.log('complete')
+      complete: () => {
+        console.log('complete');
+      }
+    });
+
+    this.posteService.getPosteByProfil(4).subscribe({
+      next: value => {
+        console.log(value);
+        this.listPostes = value as any as PosteModel[];
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toast.error('Une erreur s\'est produite lors de la récupération des postes', 'STATUS ' + err.status);
+        console.error(err);
       }
     });
   }
+
   initForm(): void {
 
     this.localForm = this.fb.group({
@@ -184,20 +203,20 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     });
 
 
-
     this.idForm = this.fb.group({
-      nom : ['',Validators.required],
-      prenom : ['',Validators.required],
-      sexe : ['',Validators.required],
-      dateNaissance : ['',Validators.required],
-      lieuNaissance : ['',Validators.required],
-      niveauEtude : ['',Validators.required],
-      metierActuel : ['',Validators.required],
-      lieuResidence : ['',Validators.required],
-      distanceEcole : ['',Validators.required],
-      contact1 : ['',Validators.required],
-      pieceId : ['',Validators.required],
-      numeroPiece : ['',Validators.required],
+      nomCandidat: ['', Validators.required],
+      prenomsCandidat: ['', Validators.required],
+      genreCandidat: [0, Validators.required],
+      dateNaisCandidat: ['', Validators.required],
+      lieuNaisCandidat: ['', Validators.required],
+      niveauEtudeCandidat: ['', Validators.required],
+      metierActuelCandidat: [0, Validators.required],
+      lieuResidCandidat: [0, Validators.required],
+      distanceEcoleCandidat: ['', Validators.required],
+      premierContactCandidat: ['', Validators.required],
+      secondContactCandidat: ['', Validators.required],
+      typePieceCandidat: [0, Validators.required],
+      numeroPieceCandidat: ['', Validators.required],
     });
 
 
@@ -209,10 +228,8 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     //
     // this.motivationForm.reset();
     this.motivationForm = this.fb.group({
-      motivation : ['', Validators.required]
+      motivation: ['', Validators.required]
     });
-
-
 
 
   }
@@ -235,10 +252,9 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
   }
 
 
-
   ngAfterViewInit(): void {
 
-    this.cdkStepper.selectionChange.subscribe((c)=> {
+    this.cdkStepper.selectionChange.subscribe((c) => {
       console.log(c, this.cdkStepper._getFocusIndex());
       this.currentIndex = c.selectedIndex;
 
@@ -248,8 +264,27 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
   getRangeDate(e): void {
     console.log(e);
   }
+
   typePieceChange($e): void {
     console.log($e);
     this.typePiece = $e;
+  }
+
+  saveForms(): void {
+    console.log(this.idForm.value, this.localForm.value);
+    let dataToSend = this.idForm.value;
+    // Object.assign(dataToSend, ...this.localForm.value)
+    this.candidatService.addCandidat(dataToSend).subscribe({
+      next : value => {
+        console.log(value);
+        this.toast.success('Candidat inscrit avec succès')
+      },
+      error : (err : HttpErrorResponse)=>{
+        console.log(err);
+        this.toast.error(err.message, 'STATUS ' + err.status);
+      }
+    })
+
+    // console.log(dataToSend);
   }
 }

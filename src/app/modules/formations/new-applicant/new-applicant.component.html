@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body h-50">
   <ng-stepper #cdkStepper [linear]="true">
-    <cdk-step [stepControl]="localForm" [optional]="false">
+    <cdk-step [stepControl]="localForm" [optional]="true">
       <ng-template cdkStepLabel>
         <div class="step-bullet">1</div>
         <h6><b>LOCALITE</b></h6>
@@ -16,9 +16,19 @@
           <form [formGroup]="localForm">
             <div class="col-md-12 p-0 m-0 ">
               <div class="form-floating">
+<!--                <ng-select-->
+<!--                  [items]="listPostes"-->
+<!--                  formControlName="poste"-->
+<!--                  placeholder="Sélectionner un poste"-->
+<!--                  bindLabel="libellePoste"-->
+<!--                  class="form-select"-->
+<!--                  id="poste">-->
+
+<!--                </ng-select>-->
+
                 <select [value]="0" formControlName="poste" class="form-select" id="tdh" aria-label="TDH">
-                  <option [value]="zone.zoneID" *ngFor="let zone of listZone">TDH DE {{zone.libelleZone}}</option>
-                  <option value="" *ngIf="!listZone || listZone && listZone.length ===0">Aucune zone trouvée</option>
+                  <option [value]="p.posteID" *ngFor="let p of listPostes">{{p.libellePoste}}</option>
+                  <option value="" *ngIf="!listPostes || listPostes && listPostes.length ===0">Aucun poste trouvé</option>
                 </select>
                 <label for="sexe">Poste du TDH</label>
               </div>
@@ -44,9 +54,9 @@
             <div class="row">
               <div class="col-md-6 mt-2">
                 <div class="form-floating">
+<!--                         [value]="posteSelected?.libelleZone"-->
                   <input formControlName="zone"
                          readonly type="text" class="form-control" id="Departement"
-                         [value]="posteSelected?.libelleZone"
                          placeholder="Zone du TDH"
                          value="Zone">
                   <label for="Departement">Zone du TDH</label>
@@ -55,9 +65,9 @@
 
               <div class="col-md-6 mt-2">
                 <div class="form-floating">
+<!--                         [value]="posteSelected?.district?.libelleDistrict"-->
                   <input formControlName="district" readonly type="text" class="form-control" id="District"
                          placeholder="District"
-                         [value]="posteSelected?.district?.libelleDistrict"
                          value="District">
                   <label for="District">District</label>
                 </div>
@@ -97,14 +107,16 @@
 
 
         <hr>
-<!--       <form>-->
+       <form [formGroup]="idForm">
          <div class="tab-pane border p-2">
            <div class="row g-2">
              <div class="col-md">
                <div class="form-floating">
-                 <input [class.is-invalid]="searchCdtFailed"
+                 <input [class.is-invalid]="idForm.controls['nomCandidat'].invalid"
                         [ngbTypeahead]="searchUser"
-                        type="text" class="form-control" id="name" placeholder="Nom" value=""
+                        type="text" class="form-control"
+                        formControlName="nomCandidat"
+                        id="name" placeholder="Nom" value=""
                         [resultTemplate]="cdtTemplate"
                  >
                  <label for="name">Nom</label>
@@ -113,7 +125,9 @@
 
              <div class="col-md">
                <div class="form-floating">
-                 <input type="text" class="form-control" id="surname" placeholder="Prénoms" value="">
+                 <input type="text"
+                        formControlName="prenomsCandidat"
+                        class="form-control" id="surname" placeholder="Prénoms" value="">
                  <label for="surname">Prénoms</label>
                </div>
              </div>
@@ -122,10 +136,10 @@
                <div class="col-md">
                  <div class="form-floating">
                    <select class="form-select" id="sexe" aria-label="Sexe">
-                     <option value="M" selected>Masculin</option>
-                     <option value="F">Féminin</option>
+                     <option value="0" selected>Masculin</option>
+                     <option value="1">Féminin</option>
                    </select>
-                   <label for="sexe">Sexe</label>
+                   <label for="sexe">Genre du candidat</label>
                  </div>
                </div>
 
@@ -134,6 +148,7 @@
                    <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
                    <input [max]="maxBirthday" type="date" class="form-control" id="birthday"
                           placeholder="Date de naissance"
+                          formControlName="dateNaisCandidat"
                           value="01/01/2000">
                    <label for="birthday">Date de naissance</label>
                  </div>
@@ -142,7 +157,9 @@
 
                <div class="col-md">
                  <div class="form-floating">
-                   <input type="text" class="form-control" id="birthplace" placeholder="Lieu de naissance" value="">
+                   <input type="text"
+                          formControlName="lieuNaisCandidat"
+                          class="form-control" id="birthplace" placeholder="Lieu de naissance" value="">
                    <label for="birthplace">Lieu de Naissance</label>
                  </div>
                </div>
@@ -153,7 +170,7 @@
                <div class="col-md">
 
                  <div class="form-floating">
-                   <select class="form-select" id="level" aria-label="Level">
+                   <select formControlName="niveauEtudeCandidat" class="form-select" id="level" aria-label="Level">
                      <option value="0" selected>Aucun</option>
                      <option value="1">Primaire</option>
                      <option value="2">Secondaire</option>
@@ -171,10 +188,10 @@
                <div class="col-md">
 
                  <div class="form-floating">
-                   <select class="form-select" id="job" aria-label="job">
-                     <option value="j1" selected>Actif agricole</option>
-                     <option value="j2">Actif non agricole</option>
-                     <option value="j3">Artisant</option>
+                   <select formControlName="metierActuelCandidat" class="form-select" id="job" aria-label="job">
+                     <option value="0" selected>Actif agricole</option>
+                     <option value="1">Actif non agricole</option>
+                     <option value="2">Artisant</option>
                    </select>
                    <label for="job">Métier actuel</label>
                  </div>
@@ -191,8 +208,8 @@
                <div class="col-md">
                  <div class="form-floating">
                    <!--                  <input type="text" class="form-control" id="home" placeholder="Lieu de résidence" value="">-->
-                   <select class="form-select" id="home"
-                           [value]="posteSelected?.zoneID"
+<!--                           [value]="posteSelected?.zoneID"-->
+                   <select formControlName="lieuResidCandidat" class="form-select" id="home"
                            aria-label="Lieu de résidence">
                      <option *ngFor="let zone of listZone" [value]="zone.zoneID">{{zone.libelleZone}}</option>
                    </select>
@@ -205,7 +222,9 @@
              <div class="row g-2">
                <div class="col-md">
                  <div class="form-floating">
-                   <input type="number" [min]="0" class="form-control" id="distance"
+                   <input
+                     formControlName="distanceEcoleCandidat"
+                     type="number" [min]="0" class="form-control" id="distance"
                           placeholder="Distance par rapport à l'école " value="">
                    <label for="level">Distance par rapport à l'école </label>
                  </div>
@@ -214,7 +233,7 @@
                <div class="col-md">
                  <div class="form-floating">
                    <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
-                   <input type="tel" class="form-control" id="contact" placeholder="Ex : +225 0123456789" value="">
+                   <input formControlName="premierContactCandidat" type="tel" class="form-control" id="contact" placeholder="Ex : +225 0123456789" value="">
                    <label for="contact">Contacts</label>
                  </div>
                </div>
@@ -223,7 +242,7 @@
                <div class="col-md">
                  <div class="form-floating">
                    <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
-                   <input type="tel" class="form-control" id="morecontact" placeholder="Ex : +225 0123456789" value="">
+                   <input formControlName="secondContactCandidat" type="tel" class="form-control" id="morecontact" placeholder="Ex : +225 0123456789" value="">
                    <label for="morecontact">Autres contacts</label>
                  </div>
                </div>
@@ -233,14 +252,14 @@
              <div class="row g-2">
                <div class="col-md">
                  <div class="form-floating">
-                   <select (change)="typePieceChange($event.target.value)" class="form-select" id="typepiece"
+                   <select formControlName="typePieceCandidat" (change)="typePieceChange($event.target.value)" class="form-select" id="typepiece"
                            aria-label="Type de pièce">
-                     <option value="cni" selected>Carte Nationale d'Identité</option>
-                     <option value="attestation">Attestation d'identité</option>
-                     <option value="passport">Passeport</option>
-                     <option value="cc">Carte consulaire</option>
-                     <option value="extrait">Extrait de naissance</option>
-                     <option value="cs">Carte scolaire</option>
+                     <option value="0" selected>Carte Nationale d'Identité</option>
+                     <option value="1">Attestation d'identité</option>
+                     <option value="2">Passeport</option>
+                     <option value="3">Carte consulaire</option>
+                     <option value="4">Extrait de naissance</option>
+                     <option value="5">Carte scolaire</option>
                    </select>
                    <label for="sexe">Type de pièce</label>
                  </div>
@@ -255,7 +274,7 @@
 
                <div class="col-md">
                  <div class="form-floating">
-                   <input type="text" class="form-control" id="numpiece" placeholder="Numéro de pièce" value="">
+                   <input formControlName="numeroPieceCandidat" type="text" class="form-control" id="numpiece" placeholder="Numéro de pièce" value="">
                    <label for="numpiece">Numéro de pièce</label>
                  </div>
                </div>
@@ -264,7 +283,7 @@
            </div>
 
          </div>
-<!--       </form>-->
+       </form>
         <hr>
         <div class="row">
           <div class="col-md">
@@ -618,7 +637,7 @@
             <button type="button" class="btn btn-outline-dark" cdkStepperPrevious>Précédent</button>
           </div>
           <div class="col-md text-right">
-            <button type="button" class="btn btn-outline-primary" cdkStepperNext>Sauvegarder</button>
+            <button type="button" (click)="saveForms()" class="btn btn-outline-primary" cdkStepperNext>Sauvegarder</button>
           </div>
         </div>
       </div>

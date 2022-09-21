@@ -4,5 +4,6 @@
   "approot": "",
   "port": "9004",
   "portCdt": "9003",
+  "portUser": "9002",
   "baseHref": "./"
 }

@@ -1,3 +1,4 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {NgbModal, NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
@@ -52,9 +53,9 @@ export class ApplicantsComponent implements OnInit {
       next: (resp) => {
         this.allCampagnes = (resp as any as Campagne[]);
       },
-      error: err => {
+      error: (err: HttpErrorResponse) => {
         console.log(err);
-        this.toast.error('Une erreur s\'est produite');
+        this.toast.error('Une erreur s\'est produite', 'STATUS ' +err.status);
       },
       complete: () => {
 

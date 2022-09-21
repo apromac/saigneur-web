@@ -4,7 +4,7 @@ import {map, Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {Candidat} from '../../data/schemas/candidat';
 
-const baseUrl  = `${environment.apiUrl}candidat/`
+const baseUrl  = `${environment.apiCandidatUrl}candidat/`
 const PARAMS = new HttpParams({
   fromObject: {
     action: 'opensearch',
@@ -39,5 +39,10 @@ export class CandidatService {
       .get<[Candidat, string[]]>(baseUrl, {params: PARAMS.set('search', term)}).pipe(
         map(response => response[1])
       );
+  }
+
+  addCandidat(cdt: Candidat): Observable<Response> {
+    return this.http.post<Response>(`${baseUrl}saveCandidat`, cdt);
+
   }
 }

@@ -121,6 +121,8 @@ export class UsersComponent implements OnInit {
     this.userService.createUser(this.formGroup.value).subscribe({
       next: value => {
         console.log(value);
+        this.getAllUser();
+        this.modalService.dismissAll();
         this.toast.success('Utilisateur ajouté avec succès', 'Création d\'utilisateur');
       },
       error: (err: HttpErrorResponse) => {

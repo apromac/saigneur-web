@@ -25,6 +25,7 @@ export class UsersComponent implements OnInit {
   currentUser: UsersModel = {};
 
   formGroup: FormGroup;
+  posteFormGroupe: FormGroup;
 
   constructor(private modalService: NgbModal,
               private fb: FormBuilder,
@@ -58,6 +59,7 @@ export class UsersComponent implements OnInit {
       poste: ['', Validators.required],
       username: ['', Validators.required],
     });
+
   }
 
   getAllUser(): void {
@@ -74,8 +76,9 @@ export class UsersComponent implements OnInit {
           }
         );
       }, error: (err: HttpErrorResponse) => {
-        this.toast.error(err.message, 'STATUS ' + err.status);
+        this.toast.error(err.error.message, 'STATUS ' + err.status);
         console.error(err);
+        this.isLoading = false;
       }
     });
   }
@@ -91,7 +94,6 @@ export class UsersComponent implements OnInit {
 
   openModal(modal): void {
     this.initForm();
-    this.getAllPost();
     const modalRef = this.modalService.open(modal, {centered: true, size: 'lg', backdrop: 'static'});
     // modalRef.componentInstance.name = 'World';
   }
@@ -107,12 +109,39 @@ export class UsersComponent implements OnInit {
         title: 'Détails',
         isMatDesign: true,
         className: 'h3',
-        icon: 'info',
-        color: 'info',
+        icon: 'person',
+        color: 'var(--bs-primary)',
         click: (item) => {
           console.log(item);
         }
-      }
+      },
+      {
+        title: 'Attribuer poste',
+        isMatDesign: true,
+        className: 'h3',
+        icon: 'assignment_turned_in',
+        color: 'var(--bs-dark)',
+        click: (item) => {
+          this.currentUser = item;
+          this.getAllPost();
+
+          this.posteFormGroupe = this.fb.group({
+            poste: ['', Validators.required],
+          });
+          document.getElementById('btnmodalposte').click();
+          console.log(item);
+        }
+      },
+      {
+        title: 'Supprimer',
+        isMatDesign: true,
+        className: 'h3',
+        icon: 'delete',
+        color: 'red',
+        click: (item) => {
+          console.log(item);
+        }
+      },
     ];
   }
 
@@ -127,7 +156,26 @@ export class UsersComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         console.log(err);
-        this.toast.error(err.message, 'STATUS' + err.status);
+        this.toast.error(err.error.message, 'STATUS' + err.status);
+      },
+      complete : () => {
+
+      }
+    });
+  }
+
+  savePoste(): void {
+    console.log(this.posteFormGroupe);
+    this.userService.addPoste(this.posteFormGroupe.value).subscribe({
+      next: value => {
+        console.log(value);
+        this.getAllUser();
+        this.modalService.dismissAll();
+        this.toast.success('Poste attribué avec succès', 'Attribution de poste');
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err);
+        this.toast.error(err.error.message, 'STATUS' + err.status);
       },
       complete : () => {
 

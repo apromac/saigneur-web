@@ -15,17 +15,49 @@
   'prenomsUtilisateur',
   'tel',
   'username',
-  'postLabel'
+  'posteActuel'
   ]"
   [tableData]="allUsers"
 ></app-custom-table>
+
+
+<button id="btnmodalposte" class="d-none" (click)="openModal(addposte)"></button>
+<ng-template id="addposte" #addposte>
+  <div class="modal-header">
+    <h4 class="modal-title">Attribution de poste</h4>
+    <button type="button" (click)="close()" class="btn-close" aria-label="Close" ></button>
+  </div>
+  <form [formGroup]="posteFormGroupe">
+    <div class="modal-body">
+      <div class="row g-2">
+        <div class="form-floating">
+                          <ng-select
+                             [items]="allPoste"
+                            formControlName="poste"
+                            placeholder="Sélectionner un poste"
+                            bindLabel="libellePoste"
+                            class="form-select"
+                            id="poste">
+
+                          </ng-select>
+          <label for="poste">Poste de l'utilisateur</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success" (click)="savePoste()">Attribuer</button>
+      <button type="button" class="btn btn-outline-danger" (click)="modalService.dismissAll()">Fermer</button>
+    </div>
+  </form>
+</ng-template>
+
 
 <button id="btnmodal" class="d-none" (click)="openModal(nwuser)"></button>
 
 <ng-template id="nwuser" #nwuser>
   <div class="modal-header">
     <h4 class="modal-title">Edition d'utilisateur</h4>
-    <button type="button" (click)="close()" class="btn-close" aria-label="Close"></button>
+    <button type="button" (click)="modalService.dismissAll()" class="btn-close" aria-label="Close"></button>
   </div>
   <form [formGroup]="formGroup">
     <div class="modal-body">
@@ -96,43 +128,43 @@
             </div>
 
           </div>
-          <div class="row g-2">
-            <div class="col-md">
-              <div class="form-floating">
+<!--          <div class="row g-2">-->
+<!--            <div class="col-md">-->
+<!--              <div class="form-floating">-->
 
-                <ng-select
-                   [items]="allPoste"
-                  formControlName="poste"
-                  placeholder="Sélectionner un poste"
-                  bindLabel="libellePoste"
-                  class="form-select"
-                  id="poste">
+<!--                <ng-select-->
+<!--                   [items]="allPoste"-->
+<!--                  formControlName="poste"-->
+<!--                  placeholder="Sélectionner un poste"-->
+<!--                  bindLabel="libellePoste"-->
+<!--                  class="form-select"-->
+<!--                  id="poste">-->
 
-                </ng-select>
+<!--                </ng-select>-->
 
-                <!--                <select class="form-select" id="profil" -->
-                <!--                        aria-label="Profil">-->
-                <!--                  <option value="z1" selected>Administrateur</option>-->
-                <!--                  <option value="z2">Coordinateur</option>-->
-                <!--                  <option value="z2">TDH</option>-->
-                <!--                  <option value="z2">Secrétaire</option>-->
-                <!--                </select>-->
-                <label for="poste">Poste utilisateur</label>
-              </div>
-            </div>
+<!--                &lt;!&ndash;                <select class="form-select" id="profil" &ndash;&gt;-->
+<!--                &lt;!&ndash;                        aria-label="Profil">&ndash;&gt;-->
+<!--                &lt;!&ndash;                  <option value="z1" selected>Administrateur</option>&ndash;&gt;-->
+<!--                &lt;!&ndash;                  <option value="z2">Coordinateur</option>&ndash;&gt;-->
+<!--                &lt;!&ndash;                  <option value="z2">TDH</option>&ndash;&gt;-->
+<!--                &lt;!&ndash;                  <option value="z2">Secrétaire</option>&ndash;&gt;-->
+<!--                &lt;!&ndash;                </select>&ndash;&gt;-->
+<!--                <label for="poste">Poste utilisateur</label>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <!--            <div class="col-md">-->
-            <!--              <div class="form-floating">-->
-            <!--                <select class="form-select" id="poste" aria-label="Profil">-->
-            <!--                  &lt;!&ndash;              <option value="z1" selected>Administrateur</option>&ndash;&gt;-->
-            <!--                  &lt;!&ndash;              <option value="z2">Coordinateur</option>&ndash;&gt;-->
-            <!--                  &lt;!&ndash;              <option value="z2">TDH</option>&ndash;&gt;-->
-            <!--                  &lt;!&ndash;              <option value="z2">Secrétaire</option>&ndash;&gt;-->
-            <!--                </select>-->
-            <!--                <label for="poste">Poste</label>-->
-            <!--              </div>-->
-            <!--            </div>-->
-          </div>
+<!--            &lt;!&ndash;            <div class="col-md">&ndash;&gt;-->
+<!--            &lt;!&ndash;              <div class="form-floating">&ndash;&gt;-->
+<!--            &lt;!&ndash;                <select class="form-select" id="poste" aria-label="Profil">&ndash;&gt;-->
+<!--            &lt;!&ndash;                  &lt;!&ndash;              <option value="z1" selected>Administrateur</option>&ndash;&gt;&ndash;&gt;-->
+<!--            &lt;!&ndash;                  &lt;!&ndash;              <option value="z2">Coordinateur</option>&ndash;&gt;&ndash;&gt;-->
+<!--            &lt;!&ndash;                  &lt;!&ndash;              <option value="z2">TDH</option>&ndash;&gt;&ndash;&gt;-->
+<!--            &lt;!&ndash;                  &lt;!&ndash;              <option value="z2">Secrétaire</option>&ndash;&gt;&ndash;&gt;-->
+<!--            &lt;!&ndash;                </select>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <label for="poste">Poste</label>&ndash;&gt;-->
+<!--            &lt;!&ndash;              </div>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--          </div>-->
           <div class="col-md">
             <div class="form-floating">
               <input type="password"

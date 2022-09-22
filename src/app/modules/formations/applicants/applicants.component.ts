@@ -5,6 +5,9 @@ import {ToastrService} from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import {ApplicationService} from '../../../core/services/application.service';
 import {CampagneService} from '../../../core/services/campagne.service';
+import {CandidatService} from '../../../core/services/candidat.service';
+import {ParamsService} from '../../../core/services/params.service';
+import {TYPEPARAMS} from '../../../data/enums/type-params';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
 import {Campagne} from '../../../data/schemas/campagne';
@@ -20,12 +23,12 @@ import DismissReason from 'sweetalert2';
   styleUrls: ['./applicants.component.scss']
 })
 export class ApplicantsComponent implements OnInit {
-  title = 'Candidats';
+  title = 'Liste des candidats';
   public tableHeader: CustomTableHeaderInfo = {
     withBtn: true,
     btn: {
       bg: 'btn-primary',
-      libelle: 'Inscrire',
+      libelle: 'Nouveau candidat',
     },
     btnClick: () => {
       this.startInscription();
@@ -39,16 +42,28 @@ export class ApplicantsComponent implements OnInit {
 
   isLoading = false;
   constructor(private modalService: NgbModal, private offcanvasService: NgbOffcanvas,
-              private candidatService: ApplicationService,
+              private candidatService: CandidatService,
               private toast: ToastrService,
+              private paramsService : ParamsService,
               private campagneService: CampagneService) {
   }
 
   ngOnInit(): void {
+    this.getListApplicant();
     this.fetchCombosData();
   }
 
   fetchCombosData(): void {
+    this.paramsService.getParams('niveau-etude').subscribe((
+      {
+        next : value => {
+          console.log(value);
+        },
+        error : (err : HttpErrorResponse)=> {
+          console.error(err);
+    }
+      }
+    ))
     this.campagneService.getAllCampagne().subscribe({
       next: (resp) => {
         this.allCampagnes = (resp as any as Campagne[]);
@@ -72,11 +87,12 @@ export class ApplicantsComponent implements OnInit {
   }
 
   getListApplicant() {
-    if (!this.campagneSelected) {
-      return;
-    }
+    // if (!this.campagneSelected) {
+    //   return;
+    // }
     this.isLoading = true;
-    this.candidatService.getCdtByCampagneID(this.campagneSelected.campagneID).subscribe({
+    // this.candidatService.getCdtByCampagneID(this.campagneSelected.campagneID).subscribe({
+    this.candidatService.getAllCandidats().subscribe({
       next: (resp) => {
         this.allApplicants = resp as any as Candidat[];
         this.isLoading = false;

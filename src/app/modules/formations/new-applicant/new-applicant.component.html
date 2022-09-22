@@ -112,7 +112,9 @@
            <div class="row g-2">
              <div class="col-md">
                <div class="form-floating">
-                 <input [class.is-invalid]="idForm.controls['nomCandidat'].invalid"
+                 <input [class.is-invalid]="idForm.controls['nomCandidat'].invalid
+                 && idForm.controls['nomCandidat'].touched
+                 "
                         [ngbTypeahead]="searchUser"
                         type="text" class="form-control"
                         formControlName="nomCandidat"
@@ -126,6 +128,9 @@
              <div class="col-md">
                <div class="form-floating">
                  <input type="text"
+                        [class.is-invalid]="idForm.controls['prenomsCandidat'].invalid
+                 && idForm.controls['prenomsCandidat'].touched
+                 "
                         formControlName="prenomsCandidat"
                         class="form-control" id="surname" placeholder="Prénoms" value="">
                  <label for="surname">Prénoms</label>
@@ -135,7 +140,11 @@
              <div class="row g-2">
                <div class="col-md">
                  <div class="form-floating">
-                   <select class="form-select" id="sexe" aria-label="Sexe">
+                   <select formControlName="genreCandidat"
+                           [class.is-invalid]="idForm.controls['genreCandidat'].invalid
+                 && idForm.controls['genreCandidat'].touched
+                 "
+                           class="form-select" id="sexe" aria-label="Sexe">
                      <option value="0" selected>Masculin</option>
                      <option value="1">Féminin</option>
                    </select>

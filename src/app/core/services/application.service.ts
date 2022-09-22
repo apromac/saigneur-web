@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {Response} from '../../data/schemas/response';
 
-const baseUrl = environment.apiCandidatUrl
+const baseUrl = environment.apiCandidatUrl +'candidat/'
 
 @Injectable({
   providedIn: 'root'

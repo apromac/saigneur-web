@@ -13,8 +13,12 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  auth(credential : { password,username }): Observable<Response>{
+    return this.http.post<Response>(`${baseUrl}auth`, credential);
+  }
   getAllUser(): Observable<Response> {
-    return this.http.get<Response>(`${baseUrl}findAllUtilisateur`)
+    // return this.http.get<Response>(`${baseUrl}findAllUtilisateur`)
+    return this.http.get<Response>(`${baseUrl}findUtilisateurDetails`)
   }
 
   findUserById(idUser: number): Observable<Response> {
@@ -23,5 +27,9 @@ export class UserService {
 
   createUser(user: UsersModel): Observable<Response> {
     return this.http.post<Response>(`${baseUrl}saveUtilisateur`, user);
+  }
+
+  addPoste(user: UsersModel): Observable<Response> {
+    return this.http.post<Response>(`${baseUrl}savePosteUtilisateur`, user);
   }
 }

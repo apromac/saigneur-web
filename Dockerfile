@@ -2,6 +2,9 @@
 # DOCKERFILE
 # CONSTRUCTION DE L'IMAGE DOCKER DU MICROSERVICE "saigneur-web"
 # ======================================================================
+# FROM nginx:stable-alpine
+# WORKDIR /usr/share/nginx/html
+
 # Stage 1
 FROM node:alpine3.16 as builder-node
 WORKDIR /app
@@ -14,7 +17,7 @@ FROM nginx:stable-alpine
 WORKDIR /usr/share/nginx/html
 COPY --from=builder-node /app/dist/aprosaigneur /usr/share/nginx/html
 
-EXPOSE 4001
+# EXPOSE 4001
 
 
 

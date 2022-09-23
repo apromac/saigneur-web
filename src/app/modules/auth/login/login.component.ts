@@ -46,12 +46,13 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('login', 'logged');
       location.assign('./');
       Utility.loggedUser = resp as any as UsersModel;
+      console.log(Utility.loggedUser);
       this.toast.success( 'Bienvenue ' + Utility.loggedUser.nomUtilisateur, 'Connecté')
       this.isSendig = false;
     }, (err : HttpErrorResponse) => {
       this.isSendig = false;
       this.toast.error(err.error.message, 'STATUS ' + err.status);
-      this.login();
+      // this.login();
       console.log(err);
     });
   }

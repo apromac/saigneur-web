@@ -6,7 +6,7 @@ export class UsersModel {
   photoUtilisateur?: string;
   prenomsUtilisateur?;
   poste?: PosteModel;
-  postLabel?: string;
+  posteActuel?: string;
   username?: string;
   utilisateurID?: number;
 }

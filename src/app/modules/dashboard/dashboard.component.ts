@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChartConfiguration, ChartEvent, ChartType} from 'chart.js';
+import {BaseChartDirective} from 'ng2-charts';
 
 
 @Component({
@@ -8,153 +10,156 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  heading = 'Analytics Dashboard';
-  subheading = 'This is an example dashboard created using build-in elements and components.';
-  icon = 'pe-7s-plane icon-gradient bg-tempting-azure';
+  constructor() {
+  }
 
-  slideConfig6 = {
-    className: 'center',
-    infinite: true,
-    slidesToShow: 1,
-    speed: 500,
-    adaptiveHeight: true,
-    dots: true,
+  ngOnInit(): void {
+  }
+
+  public lineChartData: ChartConfiguration['data'] = {
+    datasets: [
+      {
+        data: [65, 59, 80, 81, 56, 55, 40],
+        label: 'Saigneurs placés',
+        backgroundColor: 'rgba(11,101,255,0.2)',
+        borderColor: 'rgba(148,159,177,1)',
+        pointBackgroundColor: 'rgba(148,159,177,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(148,159,177,0.8)',
+        fill: 'origin',
+      },
+      {
+        data: [28, 48, 40, 19, 86, 27, 90],
+        label: 'Demandeurs',
+        backgroundColor: 'rgba(87,116,51,0.2)',
+        borderColor: 'rgba(77,83,96,1)',
+        pointBackgroundColor: 'rgba(77,83,96,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(77,83,96,1)',
+        fill: 'origin',
+      },
+      {
+        data: [180, 480, 770, 90, 1000, 270, 400],
+        label: 'TDH',
+        yAxisID: 'y-axis-1',
+        backgroundColor: 'rgba(255,0,0,0.3)',
+        borderColor: 'red',
+        pointBackgroundColor: 'rgba(148,159,177,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(148,159,177,0.8)',
+        fill: 'origin',
+      }
+    ],
+    labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022']
   };
 
-  public datasets = [
-    {
-      label: 'My First dataset',
-      data: [65, 59, 80, 81, 46, 55, 38, 59, 80],
-      datalabels: {
-        display: false,
-      },
 
-    }
-  ];
-
-  public datasets2 = [
-    {
-      label: 'My First dataset',
-      data: [46, 55, 59, 80, 81, 38, 65, 59, 80],
-      datalabels: {
-        display: false,
-      },
-
-    }
-  ];
-
-  public datasets3 = [
-    {
-      label: 'My First dataset',
-      data: [65, 59, 80, 81, 55, 38, 59, 80, 46],
-      datalabels: {
-        display: false,
-      },
-
-    }
-  ];
-  public lineChartColors: any[] = [
-    { // dark grey
-      backgroundColor: 'rgba(247, 185, 36, 0.2)',
-      borderColor: '#f7b924',
-      borderCapStyle: 'round',
-      borderDash: [],
-      borderWidth: 4,
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'round',
-      pointBorderColor: '#f7b924',
-      pointBackgroundColor: '#fff',
-      pointHoverBorderWidth: 4,
-      pointRadius: 6,
-      pointBorderWidth: 5,
-      pointHoverRadius: 8,
-      pointHitRadius: 10,
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: '#f7b924',
-    },
-  ];
-
-  public lineChartColors2: any[] = [
-    { // dark grey
-      backgroundColor: 'rgba(48, 177, 255, 0.2)',
-      borderColor: '#30b1ff',
-      borderCapStyle: 'round',
-      borderDash: [],
-      borderWidth: 4,
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'round',
-      pointBorderColor: '#30b1ff',
-      pointBackgroundColor: '#ffffff',
-      pointHoverBorderWidth: 4,
-      pointRadius: 6,
-      pointBorderWidth: 5,
-      pointHoverRadius: 8,
-      pointHitRadius: 10,
-      pointHoverBackgroundColor: '#ffffff',
-      pointHoverBorderColor: '#30b1ff',
-    },
-  ];
-
-  public lineChartColors3: any[] = [
-    { // dark grey
-      backgroundColor: 'rgba(86, 196, 121, 0.2)',
-      borderColor: '#56c479',
-      borderCapStyle: 'round',
-      borderDash: [],
-      borderWidth: 4,
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'round',
-      pointBorderColor: '#56c479',
-      pointBackgroundColor: '#fff',
-      pointHoverBorderWidth: 4,
-      pointRadius: 6,
-      pointBorderWidth: 5,
-      pointHoverRadius: 8,
-      pointHitRadius: 10,
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: '#56c479',
-    },
-  ];
-
-  public labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'];
-
-  public options = {
-    layout: {
-      padding: {
-        left: 0,
-        right: 8,
-        top: 0,
-        bottom: 0
+  public lineChartOptions: ChartConfiguration['options'] = {
+    elements: {
+      line: {
+        tension: 0.5
       }
     },
     scales: {
-      yAxes: [{
-        ticks: {
-          display: false,
-          beginAtZero: true
+      // We use this empty structure as a placeholder for dynamic theming.
+      x: {},
+      'y-axis-0':
+        {
+          position: 'left',
         },
-        gridLines: {
-          display: false
-        }
-      }],
-      xAxes: [{
-        ticks: {
-          display: false
+      'y-axis-1': {
+        position: 'right',
+        grid: {
+          color: 'rgba(255,0,0,0.3)',
         },
-        gridLines: {
-          display: false
+        ticks: {
+          color: 'red'
         }
-      }]
+      }
     },
-    legend: {
-      display: false
-    },
-    responsive: true,
-    maintainAspectRatio: false
+
+    plugins: {
+      legend: {display: true},
+      // @ts-ignore
+      annotation: {
+        annotations: [
+          {
+            type: 'line',
+            scaleID: 'x',
+            value: 'March',
+            borderColor: 'orange',
+            borderWidth: 2,
+            label: {
+              display: true,
+              position: 'center',
+              color: 'red',
+              content: 'LineAnno',
+              font: {
+                weight: 'bold'
+              }
+            }
+          },
+        ],
+      }
+    }
   };
 
-  ngOnInit() {
+  public lineChartType: ChartType = 'line';
+
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+
+  private static generateNumber(i: number): number {
+    return Math.floor((Math.random() * (i < 2 ? 100 : 1000)) + 1);
   }
 
+  public randomize(): void {
+    for (let i = 0; i < this.lineChartData.datasets.length; i++) {
+      for (let j = 0; j < this.lineChartData.datasets[i].data.length; j++) {
+        this.lineChartData.datasets[i].data[j] = DashboardComponent.generateNumber(i);
+      }
+    }
+    this.chart?.update();
+  }
 
+  // events
+  public chartClicked({event, active}: { event?: ChartEvent, active?: {}[] }): void {
+    console.log(event, active);
+  }
+
+  public chartHovered({event, active}: { event?: ChartEvent, active?: {}[] }): void {
+    console.log(event, active);
+  }
+
+  public hideOne(): void {
+    const isHidden = this.chart?.isDatasetHidden(1);
+    this.chart?.hideDataset(1, !isHidden);
+  }
+
+  public pushOne(): void {
+    this.lineChartData.datasets.forEach((x, i) => {
+      const num = DashboardComponent.generateNumber(i);
+      x.data.push(num);
+    });
+    this.lineChartData?.labels?.push(`Label ${this.lineChartData.labels.length}`);
+
+    this.chart?.update();
+  }
+
+  public changeColor(): void {
+    this.lineChartData.datasets[2].borderColor = 'green';
+    this.lineChartData.datasets[2].backgroundColor = `rgba(0, 255, 0, 0.3)`;
+
+    this.chart?.update();
+  }
+
+  public changeLabel(): void {
+    if (this.lineChartData.labels) {
+      this.lineChartData.labels[2] = ['1st Line', '2nd Line'];
+    }
+
+    this.chart?.update();
+  }
 }

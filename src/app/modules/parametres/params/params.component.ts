@@ -27,7 +27,8 @@ export class ParamsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fGrpCampagne = this.fb.group({
-      libelleCampagne: ['', Validators.required]
+      libelleCampagne: ['', Validators.required],
+      activeCampagne: [1]
     });
     this.getAllCampagne();
   }
@@ -63,7 +64,11 @@ export class ParamsComponent implements OnInit {
   getAllCampagne(): void {
     this.campagneService.getAllCampagne().subscribe({
       next : value => {
-        this.allCampagne = value as any as Campagne[];
+        this.allCampagne = (value as any as Campagne[]).map((c)=> {
+          let cp = c;
+          cp.statusVal = c.activeCampagne ? 'check-circle text-success' : 'close text-danger';
+          return cp;
+        });
       },
       error : (err: HttpErrorResponse)=> {
         console.log(err);
@@ -80,7 +85,8 @@ export class ParamsComponent implements OnInit {
         this.getAllCampagne();
       },
       error : (err: HttpErrorResponse)=> {
-        this.toast.error(err.message, 'STATUS' + err.status);
+        console.log(err);
+        this.toast.error(err.error.message, 'STATUS' + err.status);
       }
     })
   }

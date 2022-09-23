@@ -121,8 +121,8 @@
           <!-- Line for text-->
           <div *ngIf="!r.isIcon">{{ checkIfMount({iData: i, iRow: ind}) }}</div>
           <!--Line for icon-->
-          <div *ngIf="r.isIcon">
-            <i class="fa fa-{{ item[r.libelle || r] }}" aria-hidden="true">
+          <div class="text-center" *ngIf="r.isIcon">
+            <i style="font-size: 24px !important;" class="fa fa-{{ item[r.libelle || r] }}" aria-hidden="true">
             </i>
           </div>
         </td>

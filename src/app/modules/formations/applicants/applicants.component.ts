@@ -150,25 +150,27 @@ export class ApplicantsComponent implements OnInit {
   getMenus(): DropdownMenuInfo[] {
     return [
       {
-        title: 'Voir plus',
-        isMatDesign: false,
-        icon: '',
+        title: 'Détails',
+        isMatDesign: true,
+        icon: 'info',
         click: (item) => {
           console.log(item);
         }
       },
       {
         title: 'Modifier',
-        isMatDesign: false,
-        icon: '',
+        isMatDesign: true,
+        color: 'green',
+        icon: 'edit',
         click: (item) => {
           console.log(item);
         }
       },
       {
         title: 'Supprimer',
-        isMatDesign: false,
-        icon: '',
+        isMatDesign: true,
+        color: 'red',
+        icon: 'delete',
         click: (item) => {
           console.log(item);
         }

@@ -8,8 +8,7 @@
 @import "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";
 @import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
 @import "../node_modules/ngx-toastr/toastr.css";
-
-
+@import "src/styles/icon-font.min";
 
 bs-datepicker-container, bs-daterangepicker-container {
   z-index: 10000000000 !important;

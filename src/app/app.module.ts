@@ -3,6 +3,7 @@ import {CommonModule, HashLocationStrategy, LocationStrategy, registerLocaleData
 import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgChartsConfiguration, NgChartsModule} from 'ng2-charts';
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {ToastrModule} from 'ngx-toastr';
 
@@ -50,6 +51,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgbModule,
     SharedModule,
     AppRoutingModule,
+    NgChartsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
   ],
@@ -64,6 +66,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     },
     ConfigActions,
     { provide: LOCALE_ID, useValue: 'fr-FR' },
+    { provide: NgChartsConfiguration, useValue: { generateColors: false }},
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]

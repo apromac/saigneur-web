@@ -1,0 +1,176 @@
+<div class="app-page-title">
+  <div class="page-title-wrapper">
+    <div class="page-title-heading">
+      <div class="page-title-icon">
+        <i class="pe-7s-monitor icon-gradient bg-mean-fruit"></i>
+      </div>
+      <div>Tableau de board
+        <div class="page-title-subheading">Une vue d'ensemble des données enregistrées
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tabs-animation">
+  <div class="row">
+    <div class="col-lg-12 col-xl-6">
+      <div class="main-card mb-3 card">
+        <div class="card-body">
+          <h5 class="card-title">Vue d'ensemble</h5>
+          <div class="widget-chart-wrapper widget-chart-wrapper-lg opacity-10 m-0 border-bottom">
+            <div style="height: 227px;">
+              <div class="chartjs-size-monitor">
+                <div class="chartjs-size-monitor-expand">
+                  <div class=""></div>
+                </div>
+                <div class="chartjs-size-monitor-shrink">
+                  <div class=""></div>
+                </div>
+              </div>
+              <canvas baseChart width="511" height="200" style="display: block; height: 227px; width: 409px;"
+                      [data]="lineChartData"
+                      [options]="lineChartOptions"
+                      [type]="lineChartType"
+                      (chartHover)="chartHovered($event)"
+                      (chartClick)="chartClicked($event)"></canvas>
+              <!--              <canvas id="line-chart" width="511" height="283" style="display: block; height: 227px; width: 409px;"-->
+              <!--                      class="chartjs-render-monitor"></canvas>-->
+            </div>
+          </div>
+          <h5 class="card-title">Poste formation</h5>
+          <div class="mt-3 row">
+            <div class="col-sm-12 col-md-4">
+              <div class="widget-content p-0">
+                <div class="widget-content-outer">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                      <div class="widget-numbers text-dark">65%</div>
+                    </div>
+                  </div>
+                  <div class="widget-progress-wrapper mt-1">
+                    <div class="progress-bar-xs progress-bar-animated-alt progress">
+                      <div class="progress-bar bg-info" role="progressbar" aria-valuenow="65" aria-valuemin="0"
+                           aria-valuemax="100" style="width: 65%;">
+                      </div>
+                    </div>
+                    <div class="progress-sub-label">
+                      <div class="sub-label-left font-size-md">Saigneurs placés</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="widget-content p-0">
+                <div class="widget-content-outer">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                      <div class="widget-numbers text-dark">22%</div>
+                    </div>
+                  </div>
+                  <div class="widget-progress-wrapper mt-1">
+                    <div class="progress-bar-xs progress-bar-animated-alt progress">
+                      <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="22" aria-valuemin="0"
+                           aria-valuemax="100" style="width: 22%;">
+                      </div>
+                    </div>
+                    <div class="progress-sub-label">
+                      <div class="sub-label-left font-size-md">Demandeurs</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="widget-content p-0">
+                <div class="widget-content-outer">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                      <div class="widget-numbers text-dark">83%</div>
+                    </div>
+                  </div>
+                  <div class="widget-progress-wrapper mt-1">
+                    <div class="progress-bar-xs progress-bar-animated-alt progress">
+                      <div class="progress-bar bg-success" role="progressbar" aria-valuenow="83" aria-valuemin="0"
+                           aria-valuemax="100" style="width: 83%;">
+                      </div>
+                    </div>
+                    <div class="progress-sub-label">
+                      <div class="sub-label-left font-size-md">TDH</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-xl-6">
+      <div class="main-card mb-3 card">
+        <div class="grid-menu grid-menu-2col">
+          <div class="no-gutters row">
+            <div class="col-sm-6 border">
+              <div class="widget-chart widget-chart-hover">
+                <div class="icon-wrapper rounded-circle">
+                  <div class="icon-wrapper-bg bg-primary"></div>
+                  <i class="fa fa-users text-primary"></i>
+                </div>
+                <div class="widget-numbers">450k</div>
+                <div class="widget-subheading">Total inscrits</div>
+                <div class="widget-description text-success">
+                  <i class="fa fa-angle-up"></i>
+                  <span class="pl-1">175.5%</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 border">
+              <div class="widget-chart widget-chart-hover">
+                <div class="icon-wrapper rounded-circle">
+                  <div class="icon-wrapper-bg bg-info"></div>
+                  <i class="fa fa-graduation-cap text-info"></i>
+                </div>
+                <div class="widget-numbers">130k</div>
+                <div class="widget-subheading">Déjà formés</div>
+                <div class="widget-description text-info">
+                  <i class="fa fa-arrow-right"></i>
+                  <span class="pl-1">175.5%</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 border">
+              <div class="widget-chart widget-chart-hover">
+                <div class="icon-wrapper rounded-circle">
+                  <div class="icon-wrapper-bg bg-danger"></div>
+                  <i class="fa fa-trophy text-danger"></i>
+                </div>
+                <div class="widget-numbers">60k</div>
+                <div class="widget-subheading">Retenu</div>
+                <div class="widget-description text-primary">
+                  <span class="pr-1">54.1%</span>
+                  <i class="fa fa-angle-up"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 border">
+              <div class="widget-chart widget-chart-hover br-br">
+                <div class="icon-wrapper rounded-circle">
+                  <div class="icon-wrapper-bg bg-success"></div>
+                  <i class="fa fa-hourglass-2"></i>
+                </div>
+                <div class="widget-numbers">118k</div>
+                <div class="widget-subheading">En activité</div>
+                <div class="widget-description text-warning">
+                  <span class="pr-1">175.5%</span>
+                  <i class="fa fa-arrow-left"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

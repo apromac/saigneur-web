@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {UsersModel} from '../../data/schemas/users.model';
 
 const baseUrl = environment.apiUserUrl + 'utilisateur/'
+const baseOccuperUrl = environment.apiUserUrl + 'occuper/'
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,11 @@ export class UserService {
   }
 
   addPoste(user: UsersModel): Observable<Response> {
-    return this.http.post<Response>(`${baseUrl}savePosteUtilisateur`, user);
+    const obj = {
+      utilisateurID : user.utilisateurID,
+      posteID : user.poste.posteID,
+    }
+    console.log(obj);
+    return this.http.post<Response>(`${baseOccuperUrl}saveOccuper/utilisateur/${user.utilisateurID}/poste/${user.poste.posteID}`, obj);
   }
 }

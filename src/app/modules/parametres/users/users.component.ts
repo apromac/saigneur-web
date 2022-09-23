@@ -68,13 +68,14 @@ export class UsersComponent implements OnInit {
     this.userService.getAllUser().subscribe({
       next: (resp) => {
         console.log(resp);
-        this.allUsers = (resp as any as UsersModel[]).map((u) => {
+        this.isLoading = false;
+        this.allUsers = (resp as any as UsersModel[])/*.map((u) => {
             let user = u;
             user.postLabel = (u as any).profil?.libelleProfil;
             // user.postLabel = u.poste?.libellePoste
             return user;
           }
-        );
+        )*/;
       }, error: (err: HttpErrorResponse) => {
         this.toast.error(err.error.message, 'STATUS ' + err.status);
         console.error(err);
@@ -166,7 +167,9 @@ export class UsersComponent implements OnInit {
 
   savePoste(): void {
     console.log(this.posteFormGroupe);
-    this.userService.addPoste(this.posteFormGroupe.value).subscribe({
+    this.currentUser.poste = this.posteFormGroupe.value['poste'];
+    console.log(this.currentUser);
+    this.userService.addPoste(this.currentUser).subscribe({
       next: value => {
         console.log(value);
         this.getAllUser();

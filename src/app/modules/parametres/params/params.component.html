@@ -2,12 +2,16 @@
   <div class="col-lg-6 col-md-6 col-sm-12">
     <app-custom-table
       [header]="tableHeaderCampagne"
+      [searchList]="allCampagne"
       [menus]="getMenus()"
+      (actualiser)="getAllCampagne()"
       [tableHeader]="[
   'Libellé',
+  'Active'
   ]"
       [tableRow]="[
   'libelleCampagne',
+  {isIcon: true, libelle : 'statusVal'}
   ]"
       [tableData]="allCampagne"
     >
@@ -53,7 +57,7 @@
 <ng-template id="nwparams" #nwparams>
   <div class="modal-header">
     <h4 class="modal-title">Edition de parametre</h4>
-    <button type="button" (click)="close()" class="btn-close" aria-label="Close" ></button>
+    <button type="button" (click)="close()" class="btn-close" aria-label="Close"></button>
   </div>
   <div class="modal-body">
     <div class="row g-2">
@@ -62,12 +66,12 @@
         <label for="abbr">Abbréviation</label>
       </div>
     </div>
-   <div class="row g-2 mt-2">
-     <div class="form-floating">
-       <input type="text" class="form-control" id="labelparam" placeholder="Libellé paramètre" value="">
-       <label for="labelparam">Libellé parametre</label>
-     </div>
-   </div>
+    <div class="row g-2 mt-2">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="labelparam" placeholder="Libellé paramètre" value="">
+        <label for="labelparam">Libellé parametre</label>
+      </div>
+    </div>
 
     <div class="row g-2 mt-2">
       <div class="form-floating">
@@ -87,22 +91,33 @@
 <ng-template id="nwcp" #nwcp>
   <div class="modal-header">
     <h4 class="modal-title">Edition de campagne</h4>
-    <button type="button" (click)="close()" class="btn-close" aria-label="Close" ></button>
+    <button type="button" (click)="close()" class="btn-close" aria-label="Close"></button>
   </div>
- <form [formGroup]="fGrpCampagne">
-   <div class="modal-body">
-     <div class="row g-2">
-       <div class="form-floating">
-         <input type="text"
-                formControlName="libelleCampagne"
-                class="form-control" id="cp" placeholder="Libellé de la campagne" value="">
-         <label for="abbr">Libellé de la campagne</label>
-       </div>
-     </div>
-   </div>
-   <div class="modal-footer">
-     <button type="button" class="btn btn-outline-success" (click)="saveCampagne()">Enregistrer</button>
-     <button type="button" class="btn btn-outline-danger" (click)="close()">Fermer</button>
-   </div>
- </form>
+  <form [formGroup]="fGrpCampagne">
+    <div class="modal-body">
+      <div class="row g-2">
+        <div class="col-12">
+          <div class="form-floating">
+            <input type="text"
+                   formControlName="libelleCampagne"
+                   class="form-control" id="cp" placeholder="Libellé de la campagne" value="">
+            <label for="abbr">Libellé de la campagne</label>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-floating">
+            <input type="checkbox"
+                   formControlName="activeCampagne"
+                   class="form-check" id="cp" placeholder="Active" value="">
+            <label class="form-check-label" for="abbr">Active</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success" (click)="saveCampagne()">Enregistrer</button>
+      <button type="button" class="btn btn-outline-danger" (click)="close()">Fermer</button>
+    </div>
+  </form>
 </ng-template>

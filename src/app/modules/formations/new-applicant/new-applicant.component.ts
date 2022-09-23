@@ -1,6 +1,15 @@
 import {CdkStepper} from '@angular/cdk/stepper';
 import {HttpErrorResponse} from '@angular/common/http';
-import {AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment';
@@ -36,6 +45,8 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
   @ViewChild('cdkStepper') cdkStepper: CdkStepper;
   @Input() name;
   @ViewChild('instance', {static: true}) instance: NgbTypeahead;
+
+  @Output() inscriptionEnd = new EventEmitter<any>();
 
   localForm: FormGroup;
   _yearPickerCtrl: FormControl = new FormControl();
@@ -277,11 +288,13 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     this.candidatService.addCandidat(dataToSend).subscribe({
       next : value => {
         console.log(value);
-        this.toast.success('Candidat inscrit avec succès')
+        this.toast.success('Candidat inscrit avec succès');
+        this.inscriptionEnd.emit();
+        this.activeModal.dismiss();
       },
       error : (err : HttpErrorResponse)=>{
         console.log(err);
-        this.toast.error(err.message, 'STATUS ' + err.status);
+        this.toast.error(err.error.message, 'STATUS ' + err.status);
       }
     })
 

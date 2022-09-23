@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isSendig = false;
 
-  constructor(private fb: FormBuilder, private toast : ToastrService, private authService: UserService) {
+  constructor(private fb: FormBuilder, private toast: ToastrService, private authService: UserService) {
   }
 
   ngOnInit(): void {
@@ -40,6 +40,10 @@ export class LoginComponent implements OnInit {
 
   subMitForm($e): void {
     console.log($e);
+    if (!$e || $e && (!$e.username || !$e.password)) {
+      this.toast.error('Veuillez vérifier les champs');
+      return;
+    }
     this.isSendig = true;
     this.authService.auth($e).subscribe((resp) => {
       console.log(resp);
@@ -47,9 +51,9 @@ export class LoginComponent implements OnInit {
       location.assign('./');
       Utility.loggedUser = resp as any as UsersModel;
       console.log(Utility.loggedUser);
-      this.toast.success( 'Bienvenue ' + Utility.loggedUser.nomUtilisateur, 'Connecté')
+      this.toast.success('Bienvenue ' + Utility.loggedUser.nomUtilisateur, 'Connecté');
       this.isSendig = false;
-    }, (err : HttpErrorResponse) => {
+    }, (err: HttpErrorResponse) => {
       this.isSendig = false;
       this.toast.error(err.error.message, 'STATUS ' + err.status);
       // this.login();

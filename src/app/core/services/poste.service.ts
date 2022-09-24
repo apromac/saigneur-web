@@ -20,4 +20,7 @@ export class PosteService {
   getPosteByProfil(idProfil: number): Observable<Response> {
     return this.http.get<Response>(`${baseUrl}findByProfil/${idProfil}`);
   }
+  getDTOById(idPoste: number): Observable<Response> {
+    return this.http.get<Response>(`${baseUrl}findByPosteDTO/${idPoste}`);
+  }
 }

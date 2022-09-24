@@ -125,10 +125,7 @@ export class UsersComponent implements OnInit {
         click: (item) => {
           this.currentUser = item;
           this.getAllPost();
-
-          this.posteFormGroupe = this.fb.group({
-            poste: ['', Validators.required],
-          });
+          this.initPosteForm();
           document.getElementById('btnmodalposte').click();
           console.log(item);
         }
@@ -146,6 +143,40 @@ export class UsersComponent implements OnInit {
     ];
   }
 
+  initPosteForm(): void {
+    this.posteFormGroupe = this.fb.group({
+      poste: ['', Validators.required],
+      zoneOccuper: ['', Validators.required],
+      districtOccuper: ['', Validators.required],
+      motifOccuper: [''],
+      dateOccuper: ['', Validators.required],
+      utilisateur: '',
+    });
+    this.posteFormGroupe.reset();
+    this.posteFormGroupe.controls['utilisateur'].setValue(this.currentUser);
+
+    this.posteFormGroupe.controls['poste'].valueChanges.subscribe((v) => {
+      console.log(v);
+      if(!v) {
+        this.posteFormGroupe.controls['zoneOccuper'].setValue('');
+        this.posteFormGroupe.controls['districtOccuper'].setValue('');
+        return;
+      }
+      this.posteService.getDTOById(v.posteID).subscribe({
+        next: value => {
+          console.log(value);
+          const v = value as any;
+          this.posteFormGroupe.controls['zoneOccuper'].setValue(v.zoneBean);
+          this.posteFormGroupe.controls['districtOccuper'].setValue(v.districtBean);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error(err);
+          this.toast.error(err.error.message, 'STATUS ' + err.status);
+        }
+      });
+    });
+  }
+
   saveUser(): void {
     console.log(this.formGroup);
     this.userService.createUser(this.formGroup.value).subscribe({
@@ -159,7 +190,7 @@ export class UsersComponent implements OnInit {
         console.log(err);
         this.toast.error(err.error.message, 'STATUS' + err.status);
       },
-      complete : () => {
+      complete: () => {
 
       }
     });
@@ -168,8 +199,8 @@ export class UsersComponent implements OnInit {
   savePoste(): void {
     console.log(this.posteFormGroupe);
     this.currentUser.poste = this.posteFormGroupe.value['poste'];
-    console.log(this.currentUser);
-    this.userService.addPoste(this.currentUser).subscribe({
+    console.log(this.posteFormGroupe.value);
+    this.userService.addPoste(this.posteFormGroupe.value).subscribe({
       next: value => {
         console.log(value);
         this.getAllUser();
@@ -180,7 +211,7 @@ export class UsersComponent implements OnInit {
         console.log(err);
         this.toast.error(err.error.message, 'STATUS' + err.status);
       },
-      complete : () => {
+      complete: () => {
 
       }
     });

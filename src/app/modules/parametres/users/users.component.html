@@ -26,7 +26,7 @@
 <ng-template id="addposte" #addposte>
   <div class="modal-header">
     <h4 class="modal-title">Attribution de poste</h4>
-    <button type="button" (click)="close()" class="btn-close" aria-label="Close" ></button>
+    <button type="button" (click)="modalService.dismissAll()" class="btn-close" aria-label="Close" ></button>
   </div>
   <form [formGroup]="posteFormGroupe">
     <div class="modal-body">
@@ -44,9 +44,51 @@
           <label for="poste">Poste de l'utilisateur</label>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-6 mt-2">
+          <div class="form-floating">
+            <input formControlName="motifOccuper" type="text" class="form-control" id="description"
+                   placeholder="Entrez un motif pour cette attribution"
+                   value="">
+            <label for="description">Motif</label>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-2">
+          <div class="form-floating">
+            <input formControlName="dateOccuper" type="date" class="form-control" id="dateOccuper"
+                   placeholder="Date"
+                   value="">
+            <label for="dateOccuper">Date de poste</label>
+          </div>
+        </div>
+
+        <div *ngIf="posteFormGroupe && posteFormGroupe.controls['zoneOccuper'] && posteFormGroupe.controls['zoneOccuper'].value" class="col-md mt-2">
+          <div class="form-floating">
+            <!--                         [value]="posteSelected?.libelleZone"-->
+            <input formControlName="zoneOccuper"
+                   readonly type="text" class="form-control" id="Departement"
+                   placeholder="Zone du poste"
+                   value="Zone">
+            <label for="Departement">Zone</label>
+          </div>
+        </div>
+
+        <div class="col-md mt-2" *ngIf="posteFormGroupe && posteFormGroupe.controls['districtOccuper'] && posteFormGroupe.controls['districtOccuper'].value" >
+          <div class="form-floating">
+            <!--                         [value]="posteSelected?.district?.libelleDistrict"-->
+            <input formControlName="districtOccuper" readonly type="text" class="form-control" id="District"
+                   placeholder="District"
+                   value="District">
+            <label for="District">District</label>
+          </div>
+        </div>
+
+      </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-success" (click)="savePoste()">Attribuer</button>
+      <button type="submit"  class="btn btn-outline-success" (click)="savePoste()">Attribuer</button>
       <button type="button" class="btn btn-outline-danger" (click)="modalService.dismissAll()">Fermer</button>
     </div>
   </form>

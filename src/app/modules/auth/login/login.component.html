@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="container-login100-form-btn g-2 m-2 p-b-2">
-          <button [disabled]="isSendig" type="button" (click)="subMitForm(loginForm.value)" class="login100-form-btn">
+          <button [disabled]="isSendig" type="submit" (click)="subMitForm(loginForm.value)" class="login100-form-btn">
             <span *ngIf="!isSendig">Se connecter</span>
             <span *ngIf="isSendig">Connexion en cours</span>
             <span *ngIf="isSendig" class="spinner-grow ml-3" role="status">

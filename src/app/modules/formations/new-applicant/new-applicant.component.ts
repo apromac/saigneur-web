@@ -11,7 +11,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {NgbActiveModal, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment';
 import {ToastrService} from 'ngx-toastr';
 import {
@@ -32,6 +32,7 @@ import {PosteService} from '../../../core/services/poste.service';
 import {ZoneService} from '../../../core/services/zone.service';
 import {Campagne} from '../../../data/schemas/campagne';
 import {Candidat} from '../../../data/schemas/candidat';
+import {InscriptionModel} from '../../../data/schemas/inscription.model';
 import {Params} from '../../../data/schemas/params';
 import {PosteModel} from '../../../data/schemas/poste.model';
 import {ZoneApromac} from '../../../data/schemas/zone-apromac';
@@ -44,12 +45,14 @@ import {ZoneApromac} from '../../../data/schemas/zone-apromac';
 export class NewApplicantComponent implements OnInit, AfterViewInit {
   @ViewChild('cdkStepper') cdkStepper: CdkStepper;
   @Input() name;
+  @Input() campagne: Campagne;
+  @Input() allCandidat: Candidat[] = [];
   @ViewChild('instance', {static: true}) instance: NgbTypeahead;
 
   @Output() inscriptionEnd = new EventEmitter<any>();
 
-  localForm: FormGroup;
   _yearPickerCtrl: FormControl = new FormControl();
+  localForm: FormGroup;
   idForm: FormGroup;
   trainingForm: FormGroup;
   jobForm: FormGroup;
@@ -122,6 +125,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       distinctUntilChanged(),
       tap(() => this.searchingCdt = true),
       switchMap(term =>
+        // new Observable().pipe()
         this.candidatService.search(term).pipe(
           tap(() => this.searchCdtFailed = false),
           catchError(() => {
@@ -136,6 +140,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
 
   constructor(public activeModal: NgbActiveModal,
               private fb: FormBuilder,
+              private modalService: NgbModal,
               private zoneService: ZoneService,
               private paramsService: ParamsService,
               private posteService: PosteService,
@@ -145,33 +150,19 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.fetchCombosData();
-
+    console.log('Campagne====>', this.campagne);
     this.initForm();
     this.localForm.controls['poste'].valueChanges.subscribe((val) => {
-      this.posteSelected = this.listPostes.find((p) => p.posteID == val);
+      this.posteChange(val);
+
+      // this.posteSelected = this.listPostes.find((p) => p.posteID == val);
       console.log(this.localForm);
-      // this.localForm.controls['zone'].setValue(this.posteSelected.zoneID);
-      // this.localForm.controls['district'].setValue(this.posteSelected.district.districtID);
+
     });
+    // this.activeModal.
   }
 
   fetchCombosData() {
-    /**
-     * fill Zone
-     */
-    this.zoneService.getAllZone().subscribe({
-      next: (resp) => {
-        console.log(resp);
-        this.listZone = (resp as any as ZoneApromac[]);
-      },
-      error: (err) => {
-        console.error(err);
-      },
-      complete: () => {
-        console.log('complete');
-      }
-    });
-
     /**
      * motivation
      */
@@ -202,15 +193,34 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     });
   }
 
+  getLieuResidence(idDistrict): void {
+    /**
+     * fill Zone
+     */
+    this.zoneService.getAllZone().subscribe({
+    // this.zoneService.getAllZoneByDistrict(idDistrict).subscribe({
+      next: (resp) => {
+        console.log(resp);
+        this.listZone = (resp as any as ZoneApromac[]);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+      complete: () => {
+        console.log('complete');
+      }
+    });
+
+  }
   initForm(): void {
 
     this.localForm = this.fb.group({
       poste: ['', [Validators.required]],
       nom: [''],
       prenom: [''],
-      zone: ['', [Validators.required]],
-      district: ['', [Validators.required]],
-      numero: [''],
+      zoneInscription: ['', [Validators.required]],
+      districtInscription: ['', [Validators.required]],
+      // numero: [''],
     });
 
 
@@ -231,10 +241,17 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     });
 
 
-    // this.trainingForm.reset();
+    this.trainingForm = this.fb.group({
+      isFormer : [false],
+      structureFormer : [0],
+      periodeFormation : ['', Validators.required],
+      miseEnApplication : [false],
+    });
     //
     //
-    // this.jobForm.reset();
+    this.jobForm = this.fb.group({
+
+    });
     //
     //
     // this.motivationForm.reset();
@@ -281,22 +298,41 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     this.typePiece = $e;
   }
 
+  posteChange(id): void {
+    this.posteService.getLocaliteByTDH(id).subscribe({
+      next: (value : any) => {
+        // this.posteSelected = value as any as PosteModel;
+        console.log(this.posteSelected, value);
+        this.localForm.controls['zoneInscription'].setValue(value.zoneTDH);
+        this.localForm.controls['districtInscription'].setValue(value.districtTDH);
+        this.getLieuResidence('');
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
+        this.toast.error(err.error.message, 'STATUS ' + err.status);
+      }
+    });
+  }
+
   saveForms(): void {
     console.log(this.idForm.value, this.localForm.value);
     let dataToSend = this.idForm.value;
     // Object.assign(dataToSend, ...this.localForm.value)
-    this.candidatService.addCandidat(dataToSend).subscribe({
-      next : value => {
+    let inscription = new InscriptionModel();
+    inscription.campagne = this.campagne;
+    inscription.candidat = this.idForm.value;
+    this.candidatService.addCandidat(inscription).subscribe({
+      next: value => {
         console.log(value);
         this.toast.success('Candidat inscrit avec succès');
-        this.inscriptionEnd.emit();
-        this.activeModal.dismiss();
+        this.inscriptionEnd.emit(true);
+        this.activeModal.dismiss(true);
       },
-      error : (err : HttpErrorResponse)=>{
+      error: (err: HttpErrorResponse) => {
         console.log(err);
         this.toast.error(err.error.message, 'STATUS ' + err.status);
       }
-    })
+    });
 
     // console.log(dataToSend);
   }

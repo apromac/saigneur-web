@@ -12,6 +12,7 @@ import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-heade
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
 import {Campagne} from '../../../data/schemas/campagne';
 import {Candidat} from '../../../data/schemas/candidat';
+import {InscriptionModel} from '../../../data/schemas/inscription.model';
 import {NewApplicantComponent} from '../new-applicant/new-applicant.component';
 import DismissReason from 'sweetalert2';
 
@@ -39,6 +40,8 @@ export class ApplicantsComponent implements OnInit {
   allCampagnes: Campagne[] = [];
   allApplicants: Candidat[] = [];
   campagneSelected: Campagne;
+  currentApplicant: Candidat;
+  inscription: InscriptionModel;
 
   isLoading = false;
   constructor(private modalService: NgbModal, private offcanvasService: NgbOffcanvas,
@@ -78,8 +81,10 @@ export class ApplicantsComponent implements OnInit {
     });
   }
 
-  comboCampagneChange(val: any): void {
-    this.campagneSelected = this.allCampagnes.find((c) => c.campagneID === val);
+  comboCampagneChange(val: number): void {
+    this.campagneSelected = this.allCampagnes.find((c) => c.campagneID == val);
+    console.log(val, this.campagneSelected);
+    // this.campagneSelected = val
     this.title = this.campagneSelected.libelleCampagne;
     this.tableHeader.title = this.title;
     this.getListApplicant();
@@ -111,9 +116,16 @@ export class ApplicantsComponent implements OnInit {
   }
 
   startInscription(): void {
-
+    if(!this.campagneSelected) {
+      this.campagneSelected = this.allCampagnes[0];
+    }
     const modalRef = this.modalService.open(NewApplicantComponent, {centered: true, size: 'lg', backdrop: 'static'});
-    modalRef.componentInstance.name = 'World';
+    modalRef.componentInstance.campagne = this.campagneSelected;
+    modalRef.componentInstance.inscriptionEnd.subscribe((hasSaved)=>{
+      if(hasSaved) {
+        this.getListApplicant();
+      }
+    });
 
     // Swal.fire({
     //   title: 'INSCRIPTION D\'UN CANDIDAT',
@@ -163,7 +175,11 @@ export class ApplicantsComponent implements OnInit {
         color: 'green',
         icon: 'edit',
         click: (item) => {
-          console.log(item);
+          this.currentApplicant = item;
+          const modalRef = this.modalService.open(NewApplicantComponent, {centered: true, size: 'lg', backdrop: 'static'});
+          modalRef.componentInstance.campagne = this.campagneSelected;
+          modalRef.componentInstance.inscription = this.currentApplicant;
+          modalRef.componentInstance.allCandidat = this.allApplicants;
         }
       },
       {
@@ -173,6 +189,15 @@ export class ApplicantsComponent implements OnInit {
         icon: 'delete',
         click: (item) => {
           console.log(item);
+          this.candidatService.removeCandidat(item).subscribe({
+            next: value => {
+              this.toast.success('Candidat supprimé avec succès');
+            },
+            error : (err: HttpErrorResponse)=>{
+              console.log(err);
+              this.toast.error(err.error.message, 'STATUS ' + err.status);
+            }
+          })
         }
       }
     ];

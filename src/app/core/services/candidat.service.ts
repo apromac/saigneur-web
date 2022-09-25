@@ -3,8 +3,10 @@ import { Injectable } from '@angular/core';
 import {map, Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {Candidat} from '../../data/schemas/candidat';
+import {InscriptionModel} from '../../data/schemas/inscription.model';
 
 const baseUrl  = `${environment.apiCandidatUrl}candidat/`
+const baseUrlInscription  = `${environment.apiCandidatUrl}inscription/`
 const PARAMS = new HttpParams({
   fromObject: {
     action: 'opensearch',
@@ -41,8 +43,11 @@ export class CandidatService {
       );
   }
 
-  addCandidat(cdt: Candidat): Observable<Response> {
-    return this.http.post<Response>(`${baseUrl}saveCandidat`, cdt);
+  addCandidat(cdt: InscriptionModel): Observable<Response> {
+    return this.http.post<Response>(`${baseUrlInscription}saveCandidat`, cdt);
+  }
 
+  removeCandidat(idCandidat): Observable<Response> {
+    return this.http.get<Response>(`${baseUrlInscription}deleteCandidat/${idCandidat}`);
   }
 }

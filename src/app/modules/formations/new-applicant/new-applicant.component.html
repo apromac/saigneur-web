@@ -1,6 +1,6 @@
 <div class="modal-header">
-  <h4 class="modal-title">Edition du Candidat pour Campagne 2022</h4>
-  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+  <h4 class="modal-title">Edition du Candidat pour {{campagne.libelleCampagne}}</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss(false)"></button>
 </div>
 <div class="modal-body h-50">
   <ng-stepper #cdkStepper [linear]="true">
@@ -26,7 +26,7 @@
 
 <!--                </ng-select>-->
 
-                <select [value]="0" formControlName="poste" class="form-select" id="tdh" aria-label="TDH">
+                <select  [value]="0" formControlName="poste" class="form-select" id="tdh" aria-label="TDH">
                   <option [value]="p.posteID" *ngFor="let p of listPostes">{{p.libellePoste}}</option>
                   <option value="" *ngIf="!listPostes || listPostes && listPostes.length ===0">Aucun poste trouvé</option>
                 </select>
@@ -55,7 +55,7 @@
               <div class="col-md-6 mt-2">
                 <div class="form-floating">
 <!--                         [value]="posteSelected?.libelleZone"-->
-                  <input formControlName="zone"
+                  <input formControlName="zoneInscription"
                          readonly type="text" class="form-control" id="Departement"
                          placeholder="Zone du TDH"
                          value="Zone">
@@ -66,21 +66,21 @@
               <div class="col-md-6 mt-2">
                 <div class="form-floating">
 <!--                         [value]="posteSelected?.district?.libelleDistrict"-->
-                  <input formControlName="district" readonly type="text" class="form-control" id="District"
+                  <input formControlName="districtInscription" readonly type="text" class="form-control" id="District"
                          placeholder="District"
                          value="District">
                   <label for="District">District</label>
                 </div>
               </div>
 
-              <div class="col-md-12 mt-2">
-                <div class="form-floating">
-                  <input formControlName="numero" readonly type="text" class="form-control text-danger" id="numero"
-                         placeholder="Numéro"
-                         value="Numéro">
-                  <label class="text-primary" for="nametdh">Numéro du candidat</label>
-                </div>
-              </div>
+<!--              <div class="col-md-12 mt-2">-->
+<!--                <div class="form-floating">-->
+<!--                  <input formControlName="numero" readonly type="text" class="form-control text-danger" id="numero"-->
+<!--                         placeholder="Numéro"-->
+<!--                         value="Numéro">-->
+<!--                  <label class="text-primary" for="nametdh">Numéro du candidat</label>-->
+<!--                </div>-->
+<!--              </div>-->
             </div>
 
 
@@ -88,7 +88,9 @@
         </div>
         <!--        <button type="button" class="btn btn-outline-success" (click)="activeModal.close('Close click')">Enregistrer</button>-->
         <hr>
-        <button type="button" class="btn btn-outline-secondary" cdkStepperNext>Suivant</button>
+        <div class="text-right">
+          <button type="button" class="btn btn-outline-secondary" cdkStepperNext>Suivant</button>
+        </div>
       </div>
     </cdk-step>
 
@@ -314,11 +316,12 @@
       <div #stepFour>
         <hr>
 
+      <form [formGroup]="trainingForm">
         <div class="tab-pane border p-2" style="min-height: 53vh !important;">
           <div class="row g-2 mt-2 mb-2">
             <div class="col-md">
               <div class="form-check form-switch">
-                <input role="switch" id="forme" (change)="alreadyTrainedChange($event.srcElement.checked)"
+                <input formControlName="isFormer" role="switch" id="forme" (change)="alreadyTrainedChange($event.srcElement.checked)"
                        type="checkbox" class="form-check-input">
                 <label for="forme">Déjà formé au métier de saigneur?</label>
               </div>
@@ -331,7 +334,7 @@
                 <div class="form-floating">
                   <!--                 <input type="text" class="form-control" id="structureformation" placeholder="Par quelle structure?"-->
                   <!--                        value="">-->
-                  <select class="form-select" id="structureformation"
+                  <select formControlName="structureFormer" class="form-select" id="structureformation"
                           aria-label="Structure">
                     <option value="0" selected>APROMAC</option>
                     <option value="1" >FIRCA</option>
@@ -355,7 +358,7 @@
                   <!--                    showWeekNumbers: false }"-->
                   <!--                         (bsValueChange)="getRangeDate($event)"-->
                   <!--                         class="form-control" id="periodeformation" placeholder="Période de Formation" value="">-->
-                  <input type="text" class="form-control" id="periodeformation" placeholder="Periode de formation"
+                  <input formControlName="periodeFormation" type="text" class="form-control" id="periodeformation" placeholder="Periode de formation"
                          value="">
                   <label for="periodeformation">Période de Formation</label>
                 </div>
@@ -364,7 +367,7 @@
             <div class="row g-2 pt-2">
               <div class="col-md">
                 <div class="form-check form-switch">
-                  <input (change)="trainedAndPractice($event.srcElement.checked)" id="trained" type="checkbox"
+                  <input formControlName="miseEnApplication" (change)="trainedAndPractice($event.srcElement.checked)" id="trained" type="checkbox"
                          class="form-check-input">
                   <label class="form-check-label" for="trained">Formation mise en application?</label>
                 </div>
@@ -451,6 +454,7 @@
           </div>
 
         </div>
+      </form>
         <hr>
         <div class="row">
           <div class="col-md">

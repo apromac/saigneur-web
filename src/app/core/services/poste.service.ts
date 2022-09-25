@@ -4,7 +4,8 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 
 const baseUrl = environment.apiUserUrl + 'poste/';
-
+const baseUrlLocalite = environment.apiCandidatUrl + 'localite/';
+// localite/findByPosteTDH
 @Injectable({
   providedIn: 'root'
 })
@@ -22,5 +23,9 @@ export class PosteService {
   }
   getDTOById(idPoste: number): Observable<Response> {
     return this.http.get<Response>(`${baseUrl}findByPosteDTO/${idPoste}`);
+  }
+
+  getLocaliteByTDH(idPoste: number): Observable<Response> {
+    return this.http.get<Response>(`${baseUrlLocalite}findByPosteTDH/${idPoste}`);
   }
 }

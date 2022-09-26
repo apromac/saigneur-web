@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">Edition du Candidat pour {{campagne.libelleCampagne}}</h4>
+  <h4 class="modal-title">Edition candidat </h4>
   <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss(false)"></button>
 </div>
 <div class="modal-body h-50">
@@ -16,19 +16,20 @@
           <form [formGroup]="localForm">
             <div class="col-md-12 p-0 m-0 ">
               <div class="form-floating">
-<!--                <ng-select-->
-<!--                  [items]="listPostes"-->
-<!--                  formControlName="poste"-->
-<!--                  placeholder="Sélectionner un poste"-->
-<!--                  bindLabel="libellePoste"-->
-<!--                  class="form-select"-->
-<!--                  id="poste">-->
+                <!--                <ng-select-->
+                <!--                  [items]="listPostes"-->
+                <!--                  formControlName="poste"-->
+                <!--                  placeholder="Sélectionner un poste"-->
+                <!--                  bindLabel="libellePoste"-->
+                <!--                  class="form-select"-->
+                <!--                  id="poste">-->
 
-<!--                </ng-select>-->
+                <!--                </ng-select>-->
 
-                <select  [value]="0" formControlName="poste" class="form-select" id="tdh" aria-label="TDH">
+                <select [value]="0" formControlName="poste" class="form-select" id="tdh" aria-label="TDH">
                   <option [value]="p.posteID" *ngFor="let p of listPostes">{{p.libellePoste}}</option>
-                  <option value="" *ngIf="!listPostes || listPostes && listPostes.length ===0">Aucun poste trouvé</option>
+                  <option value="" *ngIf="!listPostes || listPostes && listPostes.length ===0">Aucun poste trouvé
+                  </option>
                 </select>
                 <label for="sexe">Poste du TDH</label>
               </div>
@@ -54,7 +55,7 @@
             <div class="row">
               <div class="col-md-6 mt-2">
                 <div class="form-floating">
-<!--                         [value]="posteSelected?.libelleZone"-->
+                  <!--                         [value]="posteSelected?.libelleZone"-->
                   <input formControlName="zoneInscription"
                          readonly type="text" class="form-control" id="Departement"
                          placeholder="Zone du TDH"
@@ -65,7 +66,7 @@
 
               <div class="col-md-6 mt-2">
                 <div class="form-floating">
-<!--                         [value]="posteSelected?.district?.libelleDistrict"-->
+                  <!--                         [value]="posteSelected?.district?.libelleDistrict"-->
                   <input formControlName="districtInscription" readonly type="text" class="form-control" id="District"
                          placeholder="District"
                          value="District">
@@ -73,14 +74,14 @@
                 </div>
               </div>
 
-<!--              <div class="col-md-12 mt-2">-->
-<!--                <div class="form-floating">-->
-<!--                  <input formControlName="numero" readonly type="text" class="form-control text-danger" id="numero"-->
-<!--                         placeholder="Numéro"-->
-<!--                         value="Numéro">-->
-<!--                  <label class="text-primary" for="nametdh">Numéro du candidat</label>-->
-<!--                </div>-->
-<!--              </div>-->
+              <!--              <div class="col-md-12 mt-2">-->
+              <!--                <div class="form-floating">-->
+              <!--                  <input formControlName="numero" readonly type="text" class="form-control text-danger" id="numero"-->
+              <!--                         placeholder="Numéro"-->
+              <!--                         value="Numéro">-->
+              <!--                  <label class="text-primary" for="nametdh">Numéro du candidat</label>-->
+              <!--                </div>-->
+              <!--              </div>-->
             </div>
 
 
@@ -103,198 +104,208 @@
 
         <ng-template #cdtTemplate let-r="result" let-t="term">
           <!--          <img alt="" [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px"/>-->
-<!--          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>-->
-          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+          <!--          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>-->
+          <!--          <label>{{r.nomCandidat}}</label>-->
+          <a class="list-group-item">
+            <ngb-highlight class="list-group-item-heading" [result]="r.nomCandidat" [term]="t"></ngb-highlight>
+            <p class="list-group-item-text">{{r.prenomsCandidat}}</p>
+          </a>
+
         </ng-template>
 
 
         <hr>
-       <form [formGroup]="idForm">
-         <div class="tab-pane border p-2">
-           <div class="row g-2">
-             <div class="col-md">
-               <div class="form-floating">
-                 <input [class.is-invalid]="idForm.controls['nomCandidat'].invalid
+        <form [formGroup]="idForm">
+          <div class="tab-pane border p-2">
+            <div class="row g-2">
+              <div class="col-md">
+                <div class="form-floating">
+                  <!--                 [inputFormatter]="applicantFormater"-->
+                  <!--                 [resultTemplate]="cdtTemplate"-->
+                  <!--[ngbTypeahead]="searchUser"-->
+                  <input [class.is-invalid]="idForm.controls['nomCandidat'].invalid
                  && idForm.controls['nomCandidat'].touched
                  "
-                        [ngbTypeahead]="searchUser"
-                        type="text" class="form-control"
-                        formControlName="nomCandidat"
-                        id="name" placeholder="Nom" value=""
-                        [resultTemplate]="cdtTemplate"
-                 >
-                 <label for="name">Nom</label>
-               </div>
-             </div>
+                         type="text" class="form-control"
+                         formControlName="nomCandidat"
+                         id="name" placeholder="Nom" value=""
+                  >
+                  <label for="name">Nom</label>
+                </div>
+              </div>
 
-             <div class="col-md">
-               <div class="form-floating">
-                 <input type="text"
-                        [class.is-invalid]="idForm.controls['prenomsCandidat'].invalid
+              <div class="col-md">
+                <div class="form-floating">
+                  <input type="text"
+                         [class.is-invalid]="idForm.controls['prenomsCandidat'].invalid
                  && idForm.controls['prenomsCandidat'].touched
                  "
-                        formControlName="prenomsCandidat"
-                        class="form-control" id="surname" placeholder="Prénoms" value="">
-                 <label for="surname">Prénoms</label>
-               </div>
-             </div>
+                         formControlName="prenomsCandidat"
+                         class="form-control" id="surname" placeholder="Prénoms" value="">
+                  <label for="surname">Prénoms</label>
+                </div>
+              </div>
 
-             <div class="row g-2">
-               <div class="col-md">
-                 <div class="form-floating">
-                   <select formControlName="genreCandidat"
-                           [class.is-invalid]="idForm.controls['genreCandidat'].invalid
+              <div class="row g-2">
+                <div class="col-md">
+                  <div class="form-floating">
+                    <select formControlName="genreCandidat"
+                            [class.is-invalid]="idForm.controls['genreCandidat'].invalid
                  && idForm.controls['genreCandidat'].touched
                  "
-                           class="form-select" id="sexe" aria-label="Sexe">
-                     <option value="0" selected>Masculin</option>
-                     <option value="1">Féminin</option>
-                   </select>
-                   <label for="sexe">Genre du candidat</label>
-                 </div>
-               </div>
+                            class="form-select" id="sexe" aria-label="Sexe">
+                      <option value="0" selected>Masculin</option>
+                      <option value="1">Féminin</option>
+                    </select>
+                    <label for="sexe">Genre du candidat</label>
+                  </div>
+                </div>
 
-               <div class="col-md">
-                 <div class="form-floating">
-                   <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
-                   <input [max]="maxBirthday" type="date" class="form-control" id="birthday"
-                          placeholder="Date de naissance"
-                          formControlName="dateNaisCandidat"
-                          value="01/01/2000">
-                   <label for="birthday">Date de naissance</label>
-                 </div>
-               </div>
-
-
-               <div class="col-md">
-                 <div class="form-floating">
-                   <input type="text"
-                          formControlName="lieuNaisCandidat"
-                          class="form-control" id="birthplace" placeholder="Lieu de naissance" value="">
-                   <label for="birthplace">Lieu de Naissance</label>
-                 </div>
-               </div>
-
-             </div>
-
-             <div class="row g-2">
-               <div class="col-md">
-
-                 <div class="form-floating">
-                   <select formControlName="niveauEtudeCandidat" class="form-select" id="level" aria-label="Level">
-                     <option value="0" selected>Aucun</option>
-                     <option value="1">Primaire</option>
-                     <option value="2">Secondaire</option>
-                     <option value="3">Supérieur</option>
-                   </select>
-                   <label for="level">Niveau d'étude </label>
-                 </div>
-
-                 <!--                -->
-                 <!--                <div class="form-floating">-->
-                 <!--                  <input type="text" class="form-control" id="level" placeholder="Niveau d'étude" value="">-->
-                 <!--                </div>-->
-               </div>
-
-               <div class="col-md">
-
-                 <div class="form-floating">
-                   <select formControlName="metierActuelCandidat" class="form-select" id="job" aria-label="job">
-                     <option value="0" selected>Actif agricole</option>
-                     <option value="1">Actif non agricole</option>
-                     <option value="2">Artisant</option>
-                   </select>
-                   <label for="job">Métier actuel</label>
-                 </div>
+                <div class="col-md">
+                  <div class="form-floating">
+                    <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
+                    <input [max]="maxBirthday" type="date" class="form-control" id="birthday"
+                           placeholder="Date de naissance"
+                           formControlName="dateNaisCandidat"
+                           value="01/01/2000">
+                    <label for="birthday">Date de naissance</label>
+                  </div>
+                </div>
 
 
-                 <!--                <div class="form-floating">-->
-                 <!--                  &lt;!&ndash;             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>&ndash;&gt;-->
-                 <!--                  <input type="text" class="form-control" id="job" placeholder="Métier actuel" value="">-->
-                 <!--                  <label for="job">Métier actuel</label>-->
-                 <!--                </div>-->
-               </div>
+                <div class="col-md">
+                  <div class="form-floating">
+                    <input type="text"
+                           formControlName="lieuNaisCandidat"
+                           class="form-control" id="birthplace" placeholder="Lieu de naissance" value="">
+                    <label for="birthplace">Lieu de Naissance</label>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row g-2">
+                <div class="col-md">
+
+                  <div class="form-floating">
+                    <select formControlName="niveauEtudeCandidat" class="form-select" id="level" aria-label="Level">
+                      <option value="0" selected>Aucun</option>
+                      <option value="1">Primaire</option>
+                      <option value="2">Secondaire</option>
+                      <option value="3">Supérieur</option>
+                    </select>
+                    <label for="level">Niveau d'étude </label>
+                  </div>
+
+                  <!--                -->
+                  <!--                <div class="form-floating">-->
+                  <!--                  <input type="text" class="form-control" id="level" placeholder="Niveau d'étude" value="">-->
+                  <!--                </div>-->
+                </div>
+
+                <div class="col-md">
+
+                  <div class="form-floating">
+                    <select formControlName="metierActuelCandidat" class="form-select" id="job" aria-label="job">
+                      <option value="0" selected>Actif agricole</option>
+                      <option value="1">Actif non agricole</option>
+                      <option value="2">Artisant</option>
+                    </select>
+                    <label for="job">Métier actuel</label>
+                  </div>
 
 
-               <div class="col-md">
-                 <div class="form-floating">
-                   <!--                  <input type="text" class="form-control" id="home" placeholder="Lieu de résidence" value="">-->
-<!--                           [value]="posteSelected?.zoneID"-->
-                   <select formControlName="lieuResidCandidat" class="form-select" id="home"
-                           aria-label="Lieu de résidence">
-                     <option *ngFor="let zone of listZone" [value]="zone.zoneID">{{zone.libelleZone}}</option>
-                   </select>
-                   <label for="home">Lieu de résidence</label>
-                 </div>
-               </div>
-
-             </div>
-
-             <div class="row g-2">
-               <div class="col-md">
-                 <div class="form-floating">
-                   <input
-                     formControlName="distanceEcoleCandidat"
-                     type="number" [min]="0" class="form-control" id="distance"
-                          placeholder="Distance par rapport à l'école " value="">
-                   <label for="level">Distance par rapport à l'école </label>
-                 </div>
-               </div>
-
-               <div class="col-md">
-                 <div class="form-floating">
-                   <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
-                   <input formControlName="premierContactCandidat" type="tel" class="form-control" id="contact" placeholder="Ex : +225 0123456789" value="">
-                   <label for="contact">Contacts</label>
-                 </div>
-               </div>
+                  <!--                <div class="form-floating">-->
+                  <!--                  &lt;!&ndash;             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>&ndash;&gt;-->
+                  <!--                  <input type="text" class="form-control" id="job" placeholder="Métier actuel" value="">-->
+                  <!--                  <label for="job">Métier actuel</label>-->
+                  <!--                </div>-->
+                </div>
 
 
-               <div class="col-md">
-                 <div class="form-floating">
-                   <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
-                   <input formControlName="secondContactCandidat" type="tel" class="form-control" id="morecontact" placeholder="Ex : +225 0123456789" value="">
-                   <label for="morecontact">Autres contacts</label>
-                 </div>
-               </div>
+                <div class="col-md">
+                  <div class="form-floating">
+                    <!--                  <input type="text" class="form-control" id="home" placeholder="Lieu de résidence" value="">-->
+                    <!--                           [value]="posteSelected?.zoneID"-->
+                    <select formControlName="lieuResidCandidat" class="form-select" id="home"
+                            aria-label="Lieu de résidence">
+                      <option *ngFor="let zone of listZone" [value]="zone.zoneID">{{zone.libelleZone}}</option>
+                    </select>
+                    <label for="home">Lieu de résidence</label>
+                  </div>
+                </div>
 
-             </div>
+              </div>
 
-             <div class="row g-2">
-               <div class="col-md">
-                 <div class="form-floating">
-                   <select formControlName="typePieceCandidat" (change)="typePieceChange($event.target.value)" class="form-select" id="typepiece"
-                           aria-label="Type de pièce">
-                     <option value="0" selected>Carte Nationale d'Identité</option>
-                     <option value="1">Attestation d'identité</option>
-                     <option value="2">Passeport</option>
-                     <option value="3">Carte consulaire</option>
-                     <option value="4">Extrait de naissance</option>
-                     <option value="5">Carte scolaire</option>
-                   </select>
-                   <label for="sexe">Type de pièce</label>
-                 </div>
-               </div>
+              <div class="row g-2">
+                <div class="col-md">
+                  <div class="form-floating">
+                    <input
+                      formControlName="distanceEcoleCandidat"
+                      type="number" [min]="0" class="form-control" id="distance"
+                      placeholder="Distance par rapport à l'école " value="">
+                    <label for="level">Distance par rapport à l'école </label>
+                  </div>
+                </div>
 
-               <div class="col-md animated fadeInUp" *ngIf="typePiece === 'autre'">
-                 <div class="form-floating">
-                   <input type="text" class="form-control" id="otherdoc" placeholder="Autre pièce" value="">
-                   <label for="otherdoc">Préciser le type de document</label>
-                 </div>
-               </div>
+                <div class="col-md">
+                  <div class="form-floating">
+                    <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
+                    <input formControlName="premierContactCandidat" type="tel" class="form-control" id="contact"
+                           placeholder="Ex : +225 0123456789" value="">
+                    <label for="contact">Contacts</label>
+                  </div>
+                </div>
 
-               <div class="col-md">
-                 <div class="form-floating">
-                   <input formControlName="numeroPieceCandidat" type="text" class="form-control" id="numpiece" placeholder="Numéro de pièce" value="">
-                   <label for="numpiece">Numéro de pièce</label>
-                 </div>
-               </div>
 
-             </div>
-           </div>
+                <div class="col-md">
+                  <div class="form-floating">
+                    <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
+                    <input formControlName="secondContactCandidat" type="tel" class="form-control" id="morecontact"
+                           placeholder="Ex : +225 0123456789" value="">
+                    <label for="morecontact">Autres contacts</label>
+                  </div>
+                </div>
 
-         </div>
-       </form>
+              </div>
+
+              <div class="row g-2">
+                <div class="col-md">
+                  <div class="form-floating">
+                    <select formControlName="typePieceCandidat" (change)="typePieceChange($event.target.value)"
+                            class="form-select" id="typepiece"
+                            aria-label="Type de pièce">
+                      <option value="0" selected>Carte Nationale d'Identité</option>
+                      <option value="1">Attestation d'identité</option>
+                      <option value="2">Passeport</option>
+                      <option value="3">Carte consulaire</option>
+                      <option value="4">Extrait de naissance</option>
+                      <option value="5">Carte scolaire</option>
+                    </select>
+                    <label for="sexe">Type de pièce</label>
+                  </div>
+                </div>
+
+                <div class="col-md animated fadeInUp" *ngIf="typePiece === 'autre'">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="otherdoc" placeholder="Autre pièce" value="">
+                    <label for="otherdoc">Préciser le type de document</label>
+                  </div>
+                </div>
+
+                <div class="col-md">
+                  <div class="form-floating">
+                    <input formControlName="numeroPieceCandidat" type="text" class="form-control" id="numpiece"
+                           placeholder="Numéro de pièce" value="">
+                    <label for="numpiece">Numéro de pièce</label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </form>
         <hr>
         <div class="row">
           <div class="col-md">
@@ -316,145 +327,150 @@
       <div #stepFour>
         <hr>
 
-      <form [formGroup]="trainingForm">
-        <div class="tab-pane border p-2" style="min-height: 53vh !important;">
-          <div class="row g-2 mt-2 mb-2">
-            <div class="col-md">
-              <div class="form-check form-switch">
-                <input formControlName="isFormer" role="switch" id="forme" (change)="alreadyTrainedChange($event.srcElement.checked)"
-                       type="checkbox" class="form-check-input">
-                <label for="forme">Déjà formé au métier de saigneur?</label>
-              </div>
-            </div>
-          </div>
-          <div *ngIf="trained" class="animated fadeInUp">
-            <div class="row">
-              <div class="col-md ">
-                <!--        <div class="col-md animated fadeInUp" *ngIf="typePiece === 'autre'">-->
-                <div class="form-floating">
-                  <!--                 <input type="text" class="form-control" id="structureformation" placeholder="Par quelle structure?"-->
-                  <!--                        value="">-->
-                  <select formControlName="structureFormer" class="form-select" id="structureformation"
-                          aria-label="Structure">
-                    <option value="0" selected>APROMAC</option>
-                    <option value="1" >FIRCA</option>
-                    <option value="2">ANADER</option>
-                    <!--                   <option value="attestation">Classique</option>-->
-                    <!--                   <option value="passport">PLP</option>-->
-                  </select>
-                  <label for="structureformation">Par quelle structure?</label>
-                </div>
-              </div>
-
-              <div class="col-md">
-                <div class="form-floating">
-                  <!--                  <input bsDatepicker-->
-                  <!--                         [bsConfig]="{-->
-                  <!--                 dateInputFormat: 'YYYY',-->
-
-                  <!--                    isAnimated: true,-->
-                  <!--                    adaptivePosition: true,-->
-                  <!--                    containerClass: 'theme-primary',-->
-                  <!--                    showWeekNumbers: false }"-->
-                  <!--                         (bsValueChange)="getRangeDate($event)"-->
-                  <!--                         class="form-control" id="periodeformation" placeholder="Période de Formation" value="">-->
-                  <input formControlName="periodeFormation" type="text" class="form-control" id="periodeformation" placeholder="Periode de formation"
-                         value="">
-                  <label for="periodeformation">Période de Formation</label>
-                </div>
-              </div>
-            </div>
-            <div class="row g-2 pt-2">
+        <form [formGroup]="trainingForm">
+          <div class="tab-pane border p-2" style="min-height: 53vh !important;">
+            <div class="row g-2 mt-2 mb-2">
               <div class="col-md">
                 <div class="form-check form-switch">
-                  <input formControlName="miseEnApplication" (change)="trainedAndPractice($event.srcElement.checked)" id="trained" type="checkbox"
-                         class="form-check-input">
-                  <label class="form-check-label" for="trained">Formation mise en application?</label>
+                  <input formControlName="isFormer" role="switch" id="forme"
+                         (change)="alreadyTrainedChange($event.srcElement.checked)"
+                         type="checkbox" class="form-check-input">
+                  <label for="forme">Déjà formé au métier de saigneur?</label>
                 </div>
               </div>
-              <div class="animated fadeInUp" *ngIf="practice">
-                <div class="row">
-                  <div class="col-md">
-                    <div class="form-floating">
-                      <input type="text" class="form-control" id="placeformation" placeholder="Lieu de formation"
-                             value="">
-                      <label for="placeformation">Lieu formation</label>
-                    </div>
-                  </div>
-
-
-                </div>
-                <div class="row g-2 mt-2 mb-2">
-                  <div class="col-md">
-                    <div class="form-floating">
-                      <select class="form-select" id="typeahead-focus"
-                              aria-label="Structure">
-                        <option value="cni" selected>EVPS</option>
-                        <option value="attestation">Classique</option>
-                        <option value="passport">PLP</option>
-                      </select>
-                      <label for="typeahead-focus">Type formation</label>
-
-                    </div>
-                  </div>
-                  <div class="col-md">
-                    <div class="form-floating">
-                      <select class="form-select" id="typesaigne" aria-label="Type saigné">
-                        <option value="asc" selected>Inversé</option>
-                        <option value="desc">Descendant</option>
-                      </select>
-                      <label for="sexe">Type saigné</label>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="border mt-2 p-2">
-                  <div class="row">
-                    <div class="col-md mb-1">
-                      <div class="input-group">
-                        <span class="input-group-text">Nom du planteur</span>
-                        <input id="namepl" type="text" class="form-control"/>
-                      </div>
-                    </div>
-
-                    <div class="col-md mb-1">
-                      <div class="input-group">
-                        <span class="input-group-text">Matricule du planteur</span>
-                        <input id="mle" type="text" class="form-control"/>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mt-1">
-                    <div class="col-md">
-                      <div class="input-group">
-                        <span class="input-group-text">Contacts</span>
-                        <input id="contactpl" type="text" class="form-control"/>
-                      </div>
-                    </div>
-
-                    <div class="col-md">
-                      <div class="input-group">
-                        <span class="input-group-text">Localité</span>
-                        <input id="local" type="text" class="form-control"/>
-                      </div>
-                    </div>
-
-                    <div class="col-md">
-                      <div class="input-group">
-                        <span class="input-group-text">Année</span>
-                        <input class="date-own form-control" [min]="1900" [max]="currentYear"
-                               type="number">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
             </div>
-          </div>
+            <div *ngIf="trained" class="animated fadeInUp">
+              <div class="row">
+                <div class="col-md ">
+                  <!--        <div class="col-md animated fadeInUp" *ngIf="typePiece === 'autre'">-->
+                  <div class="form-floating">
+                    <!--                 <input type="text" class="form-control" id="structureformation" placeholder="Par quelle structure?"-->
+                    <!--                        value="">-->
+                    <select formControlName="structureFormation" class="form-select" id="structureformation"
+                            aria-label="Structure">
+                      <option value="0" selected>APROMAC</option>
+                      <option value="1">FIRCA</option>
+                      <option value="2">ANADER</option>
+                      <!--                   <option value="attestation">Classique</option>-->
+                      <!--                   <option value="passport">PLP</option>-->
+                    </select>
+                    <label for="structureformation">Par quelle structure?</label>
+                  </div>
+                </div>
 
-        </div>
-      </form>
+                <div class="col-md">
+                  <div class="form-floating">
+                    <!--                  <input bsDatepicker-->
+                    <!--                         [bsConfig]="{-->
+                    <!--                 dateInputFormat: 'YYYY',-->
+
+                    <!--                    isAnimated: true,-->
+                    <!--                    adaptivePosition: true,-->
+                    <!--                    containerClass: 'theme-primary',-->
+                    <!--                    showWeekNumbers: false }"-->
+                    <!--                         (bsValueChange)="getRangeDate($event)"-->
+                    <!--                         class="form-control" id="periodeformation" placeholder="Période de Formation" value="">-->
+                    <input formControlName="anneeFormation" type="text" class="form-control" id="periodeformation"
+                           placeholder="Periode de formation"
+                           value="">
+                    <label for="periodeformation">Période de Formation</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row g-2 pt-2">
+                <div class="col-md">
+                  <div class="form-check form-switch">
+                    <input formControlName="isAppliquer" (change)="trainedAndPractice($event.srcElement.checked)"
+                           id="trained" type="checkbox"
+                           class="form-check-input">
+                    <label class="form-check-label" for="trained">Formation mise en application?</label>
+                  </div>
+                </div>
+                <div class="animated fadeInUp" *ngIf="practice">
+                  <!--                <div class="row">-->
+                  <!--                  <div class="col-md">-->
+                  <!--                    <div class="form-floating">-->
+                  <!--                      <input type="text" class="form-control" id="placeformation" placeholder="Lieu de formation"-->
+                  <!--                             value="">-->
+                  <!--                      <label for="placeformation">Lieu formation</label>-->
+                  <!--                    </div>-->
+                  <!--                  </div>-->
+
+
+                  <!--                </div>-->
+                  <div class="row g-2 mt-2 mb-2">
+                    <div class="col-md">
+                      <div class="form-floating">
+                        <select formControlName="typeFormation" class="form-select" id="typeahead-focus"
+                                aria-label="Structure">
+                          <option value="0" selected>EVPS</option>
+                          <option value="1">Classique</option>
+                          <option value="2">PLP</option>
+                        </select>
+                        <label for="typeahead-focus">Type formation</label>
+
+                      </div>
+                    </div>
+                    <div class="col-md">
+                      <div class="form-floating">
+                        <select class="form-select"
+                                formControlName="typeSaigneFormation"
+                                id="typesaigne" aria-label="Type saigné">
+                          <option value="0" selected>Inversé</option>
+                          <option value="1">Descendant</option>
+                        </select>
+                        <label for="sexe">Type saigné</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="border mt-2 p-2">
+                    <div class="row">
+                      <div class="col-md mb-1">
+                        <div class="input-group">
+                          <span class="input-group-text">Nom du planteur</span>
+                          <input formControlName="nomPlanteurFormation" id="nameplFormation" type="text" class="form-control"/>
+                        </div>
+                      </div>
+
+                      <div class="col-md mb-1">
+                        <div class="input-group">
+                          <span class="input-group-text">Matricule du planteur</span>
+                          <input formControlName="matriculePlanteurFormation" id="mleFomation" type="text" class="form-control"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mt-1">
+                      <div class="col-md">
+                        <div class="input-group">
+                          <span class="input-group-text">Contacts</span>
+                          <input formControlName="contactPlanteurFormation" id="contactplFormation" type="text" class="form-control"/>
+                        </div>
+                      </div>
+
+                      <div class="col-md">
+                        <div class="input-group">
+                          <span class="input-group-text">Localité</span>
+                          <input formControlName="lieuPlanteurFormation" id="localFormation" type="text" class="form-control"/>
+                        </div>
+                      </div>
+
+                      <div class="col-md">
+                        <div class="input-group">
+                          <span class="input-group-text">Année</span>
+                          <input [maxLength]="5" formControlName="anneePlanteurFormation" class="date-own form-control" [min]="1900" [max]="currentYear"
+                                 type="number">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </form>
         <hr>
         <div class="row">
           <div class="col-md">
@@ -475,87 +491,34 @@
       </ng-template>
       <div #stepFive>
         <hr>
-        <div class="tab-pane border p-2" style="min-height: 53vh !important;">
-          <div class="row g-2">
-            <div class="col-md-12 row g-2">
-              <div class="col-md">
-                <div class="form-check form-switch">
-                  <input [(ngModel)]="propositionEmploi"
-                         [ngModelOptions]="{standalone: true}"
-                         id="proposition" type="checkbox" class="form-check-input">
-                  <label class="form-check-label" for="proposition">Avez-vous déjà reçu une proposition d'emploi
-                    ?</label>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="border mt-2 p-2 animated fadeInUp" *ngIf="propositionEmploi">
-              <div class="row">
-                <div class="col-md mb-1">
-                  <div class="input-group">
-                    <span class="input-group-text">Nom du planteur</span>
-                    <input id="namepl" type="text" class="form-control"/>
-                  </div>
-                </div>
-
-                <div class="col-md mb-1">
-                  <div class="input-group">
-                    <span class="input-group-text">Matricule du planteur</span>
-                    <input id="mle" type="text" class="form-control"/>
-                  </div>
-                </div>
-              </div>
-              <div class="row mt-1">
+        <form [formGroup]="jobForm">
+          <div class="tab-pane border p-2" style="min-height: 53vh !important;">
+            <div class="row g-2">
+              <div class="col-md-12 row g-2">
                 <div class="col-md">
-                  <div class="input-group">
-                    <span class="input-group-text">Contacts</span>
-                    <input id="contactpl" type="text" class="form-control"/>
+                  <div class="form-check form-switch">
+                    <input formControlName="propositionEmploi"
+                           id="proposition" type="checkbox" class="form-check-input">
+                    <label class="form-check-label" for="proposition">Avez-vous déjà reçu une proposition d'emploi
+                      ?</label>
                   </div>
-                </div>
-
-                <div class="col-md">
-                  <div class="input-group">
-                    <span class="input-group-text">Localité</span>
-                    <input id="local" type="text" class="form-control"/>
-                  </div>
-                </div>
-
-                <div class="col-md">
-                  <div class="input-group">
-                    <span class="input-group-text">Année</span>
-                    <input class="date-own form-control" [min]="1900" [max]="currentYear"
-                           type="number">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="col-md-12 row g-2 pt-2">
-              <div class="col-md mb-2 mt-2">
-                <div class="form-check form-switch">
-                  <input [(ngModel)]="isActive"
-                         [ngModelOptions]="{standalone: true}"
-                         id="active" type="checkbox" class="form-check-input">
-                  <label class="form-check-label" for="active">Êtes vous en activité ?</label>
 
                 </div>
               </div>
 
-              <div class="border mt-2 p-2 animated fadeInUp" *ngIf="isActive">
+              <div class="border mt-2 p-2 animated fadeInUp" *ngIf="jobForm.controls['propositionEmploi'] && jobForm.controls['propositionEmploi'].value && jobForm.controls['propositionEmploi'].value === true">
                 <div class="row">
                   <div class="col-md mb-1">
                     <div class="input-group">
                       <span class="input-group-text">Nom du planteur</span>
-                      <input id="namepl" type="text" class="form-control"/>
+                      <input formControlName="nomPlanteurEmploi" id="namepl" type="text" class="form-control"/>
                     </div>
                   </div>
 
                   <div class="col-md mb-1">
                     <div class="input-group">
                       <span class="input-group-text">Matricule du planteur</span>
-                      <input id="mle" type="text" class="form-control"/>
+                      <input formControlName="matriculePlanteurEmploi" id="mle" type="text" class="form-control"/>
                     </div>
                   </div>
                 </div>
@@ -563,29 +526,82 @@
                   <div class="col-md">
                     <div class="input-group">
                       <span class="input-group-text">Contacts</span>
-                      <input id="contactpl" type="text" class="form-control"/>
+                      <input formControlName="contactPlanteurEmploi" id="contactpl" type="text" class="form-control"/>
                     </div>
                   </div>
 
                   <div class="col-md">
                     <div class="input-group">
                       <span class="input-group-text">Localité</span>
-                      <input id="local" type="text" class="form-control"/>
+                      <input formControlName="lieuPlanteurEmploi" id="local" type="text" class="form-control"/>
                     </div>
                   </div>
 
                   <div class="col-md">
                     <div class="input-group">
                       <span class="input-group-text">Année</span>
-                      <input class="date-own form-control" [min]="1900" [max]="currentYear"
+                      <input formControlName="anneePlanteurEmploi" class="date-own form-control" [min]="1900" [max]="currentYear"
                              type="number">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-12 row g-2 pt-2">
+                <div class="col-md mb-2 mt-2">
+                  <div class="form-check form-switch">
+                    <input formControlName="isActivite"
+                           id="active" type="checkbox" class="form-check-input">
+                    <label class="form-check-label" for="active">Êtes vous en activité ?</label>
+
+                  </div>
+                </div>
+
+                <div class="border mt-2 p-2 animated fadeInUp" *ngIf="jobForm.controls['isActivite'] && jobForm.controls['isActivite'].value && jobForm.controls['isActivite'].value === true">
+                  <div class="row">
+                    <div class="col-md mb-1">
+                      <div class="input-group">
+                        <span class="input-group-text">Nom du planteur</span>
+                        <input formControlName="nomPlanteurActivite" id="namepl" type="text" class="form-control"/>
+                      </div>
+                    </div>
+
+                    <div class="col-md mb-1">
+                      <div class="input-group">
+                        <span class="input-group-text">Matricule du planteur</span>
+                        <input formControlName="matriculePlanteurActivite" id="mle" type="text" class="form-control"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-1">
+                    <div class="col-md">
+                      <div class="input-group">
+                        <span class="input-group-text">Contacts</span>
+                        <input formControlName="contactPlanteurEmploi" id="contactpl" type="text" class="form-control"/>
+                      </div>
+                    </div>
+
+                    <div class="col-md">
+                      <div class="input-group">
+                        <span class="input-group-text">Localité</span>
+                        <input formControlName="lieuPlanteurActivite" id="local" type="text" class="form-control"/>
+                      </div>
+                    </div>
+
+                    <div class="col-md">
+                      <div class="input-group">
+                        <span class="input-group-text">Année</span>
+                        <input formControlName="anneePlanteurActivite" [maxLength]="4" class="date-own form-control" [min]="1900" [max]="currentYear"
+                               type="number">
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
         <hr>
         <div class="row">
           <div class="col-md">
@@ -612,14 +628,15 @@
             <div class="row g-2">
               <ng-template #motvTplt let-r="result" let-t="term">
                 <!--          <img alt="" [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px"/>-->
-<!--                <ngb-highlight [see]="t.description" [term]="t"></ngb-highlight>-->
-                <label >{{r.description}}</label>
+                <!--                <ngb-highlight [see]="t.description" [term]="t"></ngb-highlight>-->
+                <label>{{r.description}}</label>
               </ng-template>
               <div class="col-md-12">
                 <div class="form-floating">
                   <input id="motivation"
                          type="text"
                          class="form-control"
+                         formControlName="motivation"
                          [inputFormatter]="formatter"
                          [ngbTypeahead]="motivationSearch"
                          [resultTemplate]="motvTplt"
@@ -650,7 +667,8 @@
             <button type="button" class="btn btn-outline-dark" cdkStepperPrevious>Précédent</button>
           </div>
           <div class="col-md text-right">
-            <button type="button" (click)="saveForms()" class="btn btn-outline-primary" cdkStepperNext>Sauvegarder</button>
+            <button type="button" (click)="saveForms()" class="btn btn-outline-primary" cdkStepperNext>Sauvegarder
+            </button>
           </div>
         </div>
       </div>

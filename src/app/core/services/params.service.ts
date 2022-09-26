@@ -31,7 +31,7 @@ export class ParamsService {
   }
 
   getParams(type): Observable<Params[]> {
-    return this.http.get<Params[]>(`/src/app/data/data/${type}.json`)
+    return this.http.get<Params[]>(`data/data/${type}.json`)
       .pipe(map((m)=> {
         console.log(m);
         return m.map((mt)=> {

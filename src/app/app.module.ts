@@ -21,7 +21,8 @@ import {FooterComponent} from './layout/footer/footer.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { InfoSaigneurComponent } from './layout/info-saigneur/info-saigneur.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import localFr from '@angular/common/locales/fr'
+import localFr from '@angular/common/locales/fr';
+import { GenderPipe } from './core/pipes/gender.pipe'
 
 registerLocaleData(localFr);
 

@@ -1,8 +1,9 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgbModal, NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import {Utility} from '../../../core/constants/utility';
 import {ApplicationService} from '../../../core/services/application.service';
 import {CampagneService} from '../../../core/services/campagne.service';
 import {CandidatService} from '../../../core/services/candidat.service';
@@ -24,7 +25,8 @@ import DismissReason from 'sweetalert2';
   styleUrls: ['./applicants.component.scss']
 })
 export class ApplicantsComponent implements OnInit {
-  title = 'Liste des candidats';
+  title = 'Inscription des candidats';
+  @ViewChild('contentInfo') contentInfo : TemplateRef<any>;
   public tableHeader: CustomTableHeaderInfo = {
     withBtn: true,
     btn: {
@@ -42,6 +44,7 @@ export class ApplicantsComponent implements OnInit {
   campagneSelected: Campagne;
   currentApplicant: Candidat;
   inscription: InscriptionModel;
+  currentCampagne = Utility.CURRENTCAMPAGNE;
 
   isLoading = false;
   constructor(private modalService: NgbModal, private offcanvasService: NgbOffcanvas,
@@ -96,10 +99,16 @@ export class ApplicantsComponent implements OnInit {
     //   return;
     // }
     this.isLoading = true;
+    this.allApplicants = [];
     // this.candidatService.getCdtByCampagneID(this.campagneSelected.campagneID).subscribe({
-    this.candidatService.getAllCandidats().subscribe({
+    this.candidatService.getAllCurrentCandidat(false).subscribe({
       next: (resp) => {
-        this.allApplicants = resp as any as Candidat[];
+        this.allApplicants = (resp as any as Candidat[]).map((c)=> {
+          let cdt = c;
+          cdt.libelleGenre = c.genreCandidat == '0' ? 'Masculin':'Féminin'
+          return  cdt;
+        });
+        console.log(resp);
         this.isLoading = false;
       },
       error: err => {
@@ -121,6 +130,7 @@ export class ApplicantsComponent implements OnInit {
     }
     const modalRef = this.modalService.open(NewApplicantComponent, {centered: true, size: 'lg', backdrop: 'static'});
     modalRef.componentInstance.campagne = this.campagneSelected;
+    modalRef.componentInstance.allCandidat = this.allApplicants;
     modalRef.componentInstance.inscriptionEnd.subscribe((hasSaved)=>{
       if(hasSaved) {
         this.getListApplicant();
@@ -167,6 +177,7 @@ export class ApplicantsComponent implements OnInit {
         icon: 'info',
         click: (item) => {
           console.log(item);
+          this.offcanvasService.open(this.contentInfo, { position: 'end'});
         }
       },
       {
@@ -179,6 +190,7 @@ export class ApplicantsComponent implements OnInit {
           const modalRef = this.modalService.open(NewApplicantComponent, {centered: true, size: 'lg', backdrop: 'static'});
           modalRef.componentInstance.campagne = this.campagneSelected;
           modalRef.componentInstance.inscription = this.currentApplicant;
+          console.log(this.allApplicants);
           modalRef.componentInstance.allCandidat = this.allApplicants;
         }
       },

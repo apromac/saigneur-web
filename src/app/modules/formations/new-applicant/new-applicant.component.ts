@@ -46,7 +46,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
   @ViewChild('cdkStepper') cdkStepper: CdkStepper;
   @Input() name;
   @Input() campagne: Campagne;
-  @Input() allCandidat: Candidat[] = [];
+  @Input() allCandidat: Candidat[];
   @ViewChild('instance', {static: true}) instance: NgbTypeahead;
 
   @Output() inscriptionEnd = new EventEmitter<any>();
@@ -121,21 +121,26 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
 
   searchUser: OperatorFunction<string, readonly Candidat[]> = (text$: Observable<string>) =>
     text$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      tap(() => this.searchingCdt = true),
-      switchMap(term =>
-        // new Observable().pipe()
-        this.candidatService.search(term).pipe(
-          tap(() => this.searchCdtFailed = false),
-          catchError(() => {
-            this.searchCdtFailed = true;
-            return of([]);
-          }))
-      ),
-      tap(() => this.searchingCdt = false)
+      debounceTime(200),
+      map(term => term === '' ? []
+        : this.allCandidat
+          .filter(v => v.nomCandidat.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+      // distinctUntilChanged(),
+      // tap(() => this.searchingCdt = true),
+      // switchMap(term =>
+      //   // new Observable().pipe()
+      //   this.candidatService.search(term).pipe(
+      //     tap(() => this.searchCdtFailed = false),
+      //     catchError(() => {
+      //       this.searchCdtFailed = true;
+      //       return of([]);
+      //     }))
+      // ),
+      // tap(() => this.searchingCdt = false)
     );
 
+  // applicantFormater = (x: Candidat) => x.nomCandidat;
+  applicantFormater = (x: Candidat) => x.nomCandidat;
   currentYear = new Date().getFullYear();
 
   constructor(public activeModal: NgbActiveModal,
@@ -150,7 +155,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.fetchCombosData();
-    console.log('Campagne====>', this.campagne);
+    console.log('Campagne====>', this.campagne, this.allCandidat);
     this.initForm();
     this.localForm.controls['poste'].valueChanges.subscribe((val) => {
       this.posteChange(val);
@@ -185,6 +190,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       next: value => {
         console.log(value);
         this.listPostes = value as any as PosteModel[];
+        this.posteChange(this.listPostes[0].posteID)
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error('Une erreur s\'est produite lors de la récupération des postes', 'STATUS ' + err.status);
@@ -243,14 +249,32 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
 
     this.trainingForm = this.fb.group({
       isFormer : [false],
-      structureFormer : [0],
-      periodeFormation : ['', Validators.required],
-      miseEnApplication : [false],
+      structureFormation : [0],
+      anneeFormation : ['', Validators.required],
+      isAppliquer : [false],
+      typeFormation : [0],
+      typeSaigneFormation : [0],
+      nomPlanteurFormation : ['', Validators.required],
+      matriculePlanteurFormation : ['', Validators.required],
+      contactPlanteurFormation : [''],
+      lieuPlanteurFormation : ['', Validators.required],
+      anneePlanteurFormation : ['', Validators.required],
     });
     //
     //
     this.jobForm = this.fb.group({
+      isActivite: [false],
+      nomPlanteurEmploi: ['', Validators.required],
+      matriculePlanteurEmploi: ['', Validators.required],
+      contactPlanteurEmploi: [''],
+      lieuPlanteurEmploi: ['', Validators.required],
+      anneePlanteurEmploi: ['', Validators.required],
 
+      propositionEmploi: [false],
+      nomPlanteurActivite: ['', Validators.required],
+      matriculePlanteurActivite: ['', Validators.required],
+      lieuPlanteurActivite: ['', Validators.required],
+      anneePlanteurActivite: ['', Validators.required],
     });
     //
     //
@@ -319,8 +343,18 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     let dataToSend = this.idForm.value;
     // Object.assign(dataToSend, ...this.localForm.value)
     let inscription = new InscriptionModel();
-    inscription.campagne = this.campagne;
-    inscription.candidat = this.idForm.value;
+    inscription.campagneEntity = this.campagne;
+    inscription.candidatEntity = this.idForm.value;
+    inscription.inscriptionDTO = this.trainingForm.value
+    inscription.inscriptionDTO.zoneInscription = this.localForm.controls['zoneInscription'].value;
+    inscription.inscriptionDTO.districtInscription = this.localForm.controls['districtInscription'].value;
+    // const motiv = this.motivationForm.value['motivation'].valeur
+    inscription.inscriptionDTO.motivation = this.motivationForm.value['motivation'].valeur
+   Object.assign(inscription.inscriptionDTO, this.jobForm.value)
+    // inscription.inscriptionDTO.motivation = this.motivationForm.value;
+
+    console.log(inscription);
+    // return;
     this.candidatService.addCandidat(inscription).subscribe({
       next: value => {
         console.log(value);

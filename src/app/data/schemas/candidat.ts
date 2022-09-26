@@ -3,6 +3,7 @@ export class Candidat {
   dateNaisCandidat: string;
   age: string;
   genreCandidat: string;
+  libelleGenre: string;
   lieuNaisCandidat: string;
 
   lieuResidCandidat: string;

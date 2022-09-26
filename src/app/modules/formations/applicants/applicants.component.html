@@ -6,46 +6,36 @@
   [tableHeader]="[
   'Nom',
   'Prénoms',
-  'Age',
-  'Téléphone',
-  'Niveau étude',
+  'Genre',
   'Zone',
-  'Adresse',
-  'Inscrit le',
+  'District',
   ]"
   [tableRow]="[
   'nomCandidat',
   'prenomsCandidat',
-  'age',
-  'premierContactCandidat',
-  'niveauEtudeLibelle',
-  'zoneCandidat',
-  'lieuResidLibelle',
-  'dinscrit',
+  'libelleGenre',
+  'zoneInscription',
+  'districtInscription',
   ]"
   [tableData]="allApplicants"
   [searchList]="allApplicants"
 >
-  <div class="row mr-md-2">
-    <div class="col-sm">
-      <label  class="visually-hidden"  for="campagne">Sélectionnez une campagne</label>
-<!--      <label for="specificSizeInputGroupUsername">Username</label>-->
-      <div class="input-group">
-        <div class="input-group-text">Sélectionnez une campagne</div>
-<!--        <ng-select-->
-<!--          [items]="allCampagnes"-->
-<!--          bindLabel="libelleCampagne"-->
-<!--          (change)="comboCampagneChange($event)"-->
-<!--          class="form-select" id="campagne"  aria-label="Sélectionnez une campagne">-->
+  <div class="row">
+    <label class="h5 ml-1 font-weight-bold">
+      {{currentCampagne.libelleCampagne}}
+    </label>
 
-<!--        </ng-select>-->
-        <select (change)="comboCampagneChange($event.target.value)" class="form-select" id="campagne"
-                aria-label="Sélectionnez une campagne">
-          <option *ngFor="let c  of allCampagnes" [value]="c.campagneID">{{c.libelleCampagne}}</option>
-          <option value="" *ngIf="!allCampagnes || allCampagnes && allCampagnes.length ===0">Aucune campagne trouvée</option>
-        </select>
-      </div>
-    </div>
+<!--    <div class="col-sm">-->
+<!--      <label  class="visually-hidden"  for="campagne">Sélectionnez une campagne</label>-->
+<!--      <div class="input-group">-->
+<!--        <div class="input-group-text">Sélectionnez une campagne</div>-->
+<!--        <select (change)="comboCampagneChange($event.target.value)" class="form-select" id="campagne"-->
+<!--                aria-label="Sélectionnez une campagne">-->
+<!--          <option *ngFor="let c  of allCampagnes" [value]="c.campagneID">{{c.libelleCampagne}}</option>-->
+<!--          <option value="" *ngIf="!allCampagnes || allCampagnes && allCampagnes.length ===0">Aucune campagne trouvée</option>-->
+<!--        </select>-->
+<!--      </div>-->
+<!--    </div>-->
 
   </div>
 </app-custom-table>
@@ -132,4 +122,7 @@
   </div>
 
 
+</ng-template>
+<ng-template #contentInfo let-offcanvas>
+  <app-info-applicant [candidatInfo]="currentApplicant"></app-info-applicant>
 </ng-template>

@@ -18,7 +18,7 @@ export class InterviewComponent implements OnInit {
     //   bg: 'btn-primary',
     //   libelle: 'Nouveau candidat',
     // },
-    title: 'Interview campagne ' + new Date().getFullYear(),
+    title: 'Interview des candidats'
   };
 
   constructor(private offcanvasService: NgbOffcanvas) {

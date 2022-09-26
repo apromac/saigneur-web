@@ -20,6 +20,10 @@ export class CampagneService {
   public getCampagneByid(idCampagne: any): Observable<Response> {
     return this.http.get<Response>(`${basrUrl}findByCampagneID/${idCampagne}`)
   }
+
+  public getCurrentCampagne(): Observable<Response> {
+    return this.http.get<Response>(`${basrUrl}findCurrentCampagne/`)
+  }
   public addCampagne(c: Campagne): Observable<Response> {
     return this.http.post<Response>(`${basrUrl}saveCampagne`, c);
   }

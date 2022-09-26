@@ -31,6 +31,10 @@ export class CandidatService {
     return this.http.get<Response>(`${baseUrl}/findAllCandidat`);
   }
 
+  getAllCurrentCandidat(selected): Observable<Response> {
+    return this.http.get<Response>(`${baseUrl}/campagne/findByCurrentCampagne`);
+  }
+
 
   search(term: string) {
     if (term === '') {
@@ -44,7 +48,7 @@ export class CandidatService {
   }
 
   addCandidat(cdt: InscriptionModel): Observable<Response> {
-    return this.http.post<Response>(`${baseUrlInscription}saveCandidat`, cdt);
+    return this.http.post<Response>(`${baseUrlInscription}saveInscription`, cdt);
   }
 
   removeCandidat(idCandidat): Observable<Response> {

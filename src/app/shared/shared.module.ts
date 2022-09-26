@@ -12,6 +12,7 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {LoadingBarModule} from '@ngx-loading-bar/core';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {FqPaginationPipe} from '../core/pipes/fq-pagination.pipe';
+import {GenderPipe} from '../core/pipes/gender.pipe';
 import {ListSaigneursComponent} from '../layout/list-saigneurs/list-saigneurs.component';
 import {CustomInputComponent} from './components/custom-input/custom-input.component';
 import {CustomTableComponent} from './components/custom-table/custom-table.component';
@@ -35,7 +36,8 @@ import { YearPickerComponent } from './components/year-picker/year-picker.compon
     TableLoadingComponent,
     TableHeaderComponent,
     ListSaigneursComponent,
-    YearPickerComponent
+    YearPickerComponent,
+    GenderPipe
   ],
   exports : [
     CommonModule,
@@ -62,7 +64,8 @@ import { YearPickerComponent } from './components/year-picker/year-picker.compon
     ListSaigneursComponent,
     YearPickerComponent,
     MatFormFieldModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    GenderPipe
 
   ],
   imports: [
@@ -80,7 +83,7 @@ import { YearPickerComponent } from './components/year-picker/year-picker.compon
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    NgSelectModule
+    NgSelectModule,
   ]
 })
 export class SharedModule { }

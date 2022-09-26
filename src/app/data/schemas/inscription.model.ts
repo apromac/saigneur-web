@@ -2,21 +2,42 @@ import {Campagne} from './campagne';
 import {Candidat} from './candidat';
 
 export class InscriptionModel {
-  campagne: Campagne;
-  candidat: Candidat;
+  campagneEntity: Campagne;
+  candidatEntity: Candidat;
   inscriptionDTO: InscriptionDTO;
-  // dateInscription: string;
-  // abreviationDistrictInscription: string;
-  // districtInscription: string;
-  // inscriptionID: number;
-  // zoneInscription: string;
 }
 
 
 class InscriptionDTO {
   abreviationDistrictInscription: string;
-  dateInscription	: string;
-  districtInscription	: string
+  anneeFormation: string;
+  anneePlanteurActivite: string;
+  anneePlanteurEmploi: string;
+  anneePlanteurFormation: string;
+  contactPlanteurActivite: number;
+  contactPlanteurEmploi: number;
+  contactPlanteurFormation: number;
+  dateInscription: string;
+  districtInscription: string;
   inscriptionID: number;
+  isActivite: boolean;
+  isAppliquer: boolean;
+  isFormer: boolean;
+  isSelectionner: boolean;
+  lieuFormation: string;
+  lieuPlanteurActivite: string;
+  lieuPlanteurFormation: string;
+  lieuPlanteurEmploi: string;
+  matriculePlanteurActivite: string;
+  matriculePlanteurEmploi: string;
+  matriculePlanteurFormation: string;
+  motivation: string;
+  nomPlanteurActivite: string;
+  nomPlanteurEmploi: string;
+  nomPlanteurFormation: string;
+  propositionEmploi: boolean;
+  structureFormation: string;
+  typeFormation: string;
+  typeSaigneFormation: string;
   zoneInscription: string;
 }

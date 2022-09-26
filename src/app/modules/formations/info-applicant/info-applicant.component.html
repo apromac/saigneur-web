@@ -1,6 +1,6 @@
 <div class="card h-100" *ngIf="candidatInfo && candidatInfo.nomCandidat">
   <div class="card-body row">
-    <div class="m-auto d-flex" style="width: max-content;" [ngStyle]="btnIs === 'none'? {height : '300px'}: {height : '10em'}">
+    <div class="m-auto d-flex" style="width: max-content;" [ngStyle]="(btnIs === 'none' || !btnIs )? {height : '300px'}: {height : '10em'}">
       <img class="img-thumbnail bg-transparent border-0" src="assets/images/avatars/1.jpg" alt="Logo"/>
     </div>
     <p class="h5 col-12 text-center">{{candidatInfo.nomCandidat}} {{candidatInfo.prenomsCandidat}}</p>

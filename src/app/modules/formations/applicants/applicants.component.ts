@@ -14,6 +14,7 @@ import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
 import {Campagne} from '../../../data/schemas/campagne';
 import {Candidat} from '../../../data/schemas/candidat';
 import {InscriptionModel} from '../../../data/schemas/inscription.model';
+import {InfoApplicantComponent} from '../info-applicant/info-applicant.component';
 import {NewApplicantComponent} from '../new-applicant/new-applicant.component';
 import DismissReason from 'sweetalert2';
 
@@ -26,7 +27,7 @@ import DismissReason from 'sweetalert2';
 })
 export class ApplicantsComponent implements OnInit {
   title = 'Inscription des candidats';
-  @ViewChild('contentInfo') contentInfo : TemplateRef<any>;
+  @ViewChild('contentInfo') contentInfo: TemplateRef<any>;
   public tableHeader: CustomTableHeaderInfo = {
     withBtn: true,
     btn: {
@@ -47,10 +48,11 @@ export class ApplicantsComponent implements OnInit {
   currentCampagne = Utility.CURRENTCAMPAGNE;
 
   isLoading = false;
+
   constructor(private modalService: NgbModal, private offcanvasService: NgbOffcanvas,
               private candidatService: CandidatService,
               private toast: ToastrService,
-              private paramsService : ParamsService,
+              private paramsService: ParamsService,
               private campagneService: CampagneService) {
   }
 
@@ -62,21 +64,21 @@ export class ApplicantsComponent implements OnInit {
   fetchCombosData(): void {
     this.paramsService.getParams('niveau-etude').subscribe((
       {
-        next : value => {
+        next: value => {
           console.log(value);
         },
-        error : (err : HttpErrorResponse)=> {
+        error: (err: HttpErrorResponse) => {
           console.error(err);
-    }
+        }
       }
-    ))
+    ));
     this.campagneService.getAllCampagne().subscribe({
       next: (resp) => {
         this.allCampagnes = (resp as any as Campagne[]);
       },
       error: (err: HttpErrorResponse) => {
         console.log(err);
-        this.toast.error('Une erreur s\'est produite', 'STATUS ' +err.status);
+        this.toast.error('Une erreur s\'est produite', 'STATUS ' + err.status);
       },
       complete: () => {
 
@@ -103,10 +105,10 @@ export class ApplicantsComponent implements OnInit {
     // this.candidatService.getCdtByCampagneID(this.campagneSelected.campagneID).subscribe({
     this.candidatService.getAllCurrentCandidat(false).subscribe({
       next: (resp) => {
-        this.allApplicants = (resp as any as Candidat[]).map((c)=> {
+        this.allApplicants = (resp as any as Candidat[]).map((c) => {
           let cdt = c;
-          cdt.libelleGenre = c.genreCandidat == '0' ? 'Masculin':'Féminin'
-          return  cdt;
+          cdt.libelleGenre = c.genreCandidat == '0' ? 'Masculin' : 'Féminin';
+          return cdt;
         });
         console.log(resp);
         this.isLoading = false;
@@ -125,14 +127,14 @@ export class ApplicantsComponent implements OnInit {
   }
 
   startInscription(): void {
-    if(!this.campagneSelected) {
+    if (!this.campagneSelected) {
       this.campagneSelected = this.allCampagnes[0];
     }
     const modalRef = this.modalService.open(NewApplicantComponent, {centered: true, size: 'lg', backdrop: 'static'});
     modalRef.componentInstance.campagne = this.campagneSelected;
     modalRef.componentInstance.allCandidat = this.allApplicants;
-    modalRef.componentInstance.inscriptionEnd.subscribe((hasSaved)=>{
-      if(hasSaved) {
+    modalRef.componentInstance.inscriptionEnd.subscribe((hasSaved) => {
+      if (hasSaved) {
         this.getListApplicant();
       }
     });
@@ -166,7 +168,8 @@ export class ApplicantsComponent implements OnInit {
   }
 
   openEnd(content: TemplateRef<any>) {
-    this.offcanvasService.open(content, {position: 'end'});
+    let cn = this.offcanvasService.open(content, {position: 'end'});
+    cn.componentInstance.candidatInfo = this.currentApplicant;
   }
 
   getMenus(): DropdownMenuInfo[] {
@@ -177,7 +180,9 @@ export class ApplicantsComponent implements OnInit {
         icon: 'info',
         click: (item) => {
           console.log(item);
-          this.offcanvasService.open(this.contentInfo, { position: 'end'});
+          this.currentApplicant = item;
+          let cn = this.offcanvasService.open(InfoApplicantComponent, {position: 'end'});
+          cn.componentInstance.candidatInfo = this.currentApplicant;
         }
       },
       {
@@ -187,7 +192,11 @@ export class ApplicantsComponent implements OnInit {
         icon: 'edit',
         click: (item) => {
           this.currentApplicant = item;
-          const modalRef = this.modalService.open(NewApplicantComponent, {centered: true, size: 'lg', backdrop: 'static'});
+          const modalRef = this.modalService.open(NewApplicantComponent, {
+            centered: true,
+            size: 'lg',
+            backdrop: 'static'
+          });
           modalRef.componentInstance.campagne = this.campagneSelected;
           modalRef.componentInstance.inscription = this.currentApplicant;
           console.log(this.allApplicants);
@@ -205,11 +214,11 @@ export class ApplicantsComponent implements OnInit {
             next: value => {
               this.toast.success('Candidat supprimé avec succès');
             },
-            error : (err: HttpErrorResponse)=>{
+            error: (err: HttpErrorResponse) => {
               console.log(err);
               this.toast.error(err.error.message, 'STATUS ' + err.status);
             }
-          })
+          });
         }
       }
     ];

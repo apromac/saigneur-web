@@ -22,7 +22,7 @@
 >
   <div class="row">
     <label class="h5 ml-1 font-weight-bold">
-      {{currentCampagne.libelleCampagne}}
+      {{currentCampagne?.libelleCampagne}}
     </label>
 
 <!--    <div class="col-sm">-->
@@ -123,6 +123,6 @@
 
 
 </ng-template>
-<ng-template #contentInfo let-offcanvas>
-  <app-info-applicant [candidatInfo]="currentApplicant"></app-info-applicant>
-</ng-template>
+<!--<ng-template #contentInfo let-offcanvas>-->
+<!--  <app-info-applicant [candidatInfo]="currentApplicant"></app-info-applicant>-->
+<!--</ng-template>-->

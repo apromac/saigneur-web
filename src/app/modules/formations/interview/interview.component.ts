@@ -2,6 +2,8 @@ import {Component, OnInit, TemplateRef} from '@angular/core';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
+import {Candidat} from '../../../data/schemas/candidat';
+import {InfoApplicantComponent} from '../info-applicant/info-applicant.component';
 
 @Component({
   selector: 'app-interview',
@@ -11,6 +13,7 @@ import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
 export class InterviewComponent implements OnInit {
 
   public allApplicants;
+  currentApplicant: Candidat;
 
   public tableHeader: CustomTableHeaderInfo = {
     withBtn: false,
@@ -28,7 +31,10 @@ export class InterviewComponent implements OnInit {
   }
 
   openInfo(content: TemplateRef<any>) {
-    this.offcanvasService.open(content, { position: 'start'});
+    let cn = this.offcanvasService.open(InfoApplicantComponent, {position: 'start'});
+    cn.componentInstance.candidatInfo = this.currentApplicant;
+
+    // this.offcanvasService.open(content, { position: 'start'});
   }
 
 

@@ -31,6 +31,10 @@ export class CandidatService {
     return this.http.get<Response>(`${baseUrl}/findAllCandidat`);
   }
 
+  getAllCurrentCandidatByStatus(selected): Observable<Response> {
+    return this.http.get<Response>(`${baseUrlInscription}/candidat/selection/${selected}`);
+  }
+
   getAllCurrentCandidat(selected): Observable<Response> {
     return this.http.get<Response>(`${baseUrl}/campagne/findByCurrentCampagne`);
   }
@@ -49,6 +53,9 @@ export class CandidatService {
 
   addCandidat(cdt: InscriptionModel): Observable<Response> {
     return this.http.post<Response>(`${baseUrlInscription}saveInscription`, cdt);
+  }
+  validateCandidat(selectionDTO : {inscriptionID: number,  status: boolean}): Observable<Response> {
+    return this.http.get<Response>(`${baseUrlInscription}${selectionDTO.inscriptionID}/selection/${selectionDTO.status}`);
   }
 
   removeCandidat(idCandidat): Observable<Response> {

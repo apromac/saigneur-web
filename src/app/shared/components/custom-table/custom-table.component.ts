@@ -218,7 +218,7 @@ export class CustomTableComponent implements OnInit {
 
   getcolSpan(): any {
     // @ts-ignore
-    return this.tableRow?.length + ((this.menus && this.menus.length > 0) ? 2 : 0) + (this.multiselectRow ? 2 : 0);
+    return this.tableRow?.length + ((this.menus && this.menus.length > 0) ? 2 : 1) + (this.multiselectRow ? 2 : 0);
   }
 
   setIndex(i, item): TrackByFunction<any> {

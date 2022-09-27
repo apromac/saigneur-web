@@ -7,7 +7,7 @@ import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import {Candidat} from '../../../data/schemas/candidat';
-import {InscriptionModel} from '../../../data/schemas/inscription.model';
+import {InscriptionDTO} from '../../../data/schemas/inscription.model';
 
 
 @Component({
@@ -18,9 +18,10 @@ import {InscriptionModel} from '../../../data/schemas/inscription.model';
 })
 export class ValidateApplicantsComponent implements OnInit {
 
-  public allApplicants: Candidat[] = [];
-  currentCandidat: Candidat;
-  btnToShow: 'valider' | 'retirer' | 'none' = 'valider'
+  public allApplicants: InscriptionDTO[] = [];
+  public allApplicantsSelected: InscriptionDTO[] = [];
+  currentCandidat: InscriptionDTO;
+  btnToShow: 'valider' | 'retirer' | 'none' = 'valider';
   public tableHeader: CustomTableHeaderInfo = {
     withBtn: false,
     // btn: {
@@ -36,18 +37,32 @@ export class ValidateApplicantsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getListCandidat();
+    this.getListCandidat(false);
+    this.getListCandidat(true);
   }
 
-  getListCandidat(selected : boolean = false): void {
-    this.candidatService.getAllCurrentCandidat(selected).subscribe({
+  getListCandidat(selected: boolean): void {
+    this.candidatService.getAllCurrentCandidatByStatus(selected).subscribe({
       next: value => {
-        this.allApplicants = (value as any as Candidat[]).map((c)=> {
+        const list = (value as any as InscriptionDTO[]).map((c) => {
           let cdt = c;
-          cdt.libelleGenre = c.genreCandidat == '0' ? 'Masculin':'Féminin'
-          return  cdt;
+          cdt.candidat.genreCandidat = c.candidat.genreCandidat == '0' ? 'Masculin' : 'Féminin';
+          return cdt;
         });
-
+        if (!selected) {
+          this.allApplicants = [];
+          list.forEach((o, index) => {
+            this.allApplicants.push(o);
+            Object.assign(this.allApplicants[index], o.candidat, o.campagne);
+          });
+        } else {
+          list.forEach((o, index) => {
+            this.allApplicantsSelected.push(o);
+            Object.assign(this.allApplicantsSelected[index], o.candidat, o.campagne);
+          });
+          // this.allApplicantsSelected = list;
+        }
+        console.log(list);
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error(err.error.message, 'STATUS ' + err.status);
@@ -55,15 +70,17 @@ export class ValidateApplicantsComponent implements OnInit {
       }
     });
   }
-  tableRowClicked(cdt: Candidat, selected : boolean): void {
+
+  tableRowClicked(cdt: InscriptionDTO, selected: boolean): void {
     this.currentCandidat = cdt;
-    if(selected) {
+    if (selected) {
       this.btnToShow = 'retirer';
     } else {
       this.btnToShow = 'valider';
     }
     console.log(cdt);
   }
+
   openEnd(content: TemplateRef<any>) {
     this.offcanvasService.open(content, {position: 'end'});
   }
@@ -76,37 +93,7 @@ export class ValidateApplicantsComponent implements OnInit {
         icon: 'user-check',
         color: 'green',
         click: (item) => {
-          this.currentCandidat =  item;
-          console.log(item);
-        }
-      },
-      // {
-      //   title: 'Détails',
-      //   isMatDesign: false,
-      //   icon: '',
-      //   click: (item) => {
-      //     console.log(item);
-      //   }
-      // },
-      // {
-      //   title: 'Supprimer',
-      //   isMatDesign: false,
-      //   icon: '',
-      //   click: (item) => {
-      //     console.log(item);
-      //   }
-      // }
-    ];
-  }
- getMenusSelected(): DropdownMenuInfo[] {
-    return [
-      {
-        title: 'Retirer',
-        isMatDesign: true,
-        icon: 'user-check',
-        color: 'green',
-        click: (item) => {
-          this.currentCandidat =  item;
+          this.currentCandidat = item;
           console.log(item);
         }
       },
@@ -129,7 +116,38 @@ export class ValidateApplicantsComponent implements OnInit {
     ];
   }
 
-  confirmValidation(c: Candidat): void {
+  getMenusSelected(): DropdownMenuInfo[] {
+    return [
+      {
+        title: 'Retirer',
+        isMatDesign: true,
+        icon: 'user-check',
+        color: 'green',
+        click: (item) => {
+          this.currentCandidat = item;
+          console.log(item);
+        }
+      },
+      // {
+      //   title: 'Détails',
+      //   isMatDesign: false,
+      //   icon: '',
+      //   click: (item) => {
+      //     console.log(item);
+      //   }
+      // },
+      // {
+      //   title: 'Supprimer',
+      //   isMatDesign: false,
+      //   icon: '',
+      //   click: (item) => {
+      //     console.log(item);
+      //   }
+      // }
+    ];
+  }
+
+  confirmValidation(c: InscriptionDTO): void {
     Swal.fire({
       title: 'Validation de candidat',
       text: 'Voulez-vous vraiment valider cette candidature?',
@@ -141,11 +159,31 @@ export class ValidateApplicantsComponent implements OnInit {
       cancelButtonText: 'Non!'
     }).then(result => {
       if (result.value) {
-
+        this.candidatService.validateCandidat({
+          status: true,
+          inscriptionID: c.inscriptionID,
+        }).subscribe({
+          next: valeur => {
+            this.toast.success('Candidat validé avec succès');
+            let i = this.allApplicants.findIndex((i) => i.inscriptionID === c.inscriptionID);
+            this.allApplicants.splice(i, 1);
+            if (this.allApplicants && this.allApplicants.length > 0) {
+              this.currentCandidat = this.allApplicants[0];
+            } else {
+              this.currentCandidat = null;
+              window.scrollTo({top : 100000, behavior: 'smooth'});
+            }
+            this.getListCandidat(true);
+          }, error: err => {
+            console.log(err);
+            this.toast.error(err.error.message, 'STATUS ' + err.status);
+          }
+        });
       }
     });
   }
-  retirerCandidat(c: Candidat): void {
+
+  retirerCandidat(c: InscriptionDTO): void {
     Swal.fire({
       title: 'Retrait de candidat',
       text: 'Voulez-vous vraiment retirer cette candidature?',
@@ -157,7 +195,26 @@ export class ValidateApplicantsComponent implements OnInit {
       cancelButtonText: 'Non!'
     }).then(result => {
       if (result.value) {
-
+        this.candidatService.validateCandidat({
+          status: false,
+          inscriptionID: c.inscriptionID,
+        }).subscribe({
+          next: valeur => {
+            this.toast.success('Candidat rétiré avec succès');
+            let i = this.allApplicantsSelected.findIndex((i) => i.inscriptionID === c.inscriptionID);
+            this.allApplicantsSelected.splice(i, 1);
+            if (this.allApplicantsSelected && this.allApplicantsSelected.length > 0) {
+              this.currentCandidat = this.allApplicantsSelected[0];
+            } else {
+              this.currentCandidat = null;
+              window.scrollTo({top : 0, behavior: 'smooth'});
+            }
+            this.getListCandidat(false);
+          }, error: err => {
+            console.log(err)
+            this.toast.error(err.error.message, 'STATUS ' + err.status);
+          }
+        });
       }
     });
   }

@@ -11,6 +11,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {LoadingBarModule} from '@ngx-loading-bar/core';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
+import {AgePipe} from '../core/pipes/age.pipe';
+import {BoolValPipe} from '../core/pipes/bool-val.pipe';
 import {FqPaginationPipe} from '../core/pipes/fq-pagination.pipe';
 import {GenderPipe} from '../core/pipes/gender.pipe';
 import {ListSaigneursComponent} from '../layout/list-saigneurs/list-saigneurs.component';
@@ -37,7 +39,9 @@ import { YearPickerComponent } from './components/year-picker/year-picker.compon
     TableHeaderComponent,
     ListSaigneursComponent,
     YearPickerComponent,
-    GenderPipe
+    GenderPipe,
+    BoolValPipe,
+    AgePipe,
   ],
   exports : [
     CommonModule,
@@ -65,8 +69,9 @@ import { YearPickerComponent } from './components/year-picker/year-picker.compon
     YearPickerComponent,
     MatFormFieldModule,
     MatNativeDateModule,
-    GenderPipe
-
+    GenderPipe,
+    BoolValPipe,
+    AgePipe,
   ],
   imports: [
     CommonModule,

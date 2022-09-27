@@ -14,7 +14,7 @@
       [tableRow]="[
         'nomCandidat',
         'prenomsCandidat',
-        'libelleGenre',
+        'genreCandidat',
         'zoneInscription',
         'districtInscription',
         ]"
@@ -38,17 +38,17 @@
       [tableRow]="[
         'nomCandidat',
         'prenomsCandidat',
-        'libelleGenre',
+        'genreCandidat',
         'zoneInscription',
         'districtInscription',
         ]"
-      [tableData]="allApplicants"
-      [searchList]="allApplicants"
+      [tableData]="allApplicantsSelected"
+      [searchList]="allApplicantsSelected"
     >
       <label class="h5 font-weight-bold text-primary">Candidats sélectionnés</label>
     </app-custom-table>
   </div>
-  <div class="col-md-3 col-sm-12" *ngIf="currentCandidat && currentCandidat.nomCandidat">
+  <div class="col-md-3 col-sm-12" *ngIf="currentCandidat && currentCandidat.candidat && currentCandidat.candidat.nomCandidat">
     <app-info-applicant (retirerClick)="retirerCandidat($event)" (validateClick)="confirmValidation($event)"
                         [btnIs]="btnToShow" [candidatInfo]="currentCandidat"></app-info-applicant>
   </div>

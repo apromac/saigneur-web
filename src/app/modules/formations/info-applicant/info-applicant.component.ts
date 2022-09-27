@@ -3,7 +3,7 @@ import {NgbAccordionConfig} from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment';
 import {ParamsService} from '../../../core/services/params.service';
 import {Candidat} from '../../../data/schemas/candidat';
-import {InscriptionModel} from '../../../data/schemas/inscription.model';
+import {InscriptionDTO, InscriptionModel} from '../../../data/schemas/inscription.model';
 
 @Component({
   selector: 'app-info-applicant',
@@ -11,7 +11,7 @@ import {InscriptionModel} from '../../../data/schemas/inscription.model';
   styleUrls: ['./info-applicant.component.scss']
 })
 export class InfoApplicantComponent implements OnInit {
-  @Input() candidatInfo: Candidat;
+  @Input() candidatInfo: InscriptionDTO | any;
   @Input() btnIs: 'valider' | 'retirer' | 'none';
   @Output() validateClick = new EventEmitter<Candidat>();
   @Output() retirerClick = new EventEmitter<Candidat>();

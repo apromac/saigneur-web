@@ -7,8 +7,7 @@ export class InscriptionModel {
   inscriptionDTO: InscriptionDTO;
 }
 
-
-class InscriptionDTO {
+export class InscriptionDTO {
   abreviationDistrictInscription: string;
   anneeFormation: string;
   anneePlanteurActivite: string;
@@ -40,4 +39,6 @@ class InscriptionDTO {
   typeFormation: string;
   typeSaigneFormation: string;
   zoneInscription: string;
+  campagne: Campagne;
+  candidat: Candidat;
 }

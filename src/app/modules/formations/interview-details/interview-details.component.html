@@ -15,7 +15,7 @@
   <div class="d-flex m-auto col-4" style="width: max-content; height: 150px">
     <img height="250" src="assets/images/avatars/1.jpg" alt="" class="img-thumbnail"/>
   </div>
-  <p class="offcanvas-title h5 col-12 text-center">N'GUESSAN Kouadio Hervé</p>
+  <p class="offcanvas-title h5 col-12 text-center">{{candidatInterview.nomCandidat}}</p>
 </div>
 <div class="offcanvas-body mt-0">
   <div class="overflow-auto" style="max-height: 50vh">
@@ -87,5 +87,10 @@
         </ng-template>
       </ngb-panel>
     </ngb-accordion>
+  </div>
+</div>
+<div class="offcanvas-bottom mb-2 mt-1">
+  <div (click)="validateClick.emit()" class="btn btn-lg btn-primary btn-block">
+    Valider
   </div>
 </div>

@@ -16,6 +16,7 @@ export class InfoApplicantComponent implements OnInit {
   @Output() validateClick = new EventEmitter<Candidat>();
   @Output() retirerClick = new EventEmitter<Candidat>();
 
+
   constructor(config: NgbAccordionConfig, private paramsService: ParamsService) {
     // customize default values of accordions used by this component tree
     config.closeOthers = true;

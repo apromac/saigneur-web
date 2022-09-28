@@ -387,17 +387,15 @@
                   </div>
                 </div>
                 <div class="animated fadeInUp" *ngIf="practice">
-                  <!--                <div class="row">-->
-                  <!--                  <div class="col-md">-->
-                  <!--                    <div class="form-floating">-->
-                  <!--                      <input type="text" class="form-control" id="placeformation" placeholder="Lieu de formation"-->
-                  <!--                             value="">-->
-                  <!--                      <label for="placeformation">Lieu formation</label>-->
-                  <!--                    </div>-->
-                  <!--                  </div>-->
-
-
-                  <!--                </div>-->
+                  <div class="row">
+                    <div class="col-md">
+                      <div class="form-floating">
+                        <input formControlName="lieuFormation" type="text" class="form-control" id="placeformation" placeholder="Lieu de formation"
+                               value="">
+                        <label for="placeformation">Lieu formation</label>
+                      </div>
+                    </div>
+                  </div>
                   <div class="row g-2 mt-2 mb-2">
                     <div class="col-md">
                       <div class="form-floating">
@@ -429,14 +427,16 @@
                       <div class="col-md mb-1">
                         <div class="input-group">
                           <span class="input-group-text">Nom du planteur</span>
-                          <input formControlName="nomPlanteurFormation" id="nameplFormation" type="text" class="form-control"/>
+                          <input formControlName="nomPlanteurFormation" id="nameplFormation" type="text"
+                                 class="form-control"/>
                         </div>
                       </div>
 
                       <div class="col-md mb-1">
                         <div class="input-group">
                           <span class="input-group-text">Matricule du planteur</span>
-                          <input formControlName="matriculePlanteurFormation" id="mleFomation" type="text" class="form-control"/>
+                          <input formControlName="matriculePlanteurFormation" id="mleFomation" type="text"
+                                 class="form-control"/>
                         </div>
                       </div>
                     </div>
@@ -444,21 +444,24 @@
                       <div class="col-md">
                         <div class="input-group">
                           <span class="input-group-text">Contacts</span>
-                          <input formControlName="contactPlanteurFormation" id="contactplFormation" type="text" class="form-control"/>
+                          <input formControlName="contactPlanteurFormation" id="contactplFormation" type="text"
+                                 class="form-control"/>
                         </div>
                       </div>
 
                       <div class="col-md">
                         <div class="input-group">
                           <span class="input-group-text">Localité</span>
-                          <input formControlName="lieuPlanteurFormation" id="localFormation" type="text" class="form-control"/>
+                          <input formControlName="lieuPlanteurFormation" id="localFormation" type="text"
+                                 class="form-control"/>
                         </div>
                       </div>
 
                       <div class="col-md">
                         <div class="input-group">
                           <span class="input-group-text">Année</span>
-                          <input [maxLength]="5" formControlName="anneePlanteurFormation" class="date-own form-control" [min]="1900" [max]="currentYear"
+                          <input [maxLength]="5" formControlName="anneePlanteurFormation" class="date-own form-control"
+                                 [min]="1900" [max]="currentYear"
                                  type="number">
                         </div>
                       </div>
@@ -506,7 +509,8 @@
                 </div>
               </div>
 
-              <div class="border mt-2 p-2 animated fadeInUp" *ngIf="jobForm.controls['propositionEmploi'] && jobForm.controls['propositionEmploi'].value && jobForm.controls['propositionEmploi'].value === true">
+              <div class="border mt-2 p-2 animated fadeInUp"
+                   *ngIf="jobForm.controls['propositionEmploi'] && jobForm.controls['propositionEmploi'].value && jobForm.controls['propositionEmploi'].value === true">
                 <div class="row">
                   <div class="col-md mb-1">
                     <div class="input-group">
@@ -540,7 +544,8 @@
                   <div class="col-md">
                     <div class="input-group">
                       <span class="input-group-text">Année</span>
-                      <input formControlName="anneePlanteurEmploi" class="date-own form-control" [min]="1900" [max]="currentYear"
+                      <input formControlName="anneePlanteurEmploi" class="date-own form-control" [min]="1900"
+                             [max]="currentYear"
                              type="number">
                     </div>
                   </div>
@@ -558,7 +563,8 @@
                   </div>
                 </div>
 
-                <div class="border mt-2 p-2 animated fadeInUp" *ngIf="jobForm.controls['isActivite'] && jobForm.controls['isActivite'].value && jobForm.controls['isActivite'].value === true">
+                <div class="border mt-2 p-2 animated fadeInUp"
+                     *ngIf="jobForm.controls['isActivite'] && jobForm.controls['isActivite'].value && jobForm.controls['isActivite'].value === true">
                   <div class="row">
                     <div class="col-md mb-1">
                       <div class="input-group">
@@ -592,7 +598,8 @@
                     <div class="col-md">
                       <div class="input-group">
                         <span class="input-group-text">Année</span>
-                        <input formControlName="anneePlanteurActivite" [maxLength]="4" class="date-own form-control" [min]="1900" [max]="currentYear"
+                        <input formControlName="anneePlanteurActivite" [maxLength]="4" class="date-own form-control"
+                               [min]="1900" [max]="currentYear"
                                type="number">
                       </div>
                     </div>

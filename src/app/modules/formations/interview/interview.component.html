@@ -1,8 +1,11 @@
 <div class="row">
-  <div class="col-9">
+  <div class="col">
     <app-custom-table
       [header]="tableHeader"
       [menus]="getMenus()"
+      [isLoading]="isLoading"
+      (actualiser)="getCandidatInterview()"
+      (rowClicked)="openInterview(contentInterview, $event)"
       [tableHeader]="[
   'Nom et prénoms',
   'Réveil',
@@ -15,7 +18,7 @@
   'Présence dans une plantation',
   ]"
       [tableRow]="[
-  'name_surname',
+  'nomCandidat',
   'h_reveil',
   'h_couche',
   'occupation',
@@ -26,46 +29,47 @@
   'plantation',
   ]"
       [tableData]="allApplicants"
+      [searchList]="allApplicants"
     ></app-custom-table>
 
   </div>
-  <div class="col-3">
-    <div class="card h-100">
-      <div class="card-body row">
-        <div (click)="openInfo(contentInfo)" class="d-flex m-auto" style="width: max-content">
-          <!--        <div style="">-->
-          <img width="200" height="200" src="assets/images/avatars/1.jpg" alt="" class="rounded mx-auto d-block"/>
-          <!--        </div>-->
-        </div>
-        <ul class="list-group d-flex m-auto">
-          <h5 (click)="openInfo(contentInfo)" class="text-center font-weight-bold">N'GUESSAN Kouadio Hervé</h5>
-          <circle-progress
-            [percent]="85"
-            class="list-group d-flex m-auto"
-            [radius]="100"
-            [outerStrokeWidth]="16"
-            [innerStrokeWidth]="8"
-            [outerStrokeColor]="'#008220'"
-            [innerStrokeColor]="'#85c55c'"
-            [animation]="true"
-            [animationDuration]="300"
-            (click)="openInterview(contentInterview)"
-          ></circle-progress>
-        </ul>
-        <button (click)="openInterview(contentInterview)" class="btn btn-outline-info  m-auto p-0 m-0">
-          Voir questionnaire
-        </button>
+<!--  <div  class="col-3">-->
+<!--    <div class="card h-100">-->
+<!--      <div class="card-body row">-->
+<!--        <div (click)="openInfo(contentInfo)" class="d-flex m-auto" style="width: max-content">-->
+<!--          &lt;!&ndash;        <div style="">&ndash;&gt;-->
+<!--          <img width="200" height="200" src="assets/images/avatars/1.jpg" alt="" class="rounded mx-auto d-block"/>-->
+<!--          &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--        </div>-->
+<!--        <ul class="list-group d-flex m-auto">-->
+<!--          <h5 (click)="openInfo(contentInfo)" class="text-center font-weight-bold">N'GUESSAN Kouadio Hervé</h5>-->
+<!--          <circle-progress-->
+<!--            [percent]="85"-->
+<!--            class="list-group d-flex m-auto"-->
+<!--            [radius]="100"-->
+<!--            [outerStrokeWidth]="16"-->
+<!--            [innerStrokeWidth]="8"-->
+<!--            [outerStrokeColor]="'#008220'"-->
+<!--            [innerStrokeColor]="'#85c55c'"-->
+<!--            [animation]="true"-->
+<!--            [animationDuration]="300"-->
+<!--            (click)="openInterview(contentInterview)"-->
+<!--          ></circle-progress>-->
+<!--        </ul>-->
+<!--        <button (click)="openInterview(contentInterview)" class="btn btn-outline-info  m-auto p-0 m-0">-->
+<!--          Voir questionnaire-->
+<!--        </button>-->
 
-      </div>
-    </div>
-  </div>
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 </div>
 
 <ng-template #contentInterview let-offcanvas>
-  <app-interview-details (openInfo)="openInfo(contentInfo)"></app-interview-details>
+  <app-interview-details *ngIf="currentApplicant" [candidatInterview]="currentApplicant" (validateClick)="confirmValidation()" (openInfo)="openInfo(contentInfo)"></app-interview-details>
 </ng-template>
 
 
 <ng-template #contentInfo let-offcanvas>
-  <app-info-applicant></app-info-applicant>
+  <app-info-applicant *ngIf="currentApplicant" [candidatInfo]="currentApplicant" ></app-info-applicant>
 </ng-template>

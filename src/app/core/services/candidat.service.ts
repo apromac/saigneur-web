@@ -23,10 +23,10 @@ export class CandidatService {
 
   constructor(private http: HttpClient) { }
 
+
   getCandidatById(idCdt: number): Observable<Response> {
     return this.http.get<Response>(`${baseUrl}/findByCandidatID/${idCdt}`);
   }
-
   getAllCandidats(): Observable<Response> {
     return this.http.get<Response>(`${baseUrl}/findAllCandidat`);
   }
@@ -38,8 +38,15 @@ export class CandidatService {
   getAllCurrentCandidat(selected): Observable<Response> {
     return this.http.get<Response>(`${baseUrl}/campagne/findByCurrentCampagne`);
   }
-
-
+  validateInterview(idCdt: number, isSelected: boolean): Observable<Response> {
+    return this.http.get<Response>(`${baseUrlInscription}/candidat/${idCdt}/interview/${isSelected}`);
+  }
+  getCandidatInterview(): Observable<Response> {
+    return this.http.get<Response>(`${baseUrlInscription}/interview`);
+  }
+  getCandidatRetenu(): Observable<Response> {
+    return this.http.get<Response>(`${baseUrlInscription}/retenu`);
+  }
   search(term: string) {
     if (term === '') {
       return of([]);

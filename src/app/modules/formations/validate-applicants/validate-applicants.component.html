@@ -2,6 +2,7 @@
   <div class="col-md">
     <app-custom-table
       [header]="tableHeader"
+      [isLoading]="isNotSelectedLoading"
       (actualiser)="getListCandidat(false)"
       (rowClicked)="tableRowClicked($event, false)"
       [tableHeader]="[
@@ -26,6 +27,7 @@
     <hr>
     <app-custom-table
       [withoutHeader]="true"
+      [isLoading]="isSelectedLoading"
       (actualiser)="getListCandidat(true)"
       (rowClicked)="tableRowClicked($event, true)"
       [tableHeader]="[

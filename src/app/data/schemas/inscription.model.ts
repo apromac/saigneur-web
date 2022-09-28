@@ -22,7 +22,9 @@ export class InscriptionDTO {
   isActivite: boolean;
   isAppliquer: boolean;
   isFormer: boolean;
-  isSelectionner: boolean;
+  isSelectionner: boolean = false;
+  isInterview :	boolean = false
+  isRetenu : boolean =false;
   lieuFormation: string;
   lieuPlanteurActivite: string;
   lieuPlanteurFormation: string;

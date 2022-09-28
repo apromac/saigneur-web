@@ -21,6 +21,8 @@ export class ValidateApplicantsComponent implements OnInit {
   public allApplicants: InscriptionDTO[] = [];
   public allApplicantsSelected: InscriptionDTO[] = [];
   currentCandidat: InscriptionDTO;
+  isSelectedLoading = true;
+  isNotSelectedLoading = true;
   btnToShow: 'valider' | 'retirer' | 'none' = 'valider';
   public tableHeader: CustomTableHeaderInfo = {
     withBtn: false,
@@ -42,20 +44,29 @@ export class ValidateApplicantsComponent implements OnInit {
   }
 
   getListCandidat(selected: boolean): void {
+
+    if(selected) {
+      this.isSelectedLoading =  true;
+      this.allApplicantsSelected =[];
+    } else {
+      this.allApplicants = []
+      this.isNotSelectedLoading =  true;
+    }
     this.candidatService.getAllCurrentCandidatByStatus(selected).subscribe({
       next: value => {
-        const list = (value as any as InscriptionDTO[]).map((c) => {
+        const list = ((value || [])  as any as InscriptionDTO[])?.map((c) => {
           let cdt = c;
           cdt.candidat.genreCandidat = c.candidat.genreCandidat == '0' ? 'Masculin' : 'Féminin';
           return cdt;
         });
         if (!selected) {
-          this.allApplicants = [];
+          this.isNotSelectedLoading = false;
           list.forEach((o, index) => {
             this.allApplicants.push(o);
             Object.assign(this.allApplicants[index], o.candidat, o.campagne);
           });
         } else {
+          this.isSelectedLoading = false;
           list.forEach((o, index) => {
             this.allApplicantsSelected.push(o);
             Object.assign(this.allApplicantsSelected[index], o.candidat, o.campagne);
@@ -65,6 +76,8 @@ export class ValidateApplicantsComponent implements OnInit {
         console.log(list);
       },
       error: (err: HttpErrorResponse) => {
+        this.isSelectedLoading = false;
+        this.isNotSelectedLoading = false;
         this.toast.error(err.error.message, 'STATUS ' + err.status);
         console.error(err);
       }
@@ -200,7 +213,7 @@ export class ValidateApplicantsComponent implements OnInit {
           inscriptionID: c.inscriptionID,
         }).subscribe({
           next: valeur => {
-            this.toast.success('Candidat rétiré avec succès');
+            this.toast.success('Candidat retenu avec succès');
             let i = this.allApplicantsSelected.findIndex((i) => i.inscriptionID === c.inscriptionID);
             this.allApplicantsSelected.splice(i, 1);
             if (this.allApplicantsSelected && this.allApplicantsSelected.length > 0) {

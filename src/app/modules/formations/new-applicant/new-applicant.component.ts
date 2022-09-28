@@ -258,6 +258,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       matriculePlanteurFormation : ['', Validators.required],
       contactPlanteurFormation : [''],
       lieuPlanteurFormation : ['', Validators.required],
+      lieuFormation : ['', Validators.required],
       anneePlanteurFormation : ['', Validators.required],
     });
     //

@@ -216,10 +216,10 @@
         </td>
       </tr>
       <tr
-        *ngIf="tableData && tableData.length>0 && (searchList.length >  config.itemsPerPage || bottomMenus && bottomMenus.length>0)">
+        *ngIf="tableData && tableData.length>0 && (tableData.length >  config.itemsPerPage || bottomMenus && bottomMenus.length>0)">
         <td [attr.colspan]="getcolSpan()">
           <div class="row">
-            <div *ngIf="tableData && searchList.length > config.itemsPerPage"
+            <div *ngIf="tableData && tableData.length > config.itemsPerPage"
                  class="{{(bottomMenus && bottomMenus.length>0)? 'col-sm-4 col-md-4 col-xl-4 col-xs-4':''}}">
               <div class="cdp" actpage="1">
                 <a (click)="pageChanged('#!-1')"  class="cdp_i"> < </a>

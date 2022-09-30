@@ -107,7 +107,7 @@ table tbody tr.checked td {
 
 .cdp {
   position: relative;
-  text-align: center;
+  //text-align: center;
   //padding: 20px 0;
   font-size: 0;
   z-index: 6;
@@ -134,6 +134,7 @@ table tbody tr.checked td {
     color:  var(--primary);
     font-weight: 700;
     letter-spacing: .03em;
+    text-align: center;
     display: none;
 
     &:first-child,

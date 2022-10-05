@@ -1,3 +1,4 @@
+import {STATUS_CANDIDAT} from '../enums/status';
 import {Campagne} from './campagne';
 import {Candidat} from './candidat';
 
@@ -10,6 +11,7 @@ export class InscriptionModel {
 export class InscriptionDTO {
   abreviationDistrictInscription: string;
   anneeFormation: string;
+  statut: STATUS_CANDIDAT = STATUS_CANDIDAT.NEW_CANDIDAT;
   anneePlanteurActivite: string;
   anneePlanteurEmploi: string;
   anneePlanteurFormation: string;

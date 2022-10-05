@@ -27,4 +27,7 @@ export class CampagneService {
   public addCampagne(c: Campagne): Observable<Response> {
     return this.http.post<Response>(`${basrUrl}saveCampagne`, c);
   }
+  public updateCampagne(c: Campagne): Observable<Response> {
+    return this.http.put<Response>(`${basrUrl}${c.campagneID}`, c);
+  }
 }

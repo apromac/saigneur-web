@@ -1,35 +1,16 @@
 import {CdkStepper} from '@angular/cdk/stepper';
 import {HttpErrorResponse} from '@angular/common/http';
-import {
-  AfterContentInit,
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal, NgbModal, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment';
 import {ToastrService} from 'ngx-toastr';
-import {
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  merge,
-  Observable, of,
-  OperatorFunction,
-  Subject, switchMap,
-  tap
-} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject} from 'rxjs';
 import {CandidatService} from '../../../core/services/candidat.service';
 import {ParamsService} from '../../../core/services/params.service';
 import {PosteService} from '../../../core/services/poste.service';
 import {ZoneService} from '../../../core/services/zone.service';
+import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {Campagne} from '../../../data/schemas/campagne';
 import {Candidat} from '../../../data/schemas/candidat';
 import {InscriptionModel} from '../../../data/schemas/inscription.model';
@@ -349,6 +330,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     inscription.inscriptionDTO = this.trainingForm.value
     inscription.inscriptionDTO.zoneInscription = this.localForm.controls['zoneInscription'].value;
     inscription.inscriptionDTO.districtInscription = this.localForm.controls['districtInscription'].value;
+    inscription.inscriptionDTO.statut = STATUS_CANDIDAT.NEW_CANDIDAT;
     // const motiv = this.motivationForm.value['motivation'].valeur
     inscription.inscriptionDTO.motivation = this.motivationForm.value['motivation'].valeur
    Object.assign(inscription.inscriptionDTO, this.jobForm.value)

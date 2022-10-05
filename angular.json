@@ -57,9 +57,7 @@
               "./node_modules/font-awesome/scss/font-awesome.scss",
               "src/assets/utils/bootstrap.min.css"
             ],
-            "scripts": [
-              './node_modules/type'
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {

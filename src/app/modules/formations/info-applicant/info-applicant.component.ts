@@ -28,9 +28,12 @@ export class InfoApplicantComponent implements OnInit {
     this.getNiveauEtude();
   }
 
-  getAge(): string {
-    return this.candidatInfo.dateNaisCandidat;
-    // return moment(moment().format('YYYY')).subtract(moment(this.candidatInfo.dateNaisCandidat)).toISOString()
+  getAge() {
+    // return this.candidatInfo.dateNaisCandidat;
+    let year = new Date().getFullYear();
+    let dN = new Date(this.candidatInfo.dateNaisCandidat).getFullYear();
+    console.log(year, dN);
+    return year - dN;
   }
 
   getNiveauEtude(): void {

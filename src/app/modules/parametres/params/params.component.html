@@ -1,58 +1,67 @@
 <div class="row">
-  <div class="col-lg-6 col-md-6 col-sm-12">
-    <app-custom-table
-      [header]="tableHeaderCampagne"
-      [searchList]="allCampagne"
-      [menus]="getMenus()"
-      (actualiser)="getAllCampagne()"
-      [tableHeader]="[
+  <div class="row col-lg-6 col-md-6 col-sm-12">
+    <div class="col-md-12">
+      <app-custom-table
+        [header]="tableHeaderProfil"
+        [searchList]="allProfils"
+        [tableData]="allProfils"
+        [config]="config"
+        [menus]="getMenus('PROFIL')"
+        (actualiser)="getAllProfil()"
+        [tableHeader]="[
+  'Libellé',
+  ]"
+        [tableRow]="[
+  'libelleProfil',
+  ]"
+      >
+
+      </app-custom-table>
+    </div>
+    <div class="col-md-12 mt-3">
+      <app-custom-table
+        [header]="tableHeaderCampagne"
+        [searchList]="allCampagne"
+        [tableData]="allCampagne"
+        [config]="config"
+        [menus]="getMenus('CAMPAGNE')"
+        (actualiser)="getAllCampagne()"
+        [tableHeader]="[
   'Libellé',
   'Active'
   ]"
-      [tableRow]="[
+        [tableRow]="[
   'libelleCampagne',
   {isIcon: true, libelle : 'statusVal'}
   ]"
-      [tableData]="allCampagne"
-    >
+      >
 
-    </app-custom-table>
+      </app-custom-table>
+    </div>
   </div>
   <div class="col-lg-6 col-md-6 col-sm-12">
     <app-custom-table
-      [header]="tableHeader"
-      [menus]="getMenus()"
+      [header]="tableHeaderPoste"
+      [searchList]="allPoste"
+      [tableData]="allPoste"
+      [menus]="getMenus('POSTE')"
+      (actualiser)="getAllPoste()"
       [tableHeader]="[
-  'Nom',
   'Libellé',
-  'Type'
+  'Profil',
   ]"
       [tableRow]="[
-  'nom',
-  'libelle',
-  'type'
+  'libellePoste',
+  'libelleProfil'
   ]"
-      [tableData]="allParams"
     >
-      <!--  <div class="col-md mr-md-2">-->
-      <div class="input-group">
-        <label class="input-group-text" for="campagne">AFFICHER</label>
-        <select class="form-select" id="campagne"
-                aria-label="Sélectionnez une campagne">
-          <option value="2022" selected>Tous les paramètres</option>
-          <option value="2022">Type de pièce</option>
-          <option value="2021">Type de formation</option>
-          <option value="2020">Campagne</option>
-          <option value="2019">Type de saigné</option>
-        </select>
-      </div>
-      <!--  </div>-->
-    </app-custom-table>
 
+    </app-custom-table>
   </div>
 </div>
-<button id="btnmodal" class="d-none" (click)="openModal(nwparams)"></button>
-<button id="btnmodalcampagne" class="d-none" (click)="openModal(nwcp)"></button>
+
+<!--<button id="btnmodal" class="d-none" (click)="openModal(nwparams)"></button>-->
+<!--<button id="btnmodalcampagne" class="d-none" (click)="openModal(nwcp)"></button>-->
 
 <ng-template id="nwparams" #nwparams>
   <div class="modal-header">
@@ -88,6 +97,64 @@
     <button type="button" class="btn btn-outline-danger" (click)="close()">Fermer</button>
   </div>
 </ng-template>
+<ng-template id="nwposte" #nwposte>
+  <div class="modal-header">
+    <h4 class="modal-title">Edition de poste</h4>
+    <button type="button" (click)="close()" class="btn-close" aria-label="Close"></button>
+  </div>
+  <form [formGroup]="fGrpPoste">
+    <div class="modal-body">
+      <div class="row g-2">
+        <div class="col-12">
+          <div class="form-floating">
+            <input type="text"
+                   formControlName="libellePoste"
+                   class="form-control text-uppercase" placeholder="Libellé du poste" value="">
+            <label>Libellé du poste</label>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-floating">
+            <select (change)="profilChange($event.target.value)" class="form-select" aria-label="Profil" formControlName="profil">
+              <option  *ngFor="let p of allProfils" [value]="p.profilID"  >{{p.libelleProfil}}</option>
+            </select>
+            <label for="type">Profil</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success" (click)="savePoste()">Enregistrer</button>
+      <button type="button" class="btn btn-outline-danger" (click)="close()">Fermer</button>
+    </div>
+  </form>
+</ng-template>
+<ng-template id="nwprofil" #nwprofil>
+  <div class="modal-header">
+    <h4 class="modal-title">Edition de profil</h4>
+    <button type="button" (click)="close()" class="btn-close" aria-label="Close"></button>
+  </div>
+  <form [formGroup]="fGrpProfil">
+    <div class="modal-body">
+      <div class="row g-2">
+        <div class="col-12">
+          <div class="form-floating">
+            <input type="text"
+                   formControlName="libelleProfil"
+                   class="form-control text-uppercase" id="cp" placeholder="Libellé du profil" value="">
+            <label for="abbr">Libellé du profil</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success" (click)="saveProfil()">Enregistrer</button>
+      <button type="button" class="btn btn-outline-danger" (click)="close()">Fermer</button>
+    </div>
+  </form>
+</ng-template>
 <ng-template id="nwcp" #nwcp>
   <div class="modal-header">
     <h4 class="modal-title">Edition de campagne</h4>
@@ -100,7 +167,7 @@
           <div class="form-floating">
             <input type="text"
                    formControlName="libelleCampagne"
-                   class="form-control" id="cp" placeholder="Libellé de la campagne" value="">
+                   class="form-control text-uppercase" id="cp" placeholder="Libellé de la campagne" value="">
             <label for="abbr">Libellé de la campagne</label>
           </div>
         </div>
@@ -121,3 +188,34 @@
     </div>
   </form>
 </ng-template>
+
+
+<!--    <app-custom-table-->
+<!--      [header]="tableHeader"-->
+<!--      [menus]="getMenus()"-->
+<!--      [tableHeader]="[-->
+<!--  'Nom',-->
+<!--  'Libellé',-->
+<!--  'Type'-->
+<!--  ]"-->
+<!--      [tableRow]="[-->
+<!--  'nom',-->
+<!--  'libelle',-->
+<!--  'type'-->
+<!--  ]"-->
+<!--      [tableData]="allParams"-->
+<!--    >-->
+<!--      &lt;!&ndash;  <div class="col-md mr-md-2">&ndash;&gt;-->
+<!--      <div class="input-group">-->
+<!--        <label class="input-group-text" for="campagne">AFFICHER</label>-->
+<!--        <select class="form-select" id="campagne"-->
+<!--                aria-label="Sélectionnez une campagne">-->
+<!--          <option value="2022" selected>Tous les paramètres</option>-->
+<!--          <option value="2022">Type de pièce</option>-->
+<!--          <option value="2021">Type de formation</option>-->
+<!--          <option value="2020">Campagne</option>-->
+<!--          <option value="2019">Type de saigné</option>-->
+<!--        </select>-->
+<!--      </div>-->
+<!--      &lt;!&ndash;  </div>&ndash;&gt;-->
+<!--    </app-custom-table>-->

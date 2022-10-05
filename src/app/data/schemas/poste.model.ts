@@ -5,5 +5,6 @@ export class PosteModel {
   libellePoste?: string;
   districtBean?: string;
   zoneBean?: string;
+  libelleProfil?: string;
   profil?: ProfilModel;
 }

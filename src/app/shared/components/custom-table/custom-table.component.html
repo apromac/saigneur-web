@@ -216,7 +216,7 @@
         </td>
       </tr>
       <tr
-        *ngIf="tableData && tableData.length>0 && (tableData.length >  config.itemsPerPage || bottomMenus && bottomMenus.length>0)">
+        *ngIf="searchList && searchList.length>0 && (searchList.length >  config.itemsPerPage || bottomMenus && bottomMenus.length>0)">
         <td [attr.colspan]="getcolSpan()">
           <div class="row">
             <div *ngIf="tableData && tableData.length > config.itemsPerPage"

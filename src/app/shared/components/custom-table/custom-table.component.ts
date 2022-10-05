@@ -1,5 +1,6 @@
 // import { AfterContentChecked, AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {Component, EventEmitter, Input, OnInit, Output, TrackByFunction} from '@angular/core';
+import {config} from 'rxjs';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
 import {SearchBoxInfo} from '../../../data/interfaces/search-box-info';
 import {TableHeaderInfo} from '../../../data/interfaces/table-header-info';
@@ -54,9 +55,6 @@ export class CustomTableComponent implements OnInit {
   @Input() config: {
     currentPage?: number,
     itemsPerPage?: number
-  } = {
-    currentPage: 1,
-    itemsPerPage: 10
   };
 
   // Pour activer les rowspan et colspan
@@ -108,6 +106,8 @@ export class CustomTableComponent implements OnInit {
         column: r.libelle || r
       });
     }
+
+    console.log(config);
     // console.log(this.searchCriterias);
 
   }
@@ -117,7 +117,7 @@ export class CustomTableComponent implements OnInit {
   }
 
   getPagination(): any[] {
-    return Array(Math.floor(this.searchList.length / this.config.itemsPerPage + 1));
+    return Array(Math.floor(this.searchList.length / this.config.itemsPerPage));
   }
 
   reload(val): void {
@@ -166,7 +166,7 @@ export class CustomTableComponent implements OnInit {
   }
 
   pageChanged(event): void {
-    console.log(event);
+    console.log(event, this.tableData, this.searchList);
     var go = event.replace('#!', '');
 
     var paginationPage = parseInt($('.cdp').attr('actpage'), 10);

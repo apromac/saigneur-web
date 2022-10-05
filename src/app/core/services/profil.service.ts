@@ -2,6 +2,8 @@ import {HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {PosteModel} from '../../data/schemas/poste.model';
+import {ProfilModel} from '../../data/schemas/profil.model';
 
 const baseUrl = environment.apiUserUrl + 'profil/';
 
@@ -18,5 +20,10 @@ export class ProfilService {
     return this.http.get<Response>(`${baseUrl}findAllProfil`);
   }
 
-
+  updateProfil(profil: ProfilModel): Observable<Response>{
+    return   this.http.put<Response>(`${baseUrl}${profil.profilID}`, profil);
+  }
+  addProfil(profil: ProfilModel): Observable<Response>{
+    return   this.http.post<Response>(`${baseUrl}saveProfil`, profil);
+  }
 }

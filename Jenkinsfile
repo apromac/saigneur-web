@@ -1,8 +1,5 @@
 pipeline {
   agent any
-  tools {
-    maven "Maven386"
-  }
   environment {
     DOCKER_IMAGE_NAME = "saigneur-web"
     CONTAINER_NAME = "msaigneur-web"

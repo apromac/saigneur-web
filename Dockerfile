@@ -2,7 +2,7 @@
 # DOCKERFILE
 # CONSTRUCTION DE L'IMAGE DOCKER DU MICROSERVICE "saigneur-web"
 # ======================================================================
-LABEL maintainer = "apromac <abraham.tiene@apromac.ci>"
+#LABEL maintainer = "apromac <abraham.tiene@apromac.ci>"
 
 # Stage 1
 FROM node:alpine3.16 as builder-node

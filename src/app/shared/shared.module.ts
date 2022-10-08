@@ -15,6 +15,7 @@ import {AgePipe} from '../core/pipes/age.pipe';
 import {BoolValPipe} from '../core/pipes/bool-val.pipe';
 import {FqPaginationPipe} from '../core/pipes/fq-pagination.pipe';
 import {GenderPipe} from '../core/pipes/gender.pipe';
+import {SaignePipe} from '../core/pipes/saigne.pipe';
 import {ListSaigneursComponent} from '../layout/list-saigneurs/list-saigneurs.component';
 import {CustomInputComponent} from './components/custom-input/custom-input.component';
 import {CustomTableComponent} from './components/custom-table/custom-table.component';
@@ -42,6 +43,7 @@ import { YearPickerComponent } from './components/year-picker/year-picker.compon
     GenderPipe,
     BoolValPipe,
     AgePipe,
+    SaignePipe
   ],
   exports : [
     CommonModule,
@@ -72,6 +74,8 @@ import { YearPickerComponent } from './components/year-picker/year-picker.compon
     GenderPipe,
     BoolValPipe,
     AgePipe,
+    BoolValPipe,
+    SaignePipe
   ],
   imports: [
     CommonModule,

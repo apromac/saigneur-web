@@ -13,11 +13,12 @@ import {InscriptionDTO, InscriptionModel} from '../../../data/schemas/inscriptio
 export class InfoApplicantComponent implements OnInit {
   @Input() candidatInfo: InscriptionDTO | any;
   @Input() btnIs: 'valider' | 'retirer' | 'none';
-  @Output() validateClick = new EventEmitter<Candidat>();
-  @Output() retirerClick = new EventEmitter<Candidat>();
+  @Output() validateClick = new EventEmitter<InscriptionDTO>();
+  @Output() retirerClick = new EventEmitter<InscriptionDTO>();
 
 
-  constructor(config: NgbAccordionConfig, private paramsService: ParamsService) {
+  constructor(config: NgbAccordionConfig,
+              private paramsService: ParamsService) {
     // customize default values of accordions used by this component tree
     config.closeOthers = true;
     config.type = 'info';
@@ -25,24 +26,15 @@ export class InfoApplicantComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getNiveauEtude();
   }
 
-  getAge() {
-    // return this.candidatInfo.dateNaisCandidat;
-    let year = new Date().getFullYear();
-    let dN = new Date(this.candidatInfo.dateNaisCandidat).getFullYear();
-    console.log(year, dN);
-    return year - dN;
-  }
+  // getAge() {
+  //   // return this.candidatInfo.dateNaisCandidat;
+  //   let year = new Date().getFullYear();
+  //   let dN = new Date(this.candidatInfo.dateNaisCandidat).getFullYear();
+  //   console.log(year, dN);
+  //   return year - dN;
+  // }
 
-  getNiveauEtude(): void {
-    this.paramsService.getParams('niveau-etude').subscribe({
-      next: value => {
-        console.log(value);
-      }, error: (err) => {
-        console.error(err);
-      }
-    });
-  }
+
 }

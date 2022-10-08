@@ -1,5 +1,5 @@
 <div class="card h-100" *ngIf="candidatInfo && candidatInfo.nomCandidat">
-  <div class="card-body row">
+  <div class="card-body animated fadeInRight row">
     <div class="m-auto d-flex" style="width: max-content;" [ngStyle]="(btnIs === 'none' || !btnIs )? {height : '200px'}: {height : '10em'}">
       <img class="img-thumbnail bg-transparent border-0" src="assets/images/avatars/1.jpg" alt="Logo"/>
     </div>
@@ -16,7 +16,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <small class="mt-0" style="font-size: 10px"><i>Age</i></small>
-                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{getAge()}} ans</p>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.dateNaisCandidat | age}} ans</p>
                   </div>
 
                   <div class="col-md-6 border-left">
@@ -92,7 +92,10 @@
               </li>
               <li class="list-group-item mb-0">
                 <small class="mt-0" style="font-size: 10px"><i>Période de Formation</i></small>
-                <p class="pl-0 ml-0 pt-0 mt-0 mb-0"><b>15 Juil 2021</b> au <b>18 Mai 2022</b></p>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">
+                  {{candidatInfo.anneeFormation | date:'YYYY'}}
+<!--                  <b>15 Juil 2021</b> au <b>18 Mai 2022</b>-->
+                </p>
               </li>
 
               <li class="list-group-item mb-0">
@@ -109,7 +112,7 @@
 
                   <div class="col-md-6 border-left">
                     <small class="mt-0" style="font-size: 10px"><i>Année de formation</i></small>
-                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">2021</p>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.anneeFormation | date:'YYYY'}}</p>
                   </div>
                 </div>
               </li>
@@ -118,7 +121,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <small class="mt-0" style="font-size: 10px"><i>Type formation</i></small>
-                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Saigneur</p>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.typeSaigneFormation | saigne}}</p>
                   </div>
 
                   <div class="col-md-6 border-left">
@@ -128,10 +131,10 @@
                 </div>
               </li>
 
-              <li class="list-group-item mb-0">
-                <small class="mt-0" style="font-size: 10px"><i>Lieu de formation</i></small>
-                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">BONOUFLA</p>
-              </li>
+<!--              <li class="list-group-item mb-0">-->
+<!--                <small class="mt-0" style="font-size: 10px"><i>Lieu de formation</i></small>-->
+<!--                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">BONOUFLA</p>-->
+<!--              </li>-->
             </ul>
           </ng-template>
         </ngb-panel>
@@ -143,7 +146,7 @@
                 <small class="mt-0" style="font-size: 10px"><i>Avez-vous reçu une proposition d'emploi</i></small>
                 <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.propositionEmploi | boolVal}}</p>
               </li>
-              <li class="border m-0 p-0">
+              <li class="border m-0 p-0" *ngIf="candidatInfo.propositionEmploi">
                 <ng-container
                   *ngTemplateOutlet="planteurInfo; context:{info:{nom: candidatInfo.nomPlanteurEmploi , matricule: candidatInfo.matriculePlanteurEmploi, contact:candidatInfo.contactPlanteurEmploi , localite: candidatInfo.lieuPlanteurEmploi, annee: candidatInfo.anneePlanteurEmploi}}"
                 ></ng-container>
@@ -155,7 +158,7 @@
                 <small class="mt-0" style="font-size: 10px"><i>Etes-vous en activité</i></small>
                 <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.isActivite | boolVal}}</p>
               </li>
-              <li class="border m-0 p-0">
+              <li class="border m-0 p-0" *ngIf="candidatInfo.isActivite">
                 <ng-container
                   *ngTemplateOutlet="planteurInfo; context:{info:{nom: candidatInfo.nomPlanteurActivite , matricule: candidatInfo.matriculePlanteurActivite, contact:candidatInfo.contactPlanteurActivite , localite: candidatInfo.lieuPlanteurActivite, annee: candidatInfo.anneePlanteurActivite}}"
                 ></ng-container>

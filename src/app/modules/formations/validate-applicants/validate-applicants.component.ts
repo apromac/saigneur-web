@@ -1,12 +1,13 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {Component, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
-import {Toast, ToastrService} from 'ngx-toastr';
+import {Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
+import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
+import {ToastrService} from 'ngx-toastr';
+import Swal from 'sweetalert2';
+import {GenderPipe} from '../../../core/pipes/gender.pipe';
 import {CandidatService} from '../../../core/services/candidat.service';
+import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
-import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
-import Swal from 'sweetalert2';
-import {Candidat} from '../../../data/schemas/candidat';
 import {InscriptionDTO} from '../../../data/schemas/inscription.model';
 
 
@@ -17,7 +18,6 @@ import {InscriptionDTO} from '../../../data/schemas/inscription.model';
   encapsulation: ViewEncapsulation.None
 })
 export class ValidateApplicantsComponent implements OnInit {
-
   public allApplicants: InscriptionDTO[] = [];
   public allApplicantsSelected: InscriptionDTO[] = [];
   currentCandidat: InscriptionDTO;
@@ -44,33 +44,37 @@ export class ValidateApplicantsComponent implements OnInit {
   }
 
   getListCandidat(selected: boolean): void {
-
+    let status : STATUS_CANDIDAT;
     if(selected) {
       this.isSelectedLoading =  true;
+      status = STATUS_CANDIDAT.SELECTED;
       this.allApplicantsSelected =[];
     } else {
-      this.allApplicants = []
+      this.allApplicants = [];
+      status = STATUS_CANDIDAT.NEW_CANDIDAT;
       this.isNotSelectedLoading =  true;
     }
-    this.candidatService.getAllCurrentCandidatByStatus(selected).subscribe({
+    this.candidatService.getAllCurrentCandidatByStatus(status).subscribe({
       next: value => {
         const list = ((value || [])  as any as InscriptionDTO[])?.map((c) => {
           let cdt = c;
-          cdt.candidat.genreCandidat = c.candidat.genreCandidat == '0' ? 'Masculin' : 'Féminin';
+          cdt.genreCandidat = new GenderPipe().transform(c.genreCandidat);
           return cdt;
         });
         if (!selected) {
           this.isNotSelectedLoading = false;
-          list.forEach((o, index) => {
-            this.allApplicants.push(o);
-            Object.assign(this.allApplicants[index], o.candidat, o.campagne);
-          });
+          this.allApplicants =  list;
+          // list.forEach((o, index) => {
+          //   this.allApplicants.push(o);
+          //   Object.assign(this.allApplicants[index], o.candidat, o.campagne);
+          // });
         } else {
           this.isSelectedLoading = false;
-          list.forEach((o, index) => {
-            this.allApplicantsSelected.push(o);
-            Object.assign(this.allApplicantsSelected[index], o.candidat, o.campagne);
-          });
+          this.allApplicantsSelected = list;
+          // list.forEach((o, index) => {
+          //   this.allApplicantsSelected.push(o);
+          //   Object.assign(this.allApplicantsSelected[index], o.candidat, o.campagne);
+          // });
           // this.allApplicantsSelected = list;
         }
         console.log(list);
@@ -91,6 +95,7 @@ export class ValidateApplicantsComponent implements OnInit {
     } else {
       this.btnToShow = 'valider';
     }
+    // this.openEnd()
     console.log(cdt);
   }
 

@@ -33,6 +33,10 @@ export class UserService {
     return this.http.post<Response>(`${baseUrl}saveUtilisateur`, user);
   }
 
+  editUser(user: UsersModel): Observable<Response> {
+    return this.http.put<Response>(`${baseUrl}${user.utilisateurID}`, user);
+  }
+
   addPoste(occuper: OccuperModel): Observable<Response> {
 
     // console.log(obj);

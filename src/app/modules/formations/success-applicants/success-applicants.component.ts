@@ -2,11 +2,12 @@ import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
 import {Utility} from '../../../core/constants/utility';
+import {GenderPipe} from '../../../core/pipes/gender.pipe';
 import {CandidatService} from '../../../core/services/candidat.service';
+import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
 import {InscriptionDTO} from '../../../data/schemas/inscription.model';
-import {InterviewModel} from '../../../data/schemas/interview.model';
 
 @Component({
   selector: 'app-success-applicants',
@@ -46,12 +47,12 @@ export class SuccessApplicantsComponent implements OnInit {
   getCandidatRetenu(): void {
     this.isLoading = true;
     this.allApplicants = [];
-    this.candidatService.getCandidatRetenu().subscribe({
+    this.candidatService.getAllCurrentCandidatByStatus(STATUS_CANDIDAT.INTERVIWED).subscribe({
       next : value => {
         console.log(value);
         this.allApplicants = (value as any as InscriptionDTO[]).map((v)=>{
-          v.candidat.genreCandidat = v.candidat.genreCandidat === '0'? 'Masculin' : 'Féminin'
-          Object.assign(v, v.candidat);
+          v.genreCandidat = new GenderPipe().transform(v.genreCandidat);
+          // Object.assign(v, v.candidat);
           return v;
         });
 

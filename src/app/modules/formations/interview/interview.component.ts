@@ -1,12 +1,11 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
-import {idLocale} from 'ngx-bootstrap/chronos';
 import {ToastrService} from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import {CandidatService} from '../../../core/services/candidat.service';
+import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
-import {Candidat} from '../../../data/schemas/candidat';
 import {InscriptionDTO} from '../../../data/schemas/inscription.model';
 import {InterviewModel} from '../../../data/schemas/interview.model';
 import {InfoApplicantComponent} from '../info-applicant/info-applicant.component';
@@ -46,13 +45,13 @@ export class InterviewComponent implements OnInit {
     this.currentApplicant = null;
     this.allApplicants = [];
     this.offcanvasService.dismiss();
-    this.candidatService.getCandidatInterview().subscribe({
+    this.candidatService.getAllCurrentCandidatByStatus(STATUS_CANDIDAT.SELECTED).subscribe({
       next: value => {
         console.log(value);
         if (value){
-          this.allApplicants = (value as any as InterviewModel[]).map((v) => {
-            v.candidat.nomCandidat = v.candidat.nomCandidat + ' ' + v.candidat.prenomsCandidat;
-            Object.assign(v, v.candidat);
+          this.allApplicants = (value as any as InscriptionDTO[]).map((v) => {
+            v.nomCandidat = v.nomCandidat + ' ' + v.prenomsCandidat;
+            // Object.assign(v, v.candidat);
             return v;
           });
         }

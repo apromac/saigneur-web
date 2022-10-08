@@ -3,6 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
+import {Observable} from 'rxjs';
 import {ProfilService} from 'src/app/core/services/profil.service';
 import {PosteService} from '../../../core/services/poste.service';
 import {UserService} from '../../../core/services/user.service';
@@ -45,6 +46,7 @@ export class UsersComponent implements OnInit {
       libelle: 'Nouvel utilisateur',
     },
     btnClick: () => {
+      this.currentUser = new UsersModel();
       document.getElementById('btnmodal').click();
     },
     title: 'Liste des utilisateurs',
@@ -52,12 +54,13 @@ export class UsersComponent implements OnInit {
 
   initForm(): void {
     this.formGroup = this.fb.group({
-      nomUtilisateur: ['', Validators.required],
-      prenomsUtilisateur: ['', Validators.required],
-      password: ['', Validators.required],
-      confPassword: ['', Validators.required],
-      poste: ['', Validators.required],
-      username: ['', Validators.required],
+      nomUtilisateur: [this.currentUser?.nomUtilisateur, Validators.required],
+      prenomsUtilisateur: [this.currentUser?.prenomsUtilisateur, Validators.required],
+      password: [this.currentUser?.password, Validators.required],
+      confPassword: [this.currentUser?.password, Validators.required],
+      // poste: [, Validators.required],
+      username: [this.currentUser?.username, Validators.required],
+      utilisateurID: [this.currentUser?.utilisateurID, Validators.required],
     });
 
   }
@@ -106,20 +109,20 @@ export class UsersComponent implements OnInit {
 
   getMenus(): DropdownMenuInfo[] {
     return [
-      {
-        title: 'Détails',
-        isMatDesign: true,
-        className: 'h3',
-        icon: 'person',
-        color: 'var(--bs-primary)',
-        click: (item) => {
-          console.log(item);
-        }
-      },
+      // {
+      //   title: 'Détails',
+      //   isMatDesign: true,
+      //   className: 'h3',
+      //   icon: 'person',
+      //   color: 'var(--bs-primary)',
+      //   click: (item) => {
+      //     console.log(item);
+      //   }
+      // },
       {
         title: 'Attribuer poste',
         isMatDesign: true,
-        className: 'h3',
+        className: 'h3 hover-white',
         icon: 'assignment_turned_in',
         color: 'var(--bs-dark)',
         click: (item) => {
@@ -131,12 +134,25 @@ export class UsersComponent implements OnInit {
         }
       },
       {
+        title: 'Modifier',
+        isMatDesign: true,
+        className: 'h3',
+        icon: 'edit',
+        color: 'var(--bs-primary)',
+        click: (item) => {
+          this.currentUser = item;
+          document.getElementById('btnmodal').click();
+          console.log(item);
+        }
+      },
+      {
         title: 'Supprimer',
         isMatDesign: true,
         className: 'h3',
         icon: 'delete',
         color: 'red',
         click: (item) => {
+
           console.log(item);
         }
       },
@@ -179,7 +195,14 @@ export class UsersComponent implements OnInit {
 
   saveUser(): void {
     console.log(this.formGroup);
-    this.userService.createUser(this.formGroup.value).subscribe({
+
+   let obs : Observable<any>
+    if(this.currentUser && this.currentUser.utilisateurID) {
+      obs = this.userService.editUser(this.formGroup.value)
+    } else {
+    obs = this.userService.createUser(this.formGroup.value);
+    }
+      obs.subscribe({
       next: value => {
         console.log(value);
         this.getAllUser();

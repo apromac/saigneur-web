@@ -189,10 +189,10 @@
 
                   <div class="form-floating">
                     <select formControlName="niveauEtudeCandidat" class="form-select" id="level" aria-label="Level">
-                      <option value="0" selected>Aucun</option>
-                      <option value="1">Primaire</option>
-                      <option value="2">Secondaire</option>
-                      <option value="3">Supérieur</option>
+                      <option value="1" selected>Aucun</option>
+                      <option value="2">Primaire</option>
+                      <option value="3">Secondaire</option>
+                      <option value="4">Supérieur</option>
                     </select>
                     <label for="level">Niveau d'étude </label>
                   </div>
@@ -207,9 +207,9 @@
 
                   <div class="form-floating">
                     <select formControlName="metierActuelCandidat" class="form-select" id="job" aria-label="job">
-                      <option value="0" selected>Actif agricole</option>
-                      <option value="1">Actif non agricole</option>
-                      <option value="2">Artisant</option>
+                      <option value="1" selected>Actif agricole</option>
+                      <option value="2">Actif non agricole</option>
+                      <option value="3">Artisant</option>
                     </select>
                     <label for="job">Métier actuel</label>
                   </div>
@@ -275,12 +275,12 @@
                     <select formControlName="typePieceCandidat" (change)="typePieceChange($event.target.value)"
                             class="form-select" id="typepiece"
                             aria-label="Type de pièce">
-                      <option value="0" selected>Carte Nationale d'Identité</option>
-                      <option value="1">Attestation d'identité</option>
-                      <option value="2">Passeport</option>
-                      <option value="3">Carte consulaire</option>
-                      <option value="4">Extrait de naissance</option>
-                      <option value="5">Carte scolaire</option>
+                      <option value="1" selected>Carte Nationale d'Identité</option>
+                      <option value="2">Attestation d'identité</option>
+                      <option value="3">Passeport</option>
+                      <option value="4">Carte consulaire</option>
+                      <option value="5">Extrait de naissance</option>
+                      <option value="6">Carte scolaire</option>
                     </select>
                     <label for="sexe">Type de pièce</label>
                   </div>
@@ -348,9 +348,9 @@
                     <!--                        value="">-->
                     <select formControlName="structureFormation" class="form-select" id="structureformation"
                             aria-label="Structure">
-                      <option value="0" selected>APROMAC</option>
-                      <option value="1">FIRCA</option>
-                      <option value="2">ANADER</option>
+                      <option value="1" selected>APROMAC</option>
+                      <option value="2">FIRCA</option>
+                      <option value="3">ANADER</option>
                       <!--                   <option value="attestation">Classique</option>-->
                       <!--                   <option value="passport">PLP</option>-->
                     </select>
@@ -390,9 +390,13 @@
                   <div class="row">
                     <div class="col-md">
                       <div class="form-floating">
-                        <input formControlName="lieuFormation" type="text" class="form-control" id="placeformation" placeholder="Lieu de formation"
-                               value="">
-                        <label for="placeformation">Lieu formation</label>
+<!--                        <input formControlName="lieuFormation" type="text" class="form-control" id="placeformation" placeholder="Lieu de formation"-->
+<!--                               value="">-->
+                        <select formControlName="lieuFormation" class="form-select" id="lieuFormation"
+                                aria-label="Lieu de formationo">
+                          <option *ngFor="let zone of listZone" [value]="zone.zoneID">{{zone.libelleZone}}</option>
+                        </select>
+                        <label for="lieuFormation">Lieu formation</label>
                       </div>
                     </div>
                   </div>
@@ -401,9 +405,9 @@
                       <div class="form-floating">
                         <select formControlName="typeFormation" class="form-select" id="typeahead-focus"
                                 aria-label="Structure">
-                          <option value="0" selected>EVPS</option>
-                          <option value="1">Classique</option>
-                          <option value="2">PLP</option>
+                          <option value="1" selected>EVPS</option>
+                          <option value="2">Classique</option>
+                          <option value="3">PLP</option>
                         </select>
                         <label for="typeahead-focus">Type formation</label>
 
@@ -414,8 +418,8 @@
                         <select class="form-select"
                                 formControlName="typeSaigneFormation"
                                 id="typesaigne" aria-label="Type saigné">
-                          <option value="0" selected>Inversé</option>
-                          <option value="1">Descendant</option>
+                          <option value="1" selected>Inversé</option>
+                          <option value="2">Descendant</option>
                         </select>
                         <label for="sexe">Type saigné</label>
                       </div>

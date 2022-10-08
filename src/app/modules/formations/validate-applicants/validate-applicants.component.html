@@ -50,7 +50,7 @@
       <label class="h5 font-weight-bold text-primary">Candidats sélectionnés</label>
     </app-custom-table>
   </div>
-  <div class="col-md-3 col-sm-12" *ngIf="currentCandidat && currentCandidat.candidat && currentCandidat.candidat.nomCandidat">
+  <div class="col-md-3 col-sm-12" *ngIf="currentCandidat">
     <app-info-applicant (retirerClick)="retirerCandidat($event)" (validateClick)="confirmValidation($event)"
                         [btnIs]="btnToShow" [candidatInfo]="currentCandidat"></app-info-applicant>
   </div>

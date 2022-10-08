@@ -24,7 +24,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import localFr from '@angular/common/locales/fr';
 import { GenderPipe } from './core/pipes/gender.pipe';
 import { BoolValPipe } from './core/pipes/bool-val.pipe';
-import { AgePipe } from './core/pipes/age.pipe'
+import { AgePipe } from './core/pipes/age.pipe';
+import { JobPipe } from './core/pipes/job.pipe';
+import { PiecePipe } from './core/pipes/piece.pipe';
+import { SaignePipe } from './core/pipes/saigne.pipe'
 
 registerLocaleData(localFr);
 
@@ -72,9 +75,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         {provide: NgChartsConfiguration, useValue: {generateColors: false}},
         {provide: LocationStrategy, useClass: HashLocationStrategy}
     ],
-    exports: [
-        BoolValPipe
-    ],
+
     bootstrap: [AppComponent]
 })
 

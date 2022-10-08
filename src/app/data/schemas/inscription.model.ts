@@ -43,6 +43,30 @@ export class InscriptionDTO {
   typeFormation: string;
   typeSaigneFormation: string;
   zoneInscription: string;
+
+
+  candidatID: number;
+  dateNaisCandidat: string;
+  age: string;
+  genreCandidat: string;
+  libelleGenre: string;
+  lieuNaisCandidat: string;
+
+  lieuResidCandidat: string;
+  lieuResidLibelle: string;
+  metierActuelCandidat: string;
+
+  niveauEtudeCandidat: string;
+  niveauEtudeLibelle: string;
+
+  nomCandidat: string;
+  numeroPieceCandidat: string;
+  premierContactCandidat: number;
+  prenomsCandidat: string;
+  secondContactCandidat: number;
+  typePieceCandidat: string;
+
+
   campagne: Campagne;
   candidat: Candidat;
 }

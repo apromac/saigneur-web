@@ -2,13 +2,12 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgbModal, NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
-import Swal from 'sweetalert2';
 import {Utility} from '../../../core/constants/utility';
-import {ApplicationService} from '../../../core/services/application.service';
+import {GenderPipe} from '../../../core/pipes/gender.pipe';
 import {CampagneService} from '../../../core/services/campagne.service';
 import {CandidatService} from '../../../core/services/candidat.service';
 import {ParamsService} from '../../../core/services/params.service';
-import {TYPEPARAMS} from '../../../data/enums/type-params';
+import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
 import {Campagne} from '../../../data/schemas/campagne';
@@ -16,7 +15,6 @@ import {Candidat} from '../../../data/schemas/candidat';
 import {InscriptionModel} from '../../../data/schemas/inscription.model';
 import {InfoApplicantComponent} from '../info-applicant/info-applicant.component';
 import {NewApplicantComponent} from '../new-applicant/new-applicant.component';
-import DismissReason from 'sweetalert2';
 
 // import DismissReason = module;
 
@@ -103,11 +101,11 @@ export class ApplicantsComponent implements OnInit {
     this.isLoading = true;
     this.allApplicants = [];
     // this.candidatService.getCdtByCampagneID(this.campagneSelected.campagneID).subscribe({
-    this.candidatService.getAllCurrentCandidat(false).subscribe({
+    this.candidatService.getAllCurrentCandidatByStatus(STATUS_CANDIDAT.NEW_CANDIDAT).subscribe({
       next: (resp) => {
         this.allApplicants = (resp as any as Candidat[]).map((c) => {
           let cdt = c;
-          cdt.libelleGenre = c.genreCandidat == '0' ? 'Masculin' : 'Féminin';
+          cdt.libelleGenre =  new GenderPipe().transform(c.genreCandidat);
           return cdt;
         });
         console.log(resp);

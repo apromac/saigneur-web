@@ -2,6 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {map, Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {STATUS_CANDIDAT} from '../../data/enums/status';
 import {Candidat} from '../../data/schemas/candidat';
 import {InscriptionModel} from '../../data/schemas/inscription.model';
 
@@ -25,27 +26,27 @@ export class CandidatService {
 
 
   getCandidatById(idCdt: number): Observable<Response> {
-    return this.http.get<Response>(`${baseUrl}/findByCandidatID/${idCdt}`);
+    return this.http.get<Response>(`${baseUrl}findByCandidatID/${idCdt}`);
   }
   getAllCandidats(): Observable<Response> {
-    return this.http.get<Response>(`${baseUrl}/findAllCandidat`);
+    return this.http.get<Response>(`${baseUrl}findAllCandidat`);
   }
 
-  getAllCurrentCandidatByStatus(selected): Observable<Response> {
-    return this.http.get<Response>(`${baseUrlInscription}/candidat/selection/${selected}`);
+  getAllCurrentCandidatByStatus(status : STATUS_CANDIDAT): Observable<Response> {
+    return this.http.get<Response>(`${baseUrl}campagne/findByCurrentCampagne/statut/${status}`);
   }
 
   getAllCurrentCandidat(selected): Observable<Response> {
-    return this.http.get<Response>(`${baseUrl}/campagne/findByCurrentCampagne`);
+    return this.http.get<Response>(`${baseUrl}campagne/findByCurrentCampagne`);
   }
   validateInterview(idCdt: number, isSelected: boolean): Observable<Response> {
-    return this.http.get<Response>(`${baseUrlInscription}/candidat/${idCdt}/interview/${isSelected}`);
+    return this.http.get<Response>(`${baseUrlInscription}candidat/${idCdt}/interview/${isSelected}`);
   }
   getCandidatInterview(): Observable<Response> {
-    return this.http.get<Response>(`${baseUrlInscription}/interview`);
+    return this.http.get<Response>(`${baseUrlInscription}interview`);
   }
   getCandidatRetenu(): Observable<Response> {
-    return this.http.get<Response>(`${baseUrlInscription}/retenu`);
+    return this.http.get<Response>(`${baseUrlInscription}retenu`);
   }
   search(term: string) {
     if (term === '') {

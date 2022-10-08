@@ -7,7 +7,11 @@ import moment from 'moment';
 export class AgePipe implements PipeTransform {
 
   transform(value:any): unknown {
-    return moment().diff(moment(value));
+    let year = new Date().getFullYear();
+    let dN = new Date(value).getFullYear();
+    console.log(year, dN);
+    return year - dN;
+    // return moment().diff(moment(value));
   }
 
 }

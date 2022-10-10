@@ -27,7 +27,8 @@ import { BoolValPipe } from './core/pipes/bool-val.pipe';
 import { AgePipe } from './core/pipes/age.pipe';
 import { JobPipe } from './core/pipes/job.pipe';
 import { PiecePipe } from './core/pipes/piece.pipe';
-import { SaignePipe } from './core/pipes/saigne.pipe'
+import { SaignePipe } from './core/pipes/saigne.pipe';
+import { ParamsPipe } from './core/pipes/params.pipe'
 
 registerLocaleData(localFr);
 
@@ -50,6 +51,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         SearchBoxComponent,
         DashboardComponent,
         InfoSaigneurComponent,
+        ParamsPipe,
     ],
     imports: [
         CommonModule,

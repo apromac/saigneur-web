@@ -1,4 +1,4 @@
-<div [class]="'app-sidebar sidebar-shadow ' + (config$ | async).sidebarTheme" (mouseover)="sidebarHover()"
+<div [class]="'app-sidebar sidebar-shadow  ' + (config$ | async).sidebarTheme" (mouseover)="sidebarHover()"
      (mouseout)="sidebarHover()">
   <div class="app-header__logo">
 <!--    <div class="logo-src"></div>-->
@@ -20,126 +20,147 @@
       <perfect-scrollbar [autoPropagation]="true">
         <div class="v-sidebar-menu vsm-default">
           <div class="vsm-list">
-            <ngb-accordion [destroyOnHide]="false" [closeOthers]="true" [activeIds]="extraParameter">
+            <ngb-accordion *ngFor="let m of menuItems" [destroyOnHide]="false" [closeOthers]="true" [activeIds]="extraParameter">
               <ngb-panel>
                 <ng-template ngbPanelHeader>
-                  <div class="vsm-header">TABLEAU DE BOARD</div>
+                  <div class="vsm-header">{{m.libelleMenu}}</div>
                 </ng-template>
-              </ngb-panel>
-              <ngb-panel id="dashboardsMenu">
-                <ng-template ngbPanelHeader>
-                  <button routerLink="./" class="vsm-link">
-                    <i class="vsm-icon pe-7s-monitor"></i>
-                    <span class="vsm-title">Tableau de board</span>
-<!--                    <i class="vsm-arrow"></i>-->
-                  </button>
-                </ng-template>
-
               </ngb-panel>
 
-              <ngb-panel>
+
+              <ngb-panel *ngFor="let m2 of m.children" id="{{m2.menuID}}">
                 <ng-template ngbPanelHeader>
-                  <div class="vsm-header">PRESELECTION</div>
+                    <button *ngIf="m2.hasSousMenu"  ngbPanelToggle class="vsm-link">
+                      <i class="vsm-icon pe-7s-{{m2.iconMenu}}"></i>
+                      <span class="vsm-title">{{m2.libelleMenu}}</span>
+                      <i class="vsm-arrow"></i>
+                    </button>
+
+                  <button *ngIf="!m2.hasSousMenu" routerLinkActive="active-item"  routerLink="{{m2.urlMenu}}" class="vsm-link">
+                      <i class="vsm-icon pe-7s-{{m2.iconMenu}}"></i>
+                      <span class="vsm-title">{{m2.libelleMenu}}</span>
+                    </button>
+
+<!--                  <button *ngIf="m2.hasSousMenu" class="vsm-link">-->
+<!--                    <i class="vsm-icon pe-7s-{{m2.iconMenu}}"></i>-->
+<!--                    <span class="vsm-title">{{m2.libelleMenu}}</span>-->
+<!--                  </button>-->
                 </ng-template>
-              </ngb-panel>
-              <ngb-panel id="elementsMenu">
-                <ng-template ngbPanelHeader>
-                  <button ngbPanelToggle class="vsm-link">
-                    <i class="vsm-icon pe-7s-add-user"></i>
-                    <span class="vsm-title">Campagne</span>
-<!--                    <span class="vsm-title">Campagne {{date | date:'YYYY'}}</span>-->
-                    <i class="vsm-arrow"></i>
-                  </button>
-                </ng-template>
-                <ng-template ngbPanelContent>
+                <ng-template *ngIf="m2.hasSousMenu" ngbPanelContent>
                   <div class="vsm-dropdown">
-                    <div class="vsm-list">
-                      <div class="vsm-item">
-                        <a routerLinkActive="active-item" routerLink="/training/applicants"
+                    <div class="vsm-list" >
+                      <div class="vsm-item" *ngFor="let m3 of m2.children">
+                        <a routerLinkActive="active-item" routerLink="{{m3.urlMenu}}"
                            class="vsm-link"> <span
-                          class="vsm-title">Inscription des candidats</span></a>
+                          class="vsm-title">{{m3.libelleMenu}}</span></a>
                       </div>
-                      <div class="vsm-item">
-                        <a routerLinkActive="active-item" routerLink="/training/selection" class="vsm-link"> <span
-                          class="vsm-title">Sélection des candidats</span></a>
-                      </div>
-                      <div class="vsm-item">
-                        <a routerLinkActive="active-item" routerLink="/training/interview" class="vsm-link"><span
-                          class="vsm-title">Interview des candidats</span></a>
-                      </div>
-                      <div class="vsm-item">
-                        <a routerLinkActive="active-item" routerLink="/training/validate" class="vsm-link"><span
-                          class="vsm-title">Candidats retenus</span></a>
-                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+<!--
 
-<!--                      <div class="vsm-item">-->
-<!--                        <a routerLinkActive="active-item" routerLink="/training/logs" class="vsm-link"><span-->
-<!--                          class="vsm-title">Historique des campagnes</span></a>-->
-<!--                      </div>-->
-                    </div>
-                  </div>
-                </ng-template>
-              </ngb-panel>
-              <ngb-panel id="componentsMenu">
-                <ng-template ngbPanelHeader>
-                  <button ngbPanelToggle class="vsm-link">
-                    <i class="vsm-icon pe-7s-global"></i>
-                    <span class="vsm-title">Post-formation</span>
-                    <i class="vsm-arrow"></i>
-                  </button>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <div class="vsm-dropdown">
-                    <div class="vsm-list">
-                      <div class="vsm-item">
-                        <a routerLinkActive="active-item" routerLink="/training/post/saigneurs" class="vsm-link"><span
-                          class="vsm-title">Saigneurs</span></a>
-                      </div>
-                      <div class="vsm-item">
-                        <a routerLinkActive="active-item" routerLink="/training/post/producteurs" class="vsm-link"> <span
-                          class="vsm-title">Demandeurs de saigneurs</span></a>
-                      </div>
-                    </div>
-                  </div>
-                </ng-template>
-              </ngb-panel>
-              <ngb-panel>
-                <ng-template ngbPanelHeader>
-                  <div class="vsm-header">ADMINISTRATION</div>
-                </ng-template>
-              </ngb-panel>
-              <ngb-panel id="usersMenus">
-                <ng-template ngbPanelHeader>
-                  <button ngbPanelToggle class="vsm-link">
-                    <i class="vsm-icon pe-7s-users"></i>
-                    <span class="vsm-title">Gestion des utilisateurs</span>
-                    <i class="vsm-arrow"></i>
-                  </button>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <div class="vsm-dropdown">
-                    <div class="vsm-list">
-                      <div class="vsm-item">
-                        <a routerLinkActive="active-item" routerLink="/params/users"
-                           class="vsm-link"> <span
-                          class="vsm-title">Compte utilisateurs</span></a>
-                      </div>
-                      <div class="vsm-item">
-                        <a routerLinkActive="active-item" routerLink="params/access" class="vsm-link"> <span
-                          class="vsm-title">Droits d'accès</span></a>
-                      </div>
-                    </div>
-                  </div>
-                </ng-template>
-              </ngb-panel>
+                        <ngb-panel>
+                          <ng-template ngbPanelHeader>
+                            <div class="vsm-header">PRESELECTION</div>
+                          </ng-template>
+                        </ngb-panel>
+                        <ngb-panel id="elementsMenu">
+                          <ng-template ngbPanelHeader>
+                            <button ngbPanelToggle class="vsm-link">
+                              <i class="vsm-icon pe-7s-add-user"></i>
+                              <span class="vsm-title">Campagne</span>
+                              <i class="vsm-arrow"></i>
+                            </button>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <div class="vsm-dropdown">
+                              <div class="vsm-list">
+                                <div class="vsm-item">
+                                  <a routerLinkActive="active-item" routerLink="/training/applicants"
+                                     class="vsm-link"> <span
+                                    class="vsm-title">Inscription des candidats</span></a>
+                                </div>
+                                <div class="vsm-item">
+                                  <a routerLinkActive="active-item" routerLink="/training/selection" class="vsm-link"> <span
+                                    class="vsm-title">Sélection des candidats</span></a>
+                                </div>
+                                <div class="vsm-item">
+                                  <a routerLinkActive="active-item" routerLink="/training/interview" class="vsm-link"><span
+                                    class="vsm-title">Interview des candidats</span></a>
+                                </div>
+                                <div class="vsm-item">
+                                  <a routerLinkActive="active-item" routerLink="/training/validate" class="vsm-link"><span
+                                    class="vsm-title">Candidats retenus</span></a>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </ngb-panel>
+
+                        <ngb-panel id="componentsMenu">
+                          <ng-template ngbPanelHeader>
+                            <button ngbPanelToggle class="vsm-link">
+                              <i class="vsm-icon pe-7s-global"></i>
+                              <span class="vsm-title">Post-formation</span>
+                              <i class="vsm-arrow"></i>
+                            </button>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <div class="vsm-dropdown">
+                              <div class="vsm-list">
+                                <div class="vsm-item">
+                                  <a routerLinkActive="active-item" routerLink="/training/post/saigneurs" class="vsm-link"><span
+                                    class="vsm-title">Saigneurs</span></a>
+                                </div>
+                                <div class="vsm-item">
+                                  <a routerLinkActive="active-item" routerLink="/training/post/producteurs" class="vsm-link"> <span
+                                    class="vsm-title">Demandeurs de saigneurs</span></a>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </ngb-panel>
+
+                        <ngb-panel>
+                          <ng-template ngbPanelHeader>
+                            <div class="vsm-header">ADMINISTRATION</div>
+                          </ng-template>
+                        </ngb-panel>
+                        <ngb-panel id="usersMenus">
+                          <ng-template ngbPanelHeader>
+                            <button ngbPanelToggle class="vsm-link">
+                              <i class="vsm-icon pe-7s-users"></i>
+                              <span class="vsm-title">Gestion des utilisateurs</span>
+                              <i class="vsm-arrow"></i>
+                            </button>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                            <div class="vsm-dropdown">
+                              <div class="vsm-list">
+                                <div class="vsm-item">
+                                  <a routerLinkActive="active-item" routerLink="/params/users"
+                                     class="vsm-link"> <span
+                                    class="vsm-title">Compte utilisateurs</span></a>
+                                </div>
+                                <div class="vsm-item">
+                                  <a routerLinkActive="active-item" routerLink="params/access" class="vsm-link"> <span
+                                    class="vsm-title">Droits d'accès</span></a>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </ngb-panel>
+
+                        -->
             </ngb-accordion>
 <!--            <div class="vsm-header">Charts</div>-->
-            <div class="vsm-item">
-              <a routerLink="/params/management" routerLinkActive="active-item" class="vsm-link">
-                <i class="vsm-icon pe-7s-settings"></i>
-                <span class="vsm-title">Gestion des paramètres</span>
-              </a>
-            </div>
+<!--            <div class="vsm-item">-->
+<!--              <a routerLink="/params/management" routerLinkActive="active-item" class="vsm-link">-->
+<!--                <i class="vsm-icon pe-7s-settings"></i>-->
+<!--                <span class="vsm-title">Gestion des paramètres</span>-->
+<!--              </a>-->
+<!--            </div>-->
           </div>
         </div>
       </perfect-scrollbar>

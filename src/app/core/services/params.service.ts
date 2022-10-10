@@ -24,29 +24,31 @@ export class ParamsService {
             nom : 'MOTIV'+mot.motivationID,
             valeur : ''+mot.motivationID,
             abbr: '',
+            type: TYPEPARAMS.MOTIVATION,
             description : mot.descriptionMotivation
           }
         });
       } ));
   }
 
-  getParams(type): Observable<Params[]> {
-    return this.http.get<Params[]>(`assets/data/${type}.json`)
-      .pipe(map((m)=> {
-        console.log(m);
-        return m.map((mt)=> {
-          let mot = mt as any;
-          return {
-            nom : 'NE'+mot.nveauEtudeID,
-            valeur : ''+mot.libelleNiveauEtude,
-            abbr: '',
-            description : mot.libelleNiveauEtude
-          }
-        });
-      } ));
+  getParams(type: TYPEPARAMS): Observable<Params[]> {
+    return this.http.get<Params[]>(`assets/data/${type}.json`);
+      // .pipe(map((m)=> {
+      //   console.log(m);
+      //   if(type === '')
+      //   return m.map((mt)=> {
+      //     let mot = mt as any;
+      //     return {
+      //       nom : 'NE'+mot.nveauEtudeID,
+      //       valeur : ''+mot.libelleNiveauEtude,
+      //       abbr: '',
+      //       description : mot.libelleNiveauEtude,
+      //     }
+      //   });
+      // } ));
   }
 
-  addParams(data: any, type:TYPEPARAMS): Observable<Response> {
-    return this.http.put<Response>(`${baseUrl}${type.MOTIVATION.labelle}/create`, data);
-  }
+  // addParams(data: any, type:TYPEPARAMS): Observable<Response> {
+  //   return this.http.put<Response>(`${baseUrl}${type.MOTIVATION.labelle}/create`, data);
+  // }
  }

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Utility} from '../../../../core/constants/utility';
 import {ThemeOptions} from '../../../../theme-options';
 
 @Component({
@@ -7,13 +8,14 @@ import {ThemeOptions} from '../../../../theme-options';
 })
 export class UserBoxComponent implements OnInit {
 
+  userConnected = Utility.loggedUser;
   constructor(public globals: ThemeOptions) {
   }
 
   ngOnInit() {
   }
   logout(): void {
-    localStorage.clear();
+    sessionStorage.clear();
     location.assign('/');
   }
 }

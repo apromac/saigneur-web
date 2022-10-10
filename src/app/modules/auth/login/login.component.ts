@@ -21,16 +21,16 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const sessionState = localStorage.getItem('login');
-    console.log(sessionState);
+    // const sessionState = Utility.loggedUser;
+    // console.log(sessionState);
     this.loginForm = this.fb
       .group({
         username: ['', [Validators.required, Validators.minLength(2)]],
         password: ['', [Validators.required, Validators.minLength(2)]],
       });
-    if (sessionState === 'logged') {
-      location.assign('./');
-    }
+    // if (!sessionState) {
+    //   location.assign('./');
+    // }
   }
 
   login(): void {
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     this.isSendig = true;
     this.authService.auth($e).subscribe((resp) => {
       console.log(resp);
-      localStorage.setItem('login', 'logged');
+      sessionStorage.setItem('userlogged', JSON.stringify(resp));
       location.assign('./');
       Utility.loggedUser = resp as any as UsersModel;
       console.log(Utility.loggedUser);

@@ -1,3 +1,4 @@
+import {MenuModel} from './menu.model';
 import {PosteModel} from './poste.model';
 
 export class UsersModel {
@@ -7,6 +8,9 @@ export class UsersModel {
   prenomsUtilisateur?;
   poste?: PosteModel;
   posteActuel?: string;
+  telephoneUtilisateur?: string;
   username?: string;
   utilisateurID?: number;
+  menus?:MenuModel[]
+  profilActuel?: string;
 }

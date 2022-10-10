@@ -2,6 +2,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgbModal, NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
+import {Observable} from 'rxjs';
 import {Utility} from '../../../core/constants/utility';
 import {GenderPipe} from '../../../core/pipes/gender.pipe';
 import {CampagneService} from '../../../core/services/campagne.service';
@@ -26,6 +27,7 @@ import {NewApplicantComponent} from '../new-applicant/new-applicant.component';
 export class ApplicantsComponent implements OnInit {
   title = 'Inscription des candidats';
   @ViewChild('contentInfo') contentInfo: TemplateRef<any>;
+  isAdmin = Utility.loggedUser.profilActuel === 'ADMIN';
   public tableHeader: CustomTableHeaderInfo = {
     withBtn: true,
     btn: {
@@ -55,21 +57,23 @@ export class ApplicantsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.comboCampagneChange(this.currentCampagne.campagneID);
     this.getListApplicant();
     this.fetchCombosData();
   }
 
   fetchCombosData(): void {
-    this.paramsService.getParams('niveau-etude').subscribe((
-      {
-        next: value => {
-          console.log(value);
-        },
-        error: (err: HttpErrorResponse) => {
-          console.error(err);
-        }
-      }
-    ));
+    // console.log(Utility.LOCALPARAMS);
+    // this.paramsService.getParams('niveau-etude').subscribe((
+    //   {
+    //     next: value => {
+    //       console.log(value);
+    //     },
+    //     error: (err: HttpErrorResponse) => {
+    //       console.error(err);
+    //     }
+    //   }
+    // ));
     this.campagneService.getAllCampagne().subscribe({
       next: (resp) => {
         this.allCampagnes = (resp as any as Campagne[]);
@@ -100,8 +104,14 @@ export class ApplicantsComponent implements OnInit {
     // }
     this.isLoading = true;
     this.allApplicants = [];
+    let obs: Observable<any>;
+    if(this.isAdmin && this.campagneSelected) {
+      obs =  this.candidatService.getCdtByCampagneID(this.campagneSelected.campagneID)
+    } else {
+      obs = this.candidatService.getAllCurrentCandidatByStatus(STATUS_CANDIDAT.NEW_CANDIDAT);
+    }
     // this.candidatService.getCdtByCampagneID(this.campagneSelected.campagneID).subscribe({
-    this.candidatService.getAllCurrentCandidatByStatus(STATUS_CANDIDAT.NEW_CANDIDAT).subscribe({
+    obs.subscribe({
       next: (resp) => {
         this.allApplicants = (resp as any as Candidat[]).map((c) => {
           let cdt = c;

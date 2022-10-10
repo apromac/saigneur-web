@@ -9,7 +9,7 @@
 <!--</div>-->
 
 <app-table-header
-[header]="header"
+  [header]="header"
 >
 
 </app-table-header>
@@ -18,56 +18,103 @@
   <div class="card">
     <div class="card-body">
       <div class="row w-100 overflow-scroll">
-        <div class="offset-3">
-          <div class="row overflow-scroll">
-            <ol  class="row">
-              <li  *ngFor="let p of allProfil" class="col d-flex justify-content-between align-items-start border p-3">
-                <div class="ms-2 me-auto">
-                  <div #profilabel class="fw-bold">{{p.libelleProfil}}</div>
-                  <!--                   Assigné à {{getNombreUser()}} utilisateurs-->
-                </div>
-                <span class="badge bg-primary rounded-pill">14</span>
-                <div class="divider m-0 p-0"></div>
-              </li>
-            </ol>
-          </div>
-        </div>
-        <!-- LISTE DES PROFIL-->
-        <div class="overflow-scroll" style="height: 50vh;">
-          <div *ngFor="let m of allMenu" class="row">
-            <ol class="list-group col-3" >
-              <li class="list-group-item border d-flex justify-content-between align-items-start list-group-item-action {{m.parentIdMenu ==0? 'active' : ''}}">
-                <div class="ms-2 me-auto">
-                  <div class="fw-bold vsm-link butt"  *ngIf="m.parentIdMenu !=0">
-                    <i class="vsm-icon pe-7s-{{m.iconMenu}} mr-2">
+        <ol class="list-group col-3">
+          <li *ngFor="let p of allProfil" (click)="profilClicked(p)" role="button"
+              class="list-group-item-action list-group-item justify-content-between
+                align-items-start border {{profilSelected  && profilSelected.profilID === p.profilID? 'active':''}}">
+            <div class="ms-2 me-auto">
+              <p style="width: 10em" #profilabel class="fw-bold">{{p.libelleProfil}}</p>
+              <!--                   Assigné à {{getNombreUser()}} utilisateurs-->
+            </div>
+            <!--                <span class="badge bg-primary rounded-pill">14</span>-->
+            <!--                <div class="divider m-0 p-0"></div>-->
+          </li>
+        </ol>
+        <div class="col border-primary border overflow-scroll justify-content-center">
+          <div class="row">
+
+            <!--            <li-->
+            <!--              class="list-group-item border d-flex justify-content-between align-items-start list-group-item-action {{m.parentIdMenu ==0? 'active' : ''}}">-->
+            <!--              <div class="ms-2 me-auto">-->
+            <!--                <div class="fw-bold vsm-link butt" *ngIf="m.parentIdMenu !=0">-->
+            <!--                  <i class="vsm-icon pe-7s-{{m.iconMenu}} mr-2">-->
+            <!--                  </i>-->
+            <!--                  <span class="vsm-title">{{m.libelleMenu}}</span>-->
+            <!--                </div>-->
+            <!--                <div class="fw-bold" *ngIf="m.parentIdMenu ==0">{{m.libelleMenu}}</div>-->
+            <!--                &lt;!&ndash;                  Assigné à {{getNombreUser()}} utilisateurs&ndash;&gt;-->
+            <!--              </div>-->
+            <!--              <span class="badge bg-{{p%5===0? 'white text-primary':'primary'}} rounded-pill">14</span>-->
+            <!--            </li>-->
+
+
+            <div *ngFor="let m of allMenuForW" class="col-4 list-group mt-1">
+
+              <div (click)="menuClicked(m)"
+                   class="list-group-item border d-flex justify-content-between align-items-start list-group-item-action"
+                   role="button">
+                <div *ngIf="currentAcceder" class="ms-2 me-auto justify-content-center">
+                  <div class="justify-content-center m-auto d-flex" *ngIf="m.parentIdMenu !=0">
+                    <i class="vsm-icon pe-7s-{{m.iconMenu}} fs-5 mr-2">
                     </i>
                     <span class="vsm-title">{{m.libelleMenu}}</span>
                   </div>
-                  <div class="fw-bold" *ngIf="m.parentIdMenu ==0">{{m.libelleMenu}}</div>
-<!--                  Assigné à {{getNombreUser()}} utilisateurs-->
+                  <div *ngIf="m.parentIdMenu ==0">{{m.libelleMenu}}</div>
+                  <!--                  Assigné à {{getNombreUser()}} utilisateurs-->
                 </div>
-<!--                <span class="badge bg-{{p%5===0? 'white text-primary':'primary'}} rounded-pill">14</span>-->
-              </li>
-              <li class="divider m-0 p-0"></li>
-            </ol>
-            <ol  class="row col-9 m-0 p-0">
-              <li  *ngFor="let pp of allProfil; let i = index " class="d-flex col justify-content-between align-items-start border">
-                <div class="m-auto resize" role="button" >
-                  <div class="fw-bold" >
-                    <span *ngIf="i%2 === 0" class="material-icons text-primary">check_circle</span>
-                    <span *ngIf="i%2 !== 0" class="material-icons text-danger">cancel</span>
-                  </div>
-                  <!--                   Assigné à {{getNombreUser()}} utilisateurs-->
-                </div>
-                <!--               <div class="divider m-0 p-0"></div>-->
-              </li>
-            </ol>
+                <span *ngIf="hasMenu(m)>=0"
+                      class="badge fs-5 rounded-pill material-icons text-primary">check_circle</span>
+                <span *ngIf="hasMenu(m)<0" class="badge fs-5 rounded-pill material-icons text-danger">cancel</span>
+
+
+                <!--                <p>{{m.libelleMenu}}</p>-->
+                <!--                <div *ngIf="currentAcceder" class="badge badge-pill">-->
+                <!--                  <span *ngIf="hasMenu(m)" class="material-icons text-primary">check_circle</span>-->
+                <!--                  <span *ngIf="!hasMenu(m)" class="material-icons text-danger">cancel</span>-->
+                <!--                </div>-->
+                <!--                   Assigné à {{getNombreUser()}} utilisateurs-->
+              </div>
+              <!--              <p  class="list-group-item list-group-item-action">{{m.libelleMenu}}</p>-->
+            </div>
           </div>
-
         </div>
-
-
       </div>
+      <!-- LISTE DES PROFIL-->
+      <!--      <div class="overflow-scroll row w-100" style="height: 55vh;">-->
+      <!--        <div class="p-0 m-0 row mb-2"  *ngFor="let m of allMenu; let mIndex = index">-->
+      <!--          <ol class="list-group">-->
+      <!--            <li-->
+      <!--              class="list-group-item border d-flex justify-content-between align-items-start list-group-item-action {{m.parentIdMenu ==0? 'active' : ''}}">-->
+      <!--              <div class="ms-2 me-auto">-->
+      <!--                <div class="fw-bold vsm-link butt" *ngIf="m.parentIdMenu !=0">-->
+      <!--                  <i class="vsm-icon pe-7s-{{m.iconMenu}} mr-2">-->
+      <!--                  </i>-->
+      <!--                  <span class="vsm-title">{{m.libelleMenu}}</span>-->
+      <!--                </div>-->
+      <!--                <div class="fw-bold" *ngIf="m.parentIdMenu ==0">{{m.libelleMenu}}</div>-->
+      <!--                &lt;!&ndash;                  Assigné à {{getNombreUser()}} utilisateurs&ndash;&gt;-->
+      <!--              </div>-->
+      <!--              &lt;!&ndash;                <span class="badge bg-{{p%5===0? 'white text-primary':'primary'}} rounded-pill">14</span>&ndash;&gt;-->
+      <!--            </li>-->
+      <!--            &lt;!&ndash;              <li class="divider m-0 p-0"></li>&ndash;&gt;-->
+      <!--          </ol>-->
+
+      <!--          <ol class="row col m-0 p-0">-->
+      <!--            <li *ngFor="let pp of allProfil; let pIndex = index "-->
+      <!--                class="d-flex col  justify-content-between align-items-start border">-->
+      <!--              <div (click)="giveAccess(m, m.menuID, pp, pp.profilID)" class="m-auto" role="button">-->
+      <!--                <div  style="max-width: 10em"  class="fw-bold p-1 m-auto d-flex justify-content-center">-->
+      <!--                  <span *ngIf="pIndex%2 === 0" class="material-icons text-primary">check_circle</span>-->
+      <!--                  <span *ngIf="pIndex%2 !== 0" class="material-icons text-danger">cancel</span>-->
+      <!--                </div>-->
+      <!--                &lt;!&ndash;                   Assigné à {{getNombreUser()}} utilisateurs&ndash;&gt;-->
+      <!--              </div>-->
+      <!--              &lt;!&ndash;               <div class="divider m-0 p-0"></div>&ndash;&gt;-->
+      <!--            </li>-->
+      <!--          </ol>-->
+      <!--        </div>-->
+
+      <!--      </div>-->
     </div>
   </div>
 </div>

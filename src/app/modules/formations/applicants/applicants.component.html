@@ -20,22 +20,22 @@
   [tableData]="allApplicants"
   [searchList]="allApplicants"
 >
-  <div class="row">
-    <label class="h5 ml-1 font-weight-bold">
-      {{currentCampagne?.libelleCampagne}}
+  <div class="row mr-3">
+    <label class="h5 ml-1" *ngIf="!isAdmin">
+    <b>En cours :</b> {{currentCampagne?.libelleCampagne}}
     </label>
 
-<!--    <div class="col-sm">-->
-<!--      <label  class="visually-hidden"  for="campagne">Sélectionnez une campagne</label>-->
-<!--      <div class="input-group">-->
-<!--        <div class="input-group-text">Sélectionnez une campagne</div>-->
-<!--        <select (change)="comboCampagneChange($event.target.value)" class="form-select" id="campagne"-->
-<!--                aria-label="Sélectionnez une campagne">-->
-<!--          <option *ngFor="let c  of allCampagnes" [value]="c.campagneID">{{c.libelleCampagne}}</option>-->
-<!--          <option value="" *ngIf="!allCampagnes || allCampagnes && allCampagnes.length ===0">Aucune campagne trouvée</option>-->
-<!--        </select>-->
-<!--      </div>-->
-<!--    </div>-->
+    <div class="col-sm m-0" *ngIf="isAdmin">
+      <label  class="visually-hidden"  for="campagne">Sélectionnez une campagne</label>
+      <div class="input-group">
+        <div class="input-group-text">Sélectionnez une campagne</div>
+        <select [value]="currentCampagne.campagneID" (change)="comboCampagneChange($event.target.value)" class="form-select" id="campagne"
+                aria-label="Sélectionnez une campagne">
+          <option *ngFor="let c  of allCampagnes" [value]="c.campagneID">{{c.libelleCampagne}}</option>
+          <option value="" *ngIf="!allCampagnes || allCampagnes && allCampagnes.length ===0">Aucune campagne trouvée</option>
+        </select>
+      </div>
+    </div>
 
   </div>
 </app-custom-table>

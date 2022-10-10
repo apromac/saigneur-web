@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ThemeOptions {
   sidebarHover = false;
-  toggleSidebar = false;
+  toggleSidebar = true;
   toggleSidebarMobile = false;
   toggleHeaderMobile = false;
   toggleFixedFooter = false;

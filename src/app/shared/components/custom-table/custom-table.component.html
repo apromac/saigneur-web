@@ -6,7 +6,7 @@
     ></app-table-header>
     <div class="text-right p-0 m-0 pt-2 pb-2" *ngIf="!withouSearch">
       <div class="row">
-        <div class="col pr-0 mr-0 pb-2 text-left align-items-start align-content-start align-self-start">
+        <div class="col pr-0 mr-0 text-left align-items-start align-content-start align-self-start">
           <ng-content></ng-content>
         </div>
        <div class="row col-lg-6 col-sm-12">
@@ -219,9 +219,9 @@
         *ngIf="searchList && searchList.length>0 && (searchList.length >  config.itemsPerPage || bottomMenus && bottomMenus.length>0)">
         <td [attr.colspan]="getcolSpan()">
           <div class="row">
-            <div *ngIf="tableData && tableData.length > config.itemsPerPage"
+            <div *ngIf="tableData && searchList.length > config.itemsPerPage"
                  class="{{(bottomMenus && bottomMenus.length>0)? 'col-sm-4 col-md-4 col-xl-4 col-xs-4':''}}">
-              <div class="cdp" actpage="1">
+              <div role="button" class="cdp" actpage="1">
                 <a (click)="pageChanged('#!-1')"  class="cdp_i"> < </a>
                 <a *ngFor="let p of getPagination(); let i=index" (click)="pageChanged('#!'+(i+1))"
                    class="cdp_i">{{i + 1}}</a>

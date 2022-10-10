@@ -69,4 +69,8 @@ export class CandidatService {
   removeCandidat(idCandidat): Observable<Response> {
     return this.http.get<Response>(`${baseUrlInscription}deleteCandidat/${idCandidat}`);
   }
+
+  getCdtByCampagneID(campagneID: number): Observable<any> {
+    return this.http.get<Response>(`${baseUrlInscription}inscription/findByCampagne/${campagneID}`);
+  }
 }

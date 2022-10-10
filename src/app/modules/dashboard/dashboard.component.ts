@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ChartConfiguration, ChartEvent, ChartType} from 'chart.js';
 import {BaseChartDirective} from 'ng2-charts';
+import {Utility} from '../../core/constants/utility';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(Utility.LOCALPARAMS);
   }
 
   public lineChartData: ChartConfiguration['data'] = {

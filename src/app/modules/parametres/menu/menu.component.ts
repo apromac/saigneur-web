@@ -34,6 +34,7 @@ export class MenuComponent implements OnInit {
       this.saveAccess();
     }
   };
+  extraParameter = '4';
 
   constructor(private profilService: ProfilService,
               private menuService: MenuService,
@@ -49,40 +50,39 @@ export class MenuComponent implements OnInit {
     this.menuService.getAllMenu().subscribe({
       next: value => {
         console.log(value);
-        this.allMenuForW = value as any as MenuModel[];
-        this.allMenuForW.forEach((m, i) => {
-          // this.allMenu.push(m);
-          this.orderMenu(m);
-        });
+        this.allMenu = value as any as MenuModel[];
+        this.constructMenu();
       }
     });
   }
 
-  orderMenu(menu: MenuModel): void {
-    this.allMenu.push(menu);
-    // let ind =this.allMenuForW.findIndex((m)=> m.menuID === menu.menuID);
-    if (menu.hasSousMenu) {
-      menu.children = this.allMenuForW.filter((m) => m.parentIdMenu === menu.menuID);
-      menu.children.forEach((m) => {
-        this.orderMenu(m);
-      });
-    }
+  constructMenu(): void {
+    this.allMenuForW = [];
+    const niveau0 = this.allMenu.filter((m) => m.parentIdMenu === 0);
+    niveau0.sort((m1, m2) => parseInt(m1.numeroOrdreMenu, 10) - parseInt(m2.numeroOrdreMenu, 10));
+    niveau0.forEach((m) => {
+      m.children = this.getSubMenu(m);
+      this.allMenuForW.push(m);
+    });
+
+    console.error(this.allMenuForW);
   }
 
-  getChildren(menu: MenuModel[], parent) {
-    const out = [];
-    for (const i in menu) {
-      if (menu[i].parentIdMenu === parent) {
-        const children = this.getChildren(menu, menu[i].menuID);
-
-        if (children.length) {
-          menu[i].children = children;
+  getSubMenu(m: MenuModel): MenuModel[] {
+    if (m.hasSousMenu) {
+      let sm = this.allMenu.filter((mn) => mn.parentIdMenu === m.menuID);
+      sm.sort((m1, m2) => parseInt(m1.numeroOrdreMenu, 10) - parseInt(m2.numeroOrdreMenu, 10));
+      return sm.map((m) => {
+        if (m.hasSousMenu) {
+          m.children = this.getSubMenu(m);
         }
-        out.push(menu[i]);
-      }
+        return m;
+      });
+    } else {
+      return [];
     }
-    return out;
   }
+
 
   getAllProfil(): void {
     this.profilService.getAllProfil().subscribe({
@@ -119,17 +119,19 @@ export class MenuComponent implements OnInit {
       }
     });
   }
+
   saveAccess(): void {
     this.menuService.saveAccess(this.currentAcceder).subscribe({
-      next : value => {
+      next: value => {
         this.toast.success('Menus enregistrés avec succès');
         console.log(value);
       },
       error: err => {
         console.error(err);
       }
-    })
+    });
   }
+
   getNombreUser() {
     const min = Math.ceil(10);
     const max = Math.floor(100);
@@ -146,13 +148,76 @@ export class MenuComponent implements OnInit {
   }
 
   menuClicked(m: MenuModel) {
+    this.addOrRemoveChild(m);
+
+      let isPresent = this.hasMenu(m) >= 0;
+    if (m.hasSousMenu) {
+      this.isPresent(m, isPresent);
+      // m.ch
+    }
+    this.addOrRemoveParent(m, isPresent);
+
+    console.log(this.currentAcceder);
+  }
+  addOrRemoveParent(m: MenuModel, isPresent: boolean){
+    if(m.parentIdMenu!==0) {
+      let parent = this.allMenu.find((men)=> men.menuID === m.parentIdMenu);
+      let isSelected = this.hasMenu(parent);
+      if(isPresent) {
+        if(!isSelected) {
+          this.currentAcceder.menuIDs.push(m.parentIdMenu)
+        }
+        this.addOrRemoveParent(parent, isPresent);
+      }
+      /**
+       * UNSELECTED PARENT
+       */
+      // else {
+      //     if(isSelected) {
+      //       this.currentAcceder.menuIDs.push(m.parentIdMenu)
+      //     }
+      //     this.addOrRemoveParent(parent, isPresent);
+      // }
+    }
+
+  }
+
+  isPresent(m: MenuModel, isPresent: boolean) {
+    if (isPresent) {
+      m.children.forEach((c) => {
+        let hasMenu = this.hasMenu(c);
+        if(hasMenu<0) {
+          // this.currentAcceder.menuIDs.splice(hasMenu, 1);
+          this.currentAcceder.menuIDs.push(c.menuID);
+        } /*else {
+        }*/
+        if(c.hasSousMenu) {
+          this.isPresent(c, true);
+        }
+      });
+    } else {
+      m.children.forEach((c) => {
+        let hasMenu = this.hasMenu(c);
+        if(hasMenu>=0) {
+          this.currentAcceder.menuIDs.splice(hasMenu, 1);
+          // this.currentAcceder.menuIDs.push(hasMenu);
+        } /*else
+        {
+        }*/
+        if(c.hasSousMenu) {
+          this.isPresent(c, false);
+        }
+      });
+    }
+  }
+
+  addOrRemoveChild(m: MenuModel): void {
     let hasMenu = this.hasMenu(m);
     if (hasMenu >= 0) {
       this.currentAcceder.menuIDs.splice(hasMenu, 1);
     } else {
       this.currentAcceder.menuIDs.push(m.menuID);
     }
-    console.log(this.currentAcceder);
   }
 
   profilClicked(p: ProfilModel): void {

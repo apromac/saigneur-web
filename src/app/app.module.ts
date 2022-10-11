@@ -19,7 +19,6 @@ import {ConfigActions} from './ThemeOptions/store/config.actions';
 import {ContentLayoutComponent} from './layout/content-layout/content-layout.component';
 import {FooterComponent} from './layout/footer/footer.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
-import { InfoSaigneurComponent } from './layout/info-saigneur/info-saigneur.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import localFr from '@angular/common/locales/fr';
 import { GenderPipe } from './core/pipes/gender.pipe';
@@ -50,7 +49,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         HeaderComponent,
         SearchBoxComponent,
         DashboardComponent,
-        InfoSaigneurComponent,
         ParamsPipe,
     ],
     imports: [

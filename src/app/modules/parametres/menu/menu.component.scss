@@ -11,3 +11,19 @@
 .badge {
 
 }
+
+.custom-header::after {
+  content: none;
+}
+
+.accordion-button::after{
+  display: none;
+}
+.accordion-button:focus{
+  border-color: transparent !important;
+  box-shadow: unset;
+  font-weight: bold;
+}
+.accordion-button:not(.collapsed){
+  color: var(--bs-primary) !important;
+}

@@ -1,13 +1,3 @@
-<!--<div class="row">-->
-<!--  <div class="card">-->
-<!--    <div class="card-header m-3">-->
-<!--      <div class="card-title h5 bg-white font-weight-bold">-->
-<!--        Gestion des droits d'accès-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
 <app-table-header
   [header]="header"
 >
@@ -24,97 +14,72 @@
                 align-items-start border {{profilSelected  && profilSelected.profilID === p.profilID? 'active':''}}">
             <div class="ms-2 me-auto">
               <p style="width: 10em" #profilabel class="fw-bold">{{p.libelleProfil}}</p>
-              <!--                   Assigné à {{getNombreUser()}} utilisateurs-->
             </div>
-            <!--                <span class="badge bg-primary rounded-pill">14</span>-->
-            <!--                <div class="divider m-0 p-0"></div>-->
           </li>
         </ol>
         <div class="col border-primary border overflow-scroll justify-content-center">
           <div class="row">
-
-            <!--            <li-->
-            <!--              class="list-group-item border d-flex justify-content-between align-items-start list-group-item-action {{m.parentIdMenu ==0? 'active' : ''}}">-->
-            <!--              <div class="ms-2 me-auto">-->
-            <!--                <div class="fw-bold vsm-link butt" *ngIf="m.parentIdMenu !=0">-->
-            <!--                  <i class="vsm-icon pe-7s-{{m.iconMenu}} mr-2">-->
-            <!--                  </i>-->
-            <!--                  <span class="vsm-title">{{m.libelleMenu}}</span>-->
-            <!--                </div>-->
-            <!--                <div class="fw-bold" *ngIf="m.parentIdMenu ==0">{{m.libelleMenu}}</div>-->
-            <!--                &lt;!&ndash;                  Assigné à {{getNombreUser()}} utilisateurs&ndash;&gt;-->
-            <!--              </div>-->
-            <!--              <span class="badge bg-{{p%5===0? 'white text-primary':'primary'}} rounded-pill">14</span>-->
-            <!--            </li>-->
-
-
             <div *ngFor="let m of allMenuForW" class="col-4 list-group mt-1">
+              <ng-container *ngTemplateOutlet="mItem; context:{m:m}"></ng-container>
 
-              <div (click)="menuClicked(m)"
-                   class="list-group-item border d-flex justify-content-between align-items-start list-group-item-action"
-                   role="button">
-                <div *ngIf="currentAcceder" class="ms-2 me-auto justify-content-center">
-                  <div class="justify-content-center m-auto d-flex" *ngIf="m.parentIdMenu !=0">
-                    <i class="vsm-icon pe-7s-{{m.iconMenu}} fs-5 mr-2">
-                    </i>
-                    <span class="vsm-title">{{m.libelleMenu}}</span>
-                  </div>
-                  <div *ngIf="m.parentIdMenu ==0">{{m.libelleMenu}}</div>
-                  <!--                  Assigné à {{getNombreUser()}} utilisateurs-->
-                </div>
-                <span *ngIf="hasMenu(m)>=0"
-                      class="badge fs-5 rounded-pill material-icons text-primary">check_circle</span>
-                <span *ngIf="hasMenu(m)<0" class="badge fs-5 rounded-pill material-icons text-danger">cancel</span>
-
-
-                <!--                <p>{{m.libelleMenu}}</p>-->
-                <!--                <div *ngIf="currentAcceder" class="badge badge-pill">-->
-                <!--                  <span *ngIf="hasMenu(m)" class="material-icons text-primary">check_circle</span>-->
-                <!--                  <span *ngIf="!hasMenu(m)" class="material-icons text-danger">cancel</span>-->
-                <!--                </div>-->
-                <!--                   Assigné à {{getNombreUser()}} utilisateurs-->
-              </div>
-              <!--              <p  class="list-group-item list-group-item-action">{{m.libelleMenu}}</p>-->
+              <ngb-accordion #a="ngbAccordion" *ngFor="let m_1 of m.children" [destroyOnHide]="false"
+                             [closeOthers]="true"
+                             [activeIds]="extraParameter">
+                <ngb-panel>
+                  <ng-template ngbPanelHeader>
+                    <div *ngIf="!m_1.hasSousMenu">
+                      <ng-container *ngTemplateOutlet="mItem; context:{m:m_1}"></ng-container>
+                    </div>
+                    <div role="button"  *ngIf="m_1.hasSousMenu" class=" list-group-item border d-flex
+                     align-items-start list-group-item-action">
+                      <button ngbPanelToggle class="accordion-button bg-transparent p-0 ms-2 me-auto">
+                        <div class="justify-content-start d-flex">
+                          <i class="vsm-icon pe-7s-{{m_1.iconMenu}} fs-5 mr-2">
+                          </i>
+                          <span class="vsm-title fw-bold">{{m_1.libelleMenu}}</span>
+                        </div>
+<!--                        <small class="fw-bold">{{m_1.children.length}} sous-menu</small>-->
+                      </button>
+                      <span (click)="menuClicked(m_1)" *ngIf="hasMenu(m_1)>=0"
+                            class="badge fs-5 rounded-pill material-icons text-primary">check_circle</span>
+                      <span  (click)="menuClicked(m_1)" *ngIf="hasMenu(m_1)<0"
+                            class="badge fs-5 rounded-pill material-icons text-danger">cancel</span>
+                    </div>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    <div class="vsm-list border border-left border-primary">
+                      <div *ngFor="let m2 of m_1.children">
+                        <ng-container *ngTemplateOutlet="mItem; context:{m:m2}"></ng-container>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngb-panel>
+              </ngb-accordion>
             </div>
           </div>
         </div>
       </div>
-      <!-- LISTE DES PROFIL-->
-      <!--      <div class="overflow-scroll row w-100" style="height: 55vh;">-->
-      <!--        <div class="p-0 m-0 row mb-2"  *ngFor="let m of allMenu; let mIndex = index">-->
-      <!--          <ol class="list-group">-->
-      <!--            <li-->
-      <!--              class="list-group-item border d-flex justify-content-between align-items-start list-group-item-action {{m.parentIdMenu ==0? 'active' : ''}}">-->
-      <!--              <div class="ms-2 me-auto">-->
-      <!--                <div class="fw-bold vsm-link butt" *ngIf="m.parentIdMenu !=0">-->
-      <!--                  <i class="vsm-icon pe-7s-{{m.iconMenu}} mr-2">-->
-      <!--                  </i>-->
-      <!--                  <span class="vsm-title">{{m.libelleMenu}}</span>-->
-      <!--                </div>-->
-      <!--                <div class="fw-bold" *ngIf="m.parentIdMenu ==0">{{m.libelleMenu}}</div>-->
-      <!--                &lt;!&ndash;                  Assigné à {{getNombreUser()}} utilisateurs&ndash;&gt;-->
-      <!--              </div>-->
-      <!--              &lt;!&ndash;                <span class="badge bg-{{p%5===0? 'white text-primary':'primary'}} rounded-pill">14</span>&ndash;&gt;-->
-      <!--            </li>-->
-      <!--            &lt;!&ndash;              <li class="divider m-0 p-0"></li>&ndash;&gt;-->
-      <!--          </ol>-->
-
-      <!--          <ol class="row col m-0 p-0">-->
-      <!--            <li *ngFor="let pp of allProfil; let pIndex = index "-->
-      <!--                class="d-flex col  justify-content-between align-items-start border">-->
-      <!--              <div (click)="giveAccess(m, m.menuID, pp, pp.profilID)" class="m-auto" role="button">-->
-      <!--                <div  style="max-width: 10em"  class="fw-bold p-1 m-auto d-flex justify-content-center">-->
-      <!--                  <span *ngIf="pIndex%2 === 0" class="material-icons text-primary">check_circle</span>-->
-      <!--                  <span *ngIf="pIndex%2 !== 0" class="material-icons text-danger">cancel</span>-->
-      <!--                </div>-->
-      <!--                &lt;!&ndash;                   Assigné à {{getNombreUser()}} utilisateurs&ndash;&gt;-->
-      <!--              </div>-->
-      <!--              &lt;!&ndash;               <div class="divider m-0 p-0"></div>&ndash;&gt;-->
-      <!--            </li>-->
-      <!--          </ol>-->
-      <!--        </div>-->
-
-      <!--      </div>-->
     </div>
   </div>
 </div>
+
+<ng-template #mItem let-m="m">
+  <div
+    class="list-group-item border d-flex justify-content-between align-items-start list-group-item-action"
+    role="button">
+    <div class="ms-2 me-auto justify-content-center">
+      <div class="justify-content-center m-auto d-flex">
+        <i *ngIf="m.parentIdMenu !=0" class="vsm-icon pe-7s-{{m.iconMenu}} fs-5 mr-2">
+        </i>
+        <span class="vsm-title  {{m.parentIdMenu === 0 ? 'text-primary fw-bold': ''}}">{{m.libelleMenu}}</span>
+      </div>
+      <small class="fw-bold" *ngIf="m.hasSousMenu && m.parentIdMenu !== 0">{{m.children.length}} sous-menu</small>
+    </div>
+    <i *ngIf="m.hasSousMenu && m.parentIdMenu!==0" class="vsm-arrow"></i>
+
+    <span role="button" (click)="menuClicked(m)" *ngIf="hasMenu(m)>=0"
+          class="badge fs-5 rounded-pill material-icons text-primary">check_circle</span>
+    <span role="button" (click)="menuClicked(m)" *ngIf="hasMenu(m)<0"
+          class="badge fs-5 rounded-pill material-icons text-danger">cancel</span>
+  </div>
+</ng-template>

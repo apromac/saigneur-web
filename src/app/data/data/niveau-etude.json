@@ -1,0 +1,18 @@
+[
+  {
+    "niveauEtudeID": 0,
+    "libelleNiveauEtude": "Aucun"
+  },
+  {
+    "niveauEtudeID": 1,
+    "libelleNiveauEtude": "Primaire"
+  },
+  {
+    "niveauEtudeID": 0,
+    "libelleNiveauEtude": "Secondaire"
+  },
+  {
+    "niveauEtudeID": 0,
+    "libelleNiveauEtude": "Supérieur"
+  }
+]

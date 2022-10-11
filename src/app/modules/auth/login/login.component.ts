@@ -1,6 +1,11 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {Utility} from '../../../core/constants/utility';
 import {AuthService} from '../../../core/services/auth.service';
+import {UserService} from '../../../core/services/user.service';
+import {UsersModel} from '../../../data/schemas/users.model';
 
 
 @Component({
@@ -12,20 +17,20 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isSendig = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private toast: ToastrService, private authService: UserService) {
   }
 
   ngOnInit(): void {
-    const sessionState = localStorage.getItem('login');
-    console.log(sessionState);
+    // const sessionState = Utility.loggedUser;
+    // console.log(sessionState);
     this.loginForm = this.fb
       .group({
         username: ['', [Validators.required, Validators.minLength(2)]],
         password: ['', [Validators.required, Validators.minLength(2)]],
       });
-    if (sessionState === 'logged') {
-      location.assign('./');
-    }
+    // if (!sessionState) {
+    //   location.assign('./');
+    // }
   }
 
   login(): void {
@@ -35,13 +40,23 @@ export class LoginComponent implements OnInit {
 
   subMitForm($e): void {
     console.log($e);
+    if (!$e || $e && (!$e.username || !$e.password)) {
+      this.toast.error('Veuillez vérifier les champs');
+      return;
+    }
     this.isSendig = true;
-    this.authService.connect($e).subscribe((resp) => {
+    this.authService.auth($e).subscribe((resp) => {
       console.log(resp);
+      sessionStorage.setItem('userlogged', JSON.stringify(resp));
+      location.assign('./');
+      Utility.loggedUser = resp as any as UsersModel;
+      console.log(Utility.loggedUser);
+      this.toast.success('Bienvenue ' + Utility.loggedUser.nomUtilisateur, 'Connecté');
       this.isSendig = false;
-    }, (err) => {
+    }, (err: HttpErrorResponse) => {
       this.isSendig = false;
-      this.login();
+      this.toast.error(err.error.message, 'STATUS ' + err.status);
+      // this.login();
       console.log(err);
     });
   }

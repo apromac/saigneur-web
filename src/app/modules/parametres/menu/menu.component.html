@@ -1,1 +1,85 @@
-<p>menu works!</p>
+<app-table-header
+  [header]="header"
+>
+
+</app-table-header>
+<hr class="m-1 p-1">
+<div class="row">
+  <div class="card">
+    <div class="card-body">
+      <div class="row w-100 overflow-scroll">
+        <ol class="list-group col-3">
+          <li *ngFor="let p of allProfil" (click)="profilClicked(p)" role="button"
+              class="list-group-item-action list-group-item justify-content-between
+                align-items-start border {{profilSelected  && profilSelected.profilID === p.profilID? 'active':''}}">
+            <div class="ms-2 me-auto">
+              <p style="width: 10em" #profilabel class="fw-bold">{{p.libelleProfil}}</p>
+            </div>
+          </li>
+        </ol>
+        <div class="col border-primary border overflow-scroll justify-content-center">
+          <div class="row">
+            <div *ngFor="let m of allMenuForW" class="col-4 list-group mt-1">
+              <ng-container *ngTemplateOutlet="mItem; context:{m:m}"></ng-container>
+
+              <ngb-accordion #a="ngbAccordion" *ngFor="let m_1 of m.children" [destroyOnHide]="false"
+                             [closeOthers]="true"
+                             [activeIds]="extraParameter">
+                <ngb-panel>
+                  <ng-template ngbPanelHeader>
+                    <div *ngIf="!m_1.hasSousMenu">
+                      <ng-container *ngTemplateOutlet="mItem; context:{m:m_1}"></ng-container>
+                    </div>
+                    <div role="button"  *ngIf="m_1.hasSousMenu" class=" list-group-item border d-flex
+                     align-items-start list-group-item-action">
+                      <button ngbPanelToggle class="accordion-button bg-transparent p-0 ms-2 me-auto">
+                        <div class="justify-content-start d-flex">
+                          <i class="vsm-icon pe-7s-{{m_1.iconMenu}} fs-5 mr-2">
+                          </i>
+                          <span class="vsm-title fw-bold">{{m_1.libelleMenu}}</span>
+                        </div>
+<!--                        <small class="fw-bold">{{m_1.children.length}} sous-menu</small>-->
+                      </button>
+                      <span (click)="menuClicked(m_1)" *ngIf="hasMenu(m_1)>=0"
+                            class="badge fs-5 rounded-pill material-icons text-primary">check_circle</span>
+                      <span  (click)="menuClicked(m_1)" *ngIf="hasMenu(m_1)<0"
+                            class="badge fs-5 rounded-pill material-icons text-danger">cancel</span>
+                    </div>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    <div class="vsm-list border border-left border-primary">
+                      <div *ngFor="let m2 of m_1.children">
+                        <ng-container *ngTemplateOutlet="mItem; context:{m:m2}"></ng-container>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngb-panel>
+              </ngb-accordion>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #mItem let-m="m">
+  <div
+    class="list-group-item border d-flex justify-content-between align-items-start list-group-item-action"
+    role="button">
+    <div class="ms-2 me-auto justify-content-center">
+      <div class="justify-content-center m-auto d-flex">
+        <i *ngIf="m.parentIdMenu !=0" class="vsm-icon pe-7s-{{m.iconMenu}} fs-5 mr-2">
+        </i>
+        <span class="vsm-title  {{m.parentIdMenu === 0 ? 'text-primary fw-bold': ''}}">{{m.libelleMenu}}</span>
+      </div>
+      <small class="fw-bold" *ngIf="m.hasSousMenu && m.parentIdMenu !== 0">{{m.children.length}} sous-menu</small>
+    </div>
+    <i *ngIf="m.hasSousMenu && m.parentIdMenu!==0" class="vsm-arrow"></i>
+
+    <span role="button" (click)="menuClicked(m)" *ngIf="hasMenu(m)>=0"
+          class="badge fs-5 rounded-pill material-icons text-primary">check_circle</span>
+    <span role="button" (click)="menuClicked(m)" *ngIf="hasMenu(m)<0"
+          class="badge fs-5 rounded-pill material-icons text-danger">cancel</span>
+  </div>
+</ng-template>

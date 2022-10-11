@@ -1,0 +1,14 @@
+[
+  {
+    "typeFormationID": 1,
+    "libelleTypeFormation": "EVPS"
+  },
+  {
+    "typeFormationID": 2,
+    "libelleTypeFormation": "Classique"
+  },
+  {
+    "typeFormationID": 3,
+    "libelleTypeFormation": "PLP"
+  }
+]

@@ -1,3 +1,8 @@
 export enum TYPEPARAMS {
-  MOTIVATION = 'motivation'
+  NIVEAUETUDE = 'niveau-etude',
+  JOB = 'current-job',
+  PIECE = 'piece',
+  STRUCTURE = 'structure',
+  TYPEFORMATION = 'type-formation',
+  MOTIVATION = 'motivation',
 }

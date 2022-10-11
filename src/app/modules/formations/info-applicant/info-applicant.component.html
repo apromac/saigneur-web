@@ -1,205 +1,220 @@
-<div class="offcanvas-header row">
-  <div class="d-flex m-auto  col-12" style="width: max-content; height: 300px">
-    <img height="250" src="assets/images/avatars/1.jpg" alt="" class="img-thumbnail"/>
+<div class="card h-100" *ngIf="candidatInfo && candidatInfo.nomCandidat">
+  <div class="card-body animated fadeInRight row">
+    <div class="m-auto d-flex" style="width: max-content;" [ngStyle]="(btnIs === 'none' || !btnIs )? {height : '200px'}: {height : '10em'}">
+      <img class="img-thumbnail bg-transparent border-0" src="assets/images/avatars/1.jpg" alt="Logo"/>
+    </div>
+    <p class="h5 col-12 text-center">{{candidatInfo.nomCandidat}} {{candidatInfo.prenomsCandidat}}</p>
+
+    <!--        <div class="offcanvas-body mt-0">-->
+    <div class="overflow-auto" style="max-height: 63vh">
+      <ngb-accordion #acc="ngbAccordion" activeIds="config-panel-one">
+        <ngb-panel title="IDENTITE" id="config-panel-one">
+          <ng-template ngbPanelContent>
+
+            <ul class="list-group">
+              <li class="list-group-item mb-0">
+                <div class="row">
+                  <div class="col-md-6">
+                    <small class="mt-0" style="font-size: 10px"><i>Age</i></small>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.dateNaisCandidat | age}} ans</p>
+                  </div>
+
+                  <div class="col-md-6 border-left">
+                    <small class="mt-0" style="font-size: 10px"><i>Sexe</i></small>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.genreCandidat | gender}}</p>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item mb-0">
+                <div class="row">
+                  <div class="col-md-6">
+                    <small class="mt-0" style="font-size: 10px"><i>Lieu de naissance</i></small>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.lieuNaisCandidat}}</p>
+                  </div>
+
+                  <div class="col-md-6 border-left">
+                    <small class="mt-0" style="font-size: 10px"><i>Lieu de résidence</i></small>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Daloa</p>
+                  </div>
+                </div>
+              </li>
+
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Niveau d'étude</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Néant</p>
+              </li>
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Métier actuel</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Planteur</p>
+              </li>
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Distance par rapport à l'école</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">3km</p>
+                <!--          </li>-->
+
+              <li class="list-group-item mb-0">
+                <div class="row">
+                  <div class="col-md-6">
+                    <small class="mt-0" style="font-size: 10px"><i>Contacts</i></small>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.premierContactCandidat}}</p>
+                  </div>
+
+                  <div class="col-md-6">
+                    <small class="mt-0" style="font-size: 10px">Autres contacts<i></i></small>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0"> {{candidatInfo.secondContactCandidat}}</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel title="DOCUMENT">
+          <ng-template ngbPanelContent>
+            <ul class="list-group">
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Type de document</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Carte Nationale d'Identité</p>
+              </li>
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Numéro de pièce</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.numeroPieceCandidat}}</p>
+              </li>
+            </ul>
+          </ng-template>
+        </ngb-panel>
+
+        <ngb-panel title="FORMATION">
+          <ng-template ngbPanelContent>
+            <ul class="list-group">
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Formé au métier de saigneur</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.isFormer | boolVal}}</p>
+              </li>
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Période de Formation</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">
+                  {{candidatInfo.anneeFormation | date:'YYYY'}}
+<!--                  <b>15 Juil 2021</b> au <b>18 Mai 2022</b>-->
+                </p>
+              </li>
+
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Structure</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">APROMAC</p>
+              </li>
+
+              <li class="list-group-item mb-0">
+                <div class="row">
+                  <div class="col-md-6">
+                    <small class="mt-0" style="font-size: 10px"><i>Formation mise en application</i></small>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.isAppliquer | boolVal}}</p>
+                  </div>
+
+                  <div class="col-md-6 border-left">
+                    <small class="mt-0" style="font-size: 10px"><i>Année de formation</i></small>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.anneeFormation | date:'YYYY'}}</p>
+                  </div>
+                </div>
+              </li>
+
+              <li class="list-group-item mb-0">
+                <div class="row">
+                  <div class="col-md-6">
+                    <small class="mt-0" style="font-size: 10px"><i>Type formation</i></small>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.typeSaigneFormation | saigne}}</p>
+                  </div>
+
+                  <div class="col-md-6 border-left">
+                    <small class="mt-0" style="font-size: 10px"><i>Lieu de formation</i></small>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Daloa</p>
+                  </div>
+                </div>
+              </li>
+
+<!--              <li class="list-group-item mb-0">-->
+<!--                <small class="mt-0" style="font-size: 10px"><i>Lieu de formation</i></small>-->
+<!--                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">BONOUFLA</p>-->
+<!--              </li>-->
+            </ul>
+          </ng-template>
+        </ngb-panel>
+
+        <ngb-panel title="EMPLOI">
+          <ng-template ngbPanelContent>
+            <ul class="list-group">
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Avez-vous reçu une proposition d'emploi</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.propositionEmploi | boolVal}}</p>
+              </li>
+              <li class="border m-0 p-0" *ngIf="candidatInfo.propositionEmploi">
+                <ng-container
+                  *ngTemplateOutlet="planteurInfo; context:{info:{nom: candidatInfo.nomPlanteurEmploi , matricule: candidatInfo.matriculePlanteurEmploi, contact:candidatInfo.contactPlanteurEmploi , localite: candidatInfo.lieuPlanteurEmploi, annee: candidatInfo.anneePlanteurEmploi}}"
+                ></ng-container>
+              </li>
+            </ul>
+
+            <ul class="list-group">
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Etes-vous en activité</i></small>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.isActivite | boolVal}}</p>
+              </li>
+              <li class="border m-0 p-0" *ngIf="candidatInfo.isActivite">
+                <ng-container
+                  *ngTemplateOutlet="planteurInfo; context:{info:{nom: candidatInfo.nomPlanteurActivite , matricule: candidatInfo.matriculePlanteurActivite, contact:candidatInfo.contactPlanteurActivite , localite: candidatInfo.lieuPlanteurActivite, annee: candidatInfo.anneePlanteurActivite}}"
+                ></ng-container>
+              </li>
+            </ul>
+          </ng-template>
+        </ngb-panel>
+
+        <ngb-panel title="MOTIVATION">
+          <ng-template ngbPanelContent>
+            <ul class="list-group">
+              <li class="list-group-item mb-0">
+                <small class="mt-0" style="font-size: 10px"><i>Pourquoi désirez vous cette formation ?</i></small>
+                <p>
+                  <b class="">
+                    Exercer le métier de saigneur dans une autre plantation
+                  </b>
+                </p>
+              </li>
+
+            </ul>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </div>
+    <div class="offcanvas-bottom mt-1">
+      <div (click)="validateClick.emit(candidatInfo)" class="btn btn-lg btn-primary btn-block" *ngIf="btnIs==='valider'">
+        Valider
+      </div>
+
+      <div (click)="retirerClick.emit(candidatInfo)" class="btn btn-danger btn-lg btn-block" *ngIf="btnIs==='retirer'">
+        Retirer
+      </div>
+    </div>
+
+    <!--        </div>-->
+    <ng-template #planteurInfo let-info="info">
+      <ul class="border-left">
+        <li class="list-group-item mb-0 border-0 ">
+          <small class="mt-0" style="font-size: 10px"><i>Planteur</i></small>
+          <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Nom : {{info.nom}}</p>
+        </li>
+        <li class="list-group-item mb-0 border-0 border-left">
+          <p class="pl-0 ml-0 pt-0 mt-0 mb-0">N° Mle : {{info.matricule}} </p>
+        </li>
+        <li class="list-group-item mb-0 border-0 border-left">
+          <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Localité : {{info.localite}}</p>
+        </li>
+        <li class="list-group-item mb-0 border-0 border-left">
+          <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Année : {{info.annee | date:'YYYY'}}</p>
+        </li>
+        <li class="list-group-item mb-0 border-0 border-left">
+          <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Contacts : {{info.contact}}</p>
+        </li>
+      </ul>
+    </ng-template>
+
   </div>
-  <p class="offcanvas-title h5 text-center">N'GUESSAN Kouadio Hervé</p>
 </div>
-<div class="offcanvas-body mt-0">
-  <div class="overflow-auto" style="max-height: 45vh">
-    <ngb-accordion #acc="ngbAccordion" activeIds="config-panel-one">
-      <ngb-panel title="IDENTITE" id="config-panel-one">
-        <ng-template ngbPanelContent>
-
-          <ul class="list-group">
-            <li class="list-group-item mb-0">
-              <div class="row">
-                <div class="col-md-6">
-                  <small class="mt-0" style="font-size: 10px"><i>Age</i></small>
-                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">35 ans</p>
-                </div>
-
-                <div class="col-md-6 border-left">
-                  <small class="mt-0" style="font-size: 10px"><i>Sexe</i></small>
-                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Masculin</p>
-                </div>
-              </div>
-            </li>
-            <li class="list-group-item mb-0">
-              <div class="row">
-                <div class="col-md-6">
-                  <small class="mt-0" style="font-size: 10px"><i>Lieu de naissance</i></small>
-                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Abidjan</p>
-                </div>
-
-                <div class="col-md-6 border-left">
-                  <small class="mt-0" style="font-size: 10px"><i>Lieu de résidence</i></small>
-                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Daloa</p>
-                </div>
-              </div>
-            </li>
-
-            <li class="list-group-item mb-0">
-              <small class="mt-0" style="font-size: 10px"><i>Niveau d'étude</i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Néant</p>
-            </li>
-            <li class="list-group-item mb-0">
-              <small class="mt-0" style="font-size: 10px"><i>Métier actuel</i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Planteur</p>
-            </li>
-            <li class="list-group-item mb-0">
-              <small class="mt-0" style="font-size: 10px"><i>Distance par rapport à l'école</i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">3km</p>
-              <!--          </li>-->
-
-            <li class="list-group-item mb-0">
-              <div class="row">
-                <div class="col-md-6">
-                  <small class="mt-0" style="font-size: 10px"><i>Contacts</i></small>
-                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">0759-1182-58</p>
-                </div>
-
-                <div class="col-md-6">
-                  <small class="mt-0" style="font-size: 10px">Autres contacts<i></i></small>
-                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0"> 0759-1182-58</p>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </ng-template>
-      </ngb-panel>
-      <ngb-panel title="DOCUMENT">
-        <ng-template ngbPanelContent>
-          <ul class="list-group">
-            <li class="list-group-item mb-0">
-              <small class="mt-0" style="font-size: 10px"><i>Type de document</i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Carte Nationale d'Identité</p>
-            </li>
-            <li class="list-group-item mb-0">
-              <small class="mt-0" style="font-size: 10px"><i>Numéro de pièce</i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">CI 000 000 000</p>
-            </li>
-          </ul>
-        </ng-template>
-      </ngb-panel>
-
-      <ngb-panel title="FORMATION">
-        <ng-template ngbPanelContent>
-          <ul class="list-group">
-            <li class="list-group-item mb-0">
-              <small class="mt-0" style="font-size: 10px"><i>Formé au métier de saigneur</i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">OUI</p>
-            </li>
-            <li class="list-group-item mb-0">
-              <small class="mt-0" style="font-size: 10px"><i>Période de Formation</i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0"><b>15 Juil 2021</b> au <b>18 Mai 2022</b></p>
-            </li>
-
-            <li class="list-group-item mb-0">
-              <small class="mt-0" style="font-size: 10px"><i>Structure</i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">APROMAC</p>
-            </li>
-
-            <li class="list-group-item mb-0">
-              <div class="row">
-                <div class="col-md-6">
-                  <small class="mt-0" style="font-size: 10px"><i>Formation mise en application</i></small>
-                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">OUI</p>
-                </div>
-
-                <div class="col-md-6 border-left">
-                  <small class="mt-0" style="font-size: 10px"><i>Année de formation</i></small>
-                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">2021</p>
-                </div>
-              </div>
-            </li>
-
-            <li class="list-group-item mb-0">
-              <div class="row">
-                <div class="col-md-6">
-                  <small class="mt-0" style="font-size: 10px"><i>Type formation</i></small>
-                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Saigneur</p>
-                </div>
-
-                <div class="col-md-6 border-left">
-                  <small class="mt-0" style="font-size: 10px"><i>Lieu de formation</i></small>
-                  <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Daloa</p>
-                </div>
-              </div>
-            </li>
-
-            <li class="list-group-item mb-0">
-              <small class="mt-0" style="font-size: 10px"><i>Lieu de formation</i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">BONOUFLA</p>
-            </li>
-          </ul>
-        </ng-template>
-      </ngb-panel>
-
-      <ngb-panel title="EMPLOI">
-        <ng-template ngbPanelContent>
-          <ul class="list-group">
-            <li class="list-group-item mb-0">
-              <small class="mt-0" style="font-size: 10px"><i>Avez-vous reçu une proposition d'emploi</i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">OUI</p>
-            </li>
-            <li class="border m-0 p-0">
-              <ng-container
-                *ngTemplateOutlet="planteurInfo"
-              ></ng-container>
-            </li>
-          </ul>
-
-          <ul class="list-group">
-            <li class="list-group-item mb-0">
-              <small class="mt-0" style="font-size: 10px"><i>Etes-vous en activité</i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">OUI</p>
-            </li>
-            <li class="border m-0 p-0">
-              <ng-container
-                *ngTemplateOutlet="planteurInfo"
-              ></ng-container>
-            </li>
-          </ul>
-        </ng-template>
-      </ngb-panel>
-
-      <ngb-panel title="MOTIVATION">
-        <ng-template ngbPanelContent>
-          <ul class="list-group">
-            <li class="list-group-item mb-0">
-              <small class="mt-0" style="font-size: 10px"><i>Pourquoi désirez vous cette formation ?</i></small>
-            <p>
-              <b class="">
-                Exercer le métier de saigneur dans une autre plantation
-              </b>
-            </p>
-            </li>
-
-          </ul>
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
-  </div>
-</div>
-
-
-<ng-template #planteurInfo>
-  <ul class="border-left">
-    <li class="list-group-item mb-0 border-0 ">
-      <small class="mt-0" style="font-size: 10px"><i>Planteur</i></small>
-      <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Nom : KOUASSI Yao</p>
-    </li>
-    <li class="list-group-item mb-0 border-0 border-left">
-      <p class="pl-0 ml-0 pt-0 mt-0 mb-0">N° Mle : 101044 </p>
-    </li>
-    <li class="list-group-item mb-0 border-0 border-left">
-      <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Localité : BONOUFLA</p>
-    </li>
-    <li class="list-group-item mb-0 border-0 border-left">
-      <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Année : 2021</p>
-    </li>
-    <li class="list-group-item mb-0 border-0 border-left">
-      <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Contacts : 0707808058</p>
-    </li>
-  </ul>
-</ng-template>

@@ -3,6 +3,7 @@ import {CommonModule, HashLocationStrategy, LocationStrategy, registerLocaleData
 import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgChartsConfiguration, NgChartsModule} from 'ng2-charts';
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {ToastrModule} from 'ngx-toastr';
 
@@ -18,9 +19,15 @@ import {ConfigActions} from './ThemeOptions/store/config.actions';
 import {ContentLayoutComponent} from './layout/content-layout/content-layout.component';
 import {FooterComponent} from './layout/footer/footer.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
-import { InfoSaigneurComponent } from './layout/info-saigneur/info-saigneur.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import localFr from '@angular/common/locales/fr'
+import localFr from '@angular/common/locales/fr';
+import { GenderPipe } from './core/pipes/gender.pipe';
+import { BoolValPipe } from './core/pipes/bool-val.pipe';
+import { AgePipe } from './core/pipes/age.pipe';
+import { JobPipe } from './core/pipes/job.pipe';
+import { PiecePipe } from './core/pipes/piece.pipe';
+import { SaignePipe } from './core/pipes/saigne.pipe';
+import { ParamsPipe } from './core/pipes/params.pipe'
 
 registerLocaleData(localFr);
 
@@ -29,44 +36,47 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 @NgModule({
-  declarations: [
-    AppComponent,
+    declarations: [
+        AppComponent,
 
-    /**
-     * LAYOUT
-     */
-    SidebarComponent,
-    ContentLayoutComponent,
-    FooterComponent,
-    UserBoxComponent,
-    HeaderComponent,
-    SearchBoxComponent,
-    DashboardComponent,
-    InfoSaigneurComponent,
-  ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    NgbModule,
-    SharedModule,
-    AppRoutingModule,
-    ToastrModule.forRoot(),
-    BrowserAnimationsModule,
-  ],
-  providers: [
-    {
-      provide:
-      PERFECT_SCROLLBAR_CONFIG,
-      // DROPZONE_CONFIG,
-      useValue:
-      DEFAULT_PERFECT_SCROLLBAR_CONFIG,
-      // DEFAULT_DROPZONE_CONFIG,
-    },
-    ConfigActions,
-    { provide: LOCALE_ID, useValue: 'fr-FR' },
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
-  ],
-  bootstrap: [AppComponent]
+        /**
+         * LAYOUT
+         */
+        SidebarComponent,
+        ContentLayoutComponent,
+        FooterComponent,
+        UserBoxComponent,
+        HeaderComponent,
+        SearchBoxComponent,
+        DashboardComponent,
+        ParamsPipe,
+    ],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        NgbModule,
+        SharedModule,
+        AppRoutingModule,
+        NgChartsModule,
+        ToastrModule.forRoot(),
+        BrowserAnimationsModule,
+    ],
+    providers: [
+        {
+            provide:
+            PERFECT_SCROLLBAR_CONFIG,
+            // DROPZONE_CONFIG,
+            useValue:
+            DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+            // DEFAULT_DROPZONE_CONFIG,
+        },
+        ConfigActions,
+        {provide: LOCALE_ID, useValue: 'fr-FR'},
+        {provide: NgChartsConfiguration, useValue: {generateColors: false}},
+        {provide: LocationStrategy, useClass: HashLocationStrategy}
+    ],
+
+    bootstrap: [AppComponent]
 })
 
 export class AppModule {

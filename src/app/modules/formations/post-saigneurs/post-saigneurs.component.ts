@@ -13,7 +13,7 @@ export class PostSaigneursComponent implements OnInit {
 
   public tableHeader: CustomTableHeaderInfo = {
     withBtn: false,
-    title: 'Saigneurs placés chez les producteurs'
+    title: 'Liste des saigneurs'
   };
 
   constructor() {

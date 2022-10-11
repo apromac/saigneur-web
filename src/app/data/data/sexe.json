@@ -1,0 +1,10 @@
+[
+  {
+    "genreID" : 0,
+    "libelleGenre" : "Masculin"
+  },
+  {
+    "genreID" : 1,
+    "libelleGenre" : "Féminin"
+  }
+]

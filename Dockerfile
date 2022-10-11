@@ -2,6 +2,7 @@
 # DOCKERFILE
 # CONSTRUCTION DE L'IMAGE DOCKER DU MICROSERVICE "saigneur-web"
 # ======================================================================
+
 # Stage 1
 FROM node:alpine3.16 as builder-node
 WORKDIR /app

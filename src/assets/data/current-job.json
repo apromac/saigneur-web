@@ -1,0 +1,14 @@
+[
+  {
+    "metierID" : 1,
+    "metierLibelle" : "Actif agricole"
+  },
+  {
+    "metierID" : 2,
+    "metierLibelle" : "Actif non agricole"
+  },
+  {
+    "metierID" : 3,
+    "metierLibelle" : "Artisant"
+  }
+]

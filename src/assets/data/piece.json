@@ -1,0 +1,26 @@
+[
+  {
+    "typePieceID": 1,
+    "libelleTypePiece": "Carte Nationale d'Identité"
+  },
+  {
+    "typePieceID": 2,
+    "libelleTypePiece": "Attestation d'identité"
+  },
+  {
+    "typePieceID": 3,
+    "libelleTypePiece": "Passeport"
+  },
+  {
+    "typePieceID": 4,
+    "libelleTypePiece": "Carte consulaire"
+  },
+  {
+    "typePieceID": 5,
+    "libelleTypePiece": "Extrait de naissance"
+  },
+  {
+    "typePieceID": 6,
+    "libelleTypePiece": "Carte scolaire"
+  }
+]

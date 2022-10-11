@@ -1,11 +1,18 @@
 export class Candidat {
   candidatID: number;
   dateNaisCandidat: string;
+  age: string;
   genreCandidat: string;
+  libelleGenre: string;
   lieuNaisCandidat: string;
+
   lieuResidCandidat: string;
+  lieuResidLibelle: string;
   metierActuelCandidat: string;
+
   niveauEtudeCandidat: string;
+  niveauEtudeLibelle: string;
+
   nomCandidat: string;
   numeroPieceCandidat: string;
   premierContactCandidat: number;

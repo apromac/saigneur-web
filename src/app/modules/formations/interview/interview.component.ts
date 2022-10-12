@@ -2,6 +2,7 @@ import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import {GenderPipe} from '../../../core/pipes/gender.pipe';
 import {CandidatService} from '../../../core/services/candidat.service';
 import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
@@ -50,7 +51,7 @@ export class InterviewComponent implements OnInit {
         console.log(value);
         if (value){
           this.allApplicants = (value as any as InscriptionDTO[])?.map((v) => {
-            v.nomCandidat = v.nomCandidat + ' ' + v.prenomsCandidat;
+            v.genreCandidat = new GenderPipe().transform(v.genreCandidat);
             // Object.assign(v, v.candidat);
             return v;
           });

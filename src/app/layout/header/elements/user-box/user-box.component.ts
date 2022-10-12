@@ -18,4 +18,13 @@ export class UserBoxComponent implements OnInit {
     sessionStorage.clear();
     location.assign('/');
   }
+
+  setNom(): string {
+    let n = this.userConnected.nomUtilisateur.split(' ')[0];
+
+    let nn = this.userConnected.prenomsUtilisateur.split(' ')
+
+    let prn = nn[nn.length - 1]
+    return n + ' ' + prn;
+  }
 }

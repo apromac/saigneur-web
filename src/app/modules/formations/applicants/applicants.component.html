@@ -29,7 +29,7 @@
       <label  class="visually-hidden"  for="campagne">Sélectionnez une campagne</label>
       <div class="input-group">
         <div class="input-group-text">Sélectionnez une campagne</div>
-        <select [value]="currentCampagne.campagneID" (change)="comboCampagneChange($event.target.value)" class="form-select" id="campagne"
+        <select [value]="currentCampagne?.campagneID" (change)="comboCampagneChange($event.target.value)" class="form-select" id="campagne"
                 aria-label="Sélectionnez une campagne">
           <option *ngFor="let c  of allCampagnes" [value]="c.campagneID">{{c.libelleCampagne}}</option>
           <option value="" *ngIf="!allCampagnes || allCampagnes && allCampagnes.length ===0">Aucune campagne trouvée</option>

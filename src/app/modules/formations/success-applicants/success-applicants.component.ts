@@ -50,7 +50,7 @@ export class SuccessApplicantsComponent implements OnInit {
     this.candidatService.getAllCurrentCandidatByStatus(STATUS_CANDIDAT.INTERVIWED).subscribe({
       next : value => {
         console.log(value);
-        this.allApplicants = (value as any as InscriptionDTO[]).map((v)=>{
+        this.allApplicants = (value as any as InscriptionDTO[])?.map((v)=>{
           v.genreCandidat = new GenderPipe().transform(v.genreCandidat);
           // Object.assign(v, v.candidat);
           return v;

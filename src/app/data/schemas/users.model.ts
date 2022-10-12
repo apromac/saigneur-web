@@ -5,7 +5,7 @@ export class UsersModel {
   nomUtilisateur?: string;
   password?: string;
   photoUtilisateur?: string;
-  prenomsUtilisateur?;
+  prenomsUtilisateur? : string;
   poste?: PosteModel;
   posteActuel?: string;
   telephoneUtilisateur?: string;

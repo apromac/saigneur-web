@@ -49,7 +49,7 @@ export class InterviewComponent implements OnInit {
       next: value => {
         console.log(value);
         if (value){
-          this.allApplicants = (value as any as InscriptionDTO[]).map((v) => {
+          this.allApplicants = (value as any as InscriptionDTO[])?.map((v) => {
             v.nomCandidat = v.nomCandidat + ' ' + v.prenomsCandidat;
             // Object.assign(v, v.candidat);
             return v;

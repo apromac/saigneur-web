@@ -11,7 +11,7 @@ import {InscriptionDTO, InscriptionModel} from '../../../data/schemas/inscriptio
   styleUrls: ['./info-applicant.component.scss']
 })
 export class InfoApplicantComponent implements OnInit {
-  @Input() candidatInfo: InscriptionDTO | any;
+  @Input() candidatInfo: InscriptionDTO;
   @Input() btnIs: 'valider' | 'retirer' | 'none';
   @Output() validateClick = new EventEmitter<InscriptionDTO>();
   @Output() retirerClick = new EventEmitter<InscriptionDTO>();

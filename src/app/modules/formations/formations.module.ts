@@ -32,23 +32,23 @@ import { InterviewDetailsComponent } from './interview-details/interview-details
     LogsComponent,
     InterviewDetailsComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    CdkStepperModule,NgStepperModule,
-    FormationsRoutingModule,
-    BsDatepickerModule.forRoot(),
-    NgCircleProgressModule.forRoot({
-      // set defaults here
-      radius: 100,
-      outerStrokeWidth: 16,
-      innerStrokeWidth: 8,
+    imports: [
+        CommonModule,
+        SharedModule,
+        CdkStepperModule, NgStepperModule,
+        FormationsRoutingModule,
+        BsDatepickerModule.forRoot(),
+        NgCircleProgressModule.forRoot({
+            // set defaults here
+            radius: 100,
+            outerStrokeWidth: 16,
+            innerStrokeWidth: 8,
 
-      outerStrokeColor: '#008220',
-      innerStrokeColor: '#85c55c',
-      animationDuration: 300,
-    })
-  ]
+            outerStrokeColor: '#008220',
+            innerStrokeColor: '#85c55c',
+            animationDuration: 300,
+        }),
+    ]
 })
 export class FormationsModule {
 }

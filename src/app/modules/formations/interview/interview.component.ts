@@ -64,12 +64,12 @@ export class InterviewComponent implements OnInit {
     });
   }
 
-  openInfo(content: TemplateRef<any>) {
-    let cn = this.offcanvasService.open(InfoApplicantComponent, {position: 'start'});
-    cn.componentInstance.candidatInfo = this.currentApplicant;
-
-    // this.offcanvasService.open(content, { position: 'start'});
-  }
+  // openInfo(content: TemplateRef<any>) {
+  //   let cn = this.offcanvasService.open(InfoApplicantComponent, {position: 'start'});
+  //   cn.componentInstance.candidatInfo = this.currentApplicant;
+  //
+  //   // this.offcanvasService.open(content, { position: 'start'});
+  // }
 
 
   openInterview(content: TemplateRef<any>, cdt: InterviewModel) {
@@ -119,7 +119,7 @@ export class InterviewComponent implements OnInit {
         className: 'text-uppercase',
         click: (item) => {
           this.currentApplicant = item;
-          this.openInfo(this.contentInterview);
+          // this.openInfo(this.contentInterview);
           console.log(item);
         }
       },

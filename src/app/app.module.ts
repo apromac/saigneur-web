@@ -49,7 +49,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         HeaderComponent,
         SearchBoxComponent,
         DashboardComponent,
-        ParamsPipe,
     ],
     imports: [
         CommonModule,
@@ -74,6 +73,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         {provide: LOCALE_ID, useValue: 'fr-FR'},
         {provide: NgChartsConfiguration, useValue: {generateColors: false}},
         {provide: LocationStrategy, useClass: HashLocationStrategy}
+    ],
+    exports: [
+        ParamsPipe
     ],
 
     bootstrap: [AppComponent]

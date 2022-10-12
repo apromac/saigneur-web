@@ -1,14 +1,16 @@
 import {Injectable} from '@angular/core';
 import {TYPEPARAMS} from '../../data/enums/type-params';
+import {ZoneApromac} from '../../data/schemas/zone-apromac';
 import {Utility} from '../constants/utility';
 import {ParamsService} from './params.service';
+import {ZoneService} from './zone.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
 
-  constructor(private paramsService: ParamsService) {
+  constructor(private paramsService: ParamsService, private zonService: ZoneService) {
   }
 
   initApp(): void {
@@ -18,8 +20,31 @@ export class ConfigService {
     this.getPiece();
     this.getStructure();
     this.getTypeFormation();
+    this.paramsService.getAllMotivation();
+    this.getAllZone();
   }
 
+  getAllZone(): void {
+    this.zonService.getAllZone().subscribe({
+      next : value => {
+        if(value) {
+          (value as any as ZoneApromac[]).forEach((r)=>{
+            Utility.LOCALPARAMS.push({
+              nom: r.libelleZone,
+              valeur : r.zoneID.toString(),
+              type: TYPEPARAMS.ZONE,
+              description: r.libelleZone,
+              abbr:'',
+            });
+          });
+
+        }
+      },
+      error: err => {
+
+      }
+    })
+  }
   getNiveauEtude(): void {
     this.paramsService.getParams(TYPEPARAMS.NIVEAUETUDE).subscribe({
       next: value => {

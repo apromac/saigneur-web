@@ -24,7 +24,7 @@ export class MenuComponent implements OnInit {
   profilSelected: ProfilModel;
   header: CustomTableHeaderInfo = {
     title: 'Gestion des profils',
-    withBtn: true,
+    withBtn: false,
     btn: {
       libelle: 'Enregistrer les modifications',
       bg: 'btn-primary',

@@ -111,7 +111,7 @@
             <div class="form-floating">
               <input type="text"
                      formControlName="nomUtilisateur"
-                     class="form-control" id="name"
+                     class="form-control text-uppercase" id="name"
                      placeholder="Nom" value="">
               <label for="name">Nom</label>
             </div>
@@ -119,7 +119,7 @@
 
           <div class="col-md-6">
             <div class="form-floating">
-              <input formControlName="prenomsUtilisateur" type="text" class="form-control" id="surname"
+              <input formControlName="prenomsUtilisateur" type="text" class="form-control text-capitalize" id="surname"
                      placeholder="Prénoms" value="">
               <label for="surname">Prénoms</label>
             </div>
@@ -160,11 +160,13 @@
               <label for="confpassword">Confirmez le mot de passe</label>
             </div>
           </div>
+          <small class="text-danger" *ngIf="this.formGroup.controls['confPassword'].value !== this.formGroup.controls['password'].value">
+            * Les mots de passe ne sont pas identiques</small>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-success" (click)="saveUser()">Enregistrer</button>
+      <button type="button" [disabled]="formGroup.invalid || this.formGroup.controls['confPassword'].value !== this.formGroup.controls['password'].value" class="btn btn-outline-success" (click)="saveUser()">Enregistrer</button>
       <button type="reset" class="btn btn-outline-danger" (click)="modalService.dismissAll()">Fermer</button>
     </div>
   </form>

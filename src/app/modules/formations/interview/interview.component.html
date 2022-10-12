@@ -7,26 +7,22 @@
       (actualiser)="getCandidatInterview()"
       (rowClicked)="openInterview(contentInterview, $event)"
       [tableHeader]="[
-  'Nom et prénoms',
-  'Réveil',
-  'Couché ',
-  'Occupation',
-  'Peur de l’obscurité',
-  'Sportif',
-  'Longue distance',
-  'Monter à vélo',
-  'Présence dans une plantation',
+  'Nom',
+  'Prénoms',
+  'Téléphone',
+  'Niveau étude',
+  'Zone',
+  'Adresse',
+  'Inscrit le',
   ]"
       [tableRow]="[
   'nomCandidat',
-  'h_reveil',
-  'h_couche',
-  'occupation',
-  'obscurité',
-  'sportif',
-  'distance',
-  'velo',
-  'plantation',
+  'prenomsCandidat',
+  'premierContactCandidat',
+  'niveauEtudeLibelle',
+  'zoneInscription',
+  'Disctrict',
+  'dinscrit',
   ]"
       [tableData]="allApplicants"
       [searchList]="allApplicants"
@@ -66,10 +62,10 @@
 </div>
 
 <ng-template #contentInterview let-offcanvas>
-  <app-interview-details *ngIf="currentApplicant" [candidatInterview]="currentApplicant" (validateClick)="confirmValidation()" (openInfo)="openInfo(contentInfo)"></app-interview-details>
+  <app-interview-details *ngIf="currentApplicant" [candidatInterview]="currentApplicant" (validateClick)="confirmValidation()"></app-interview-details>
 </ng-template>
 
 
-<ng-template #contentInfo let-offcanvas>
-  <app-info-applicant *ngIf="currentApplicant" [candidatInfo]="currentApplicant" ></app-info-applicant>
-</ng-template>
+<!--<ng-template #contentInfo let-offcanvas>-->
+<!--  <app-info-applicant *ngIf="currentApplicant" [candidatInfo]="currentApplicant" ></app-info-applicant>-->
+<!--</ng-template>-->

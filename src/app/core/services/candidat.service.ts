@@ -71,6 +71,6 @@ export class CandidatService {
   }
 
   getCdtByCampagneID(campagneID: number): Observable<any> {
-    return this.http.get<Response>(`${baseUrlInscription}inscription/findByCampagne/${campagneID}`);
+    return this.http.get<Response>(`${baseUrl}campagne/findByCampagneID/${campagneID}`);
   }
 }

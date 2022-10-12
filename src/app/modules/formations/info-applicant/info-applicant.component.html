@@ -34,18 +34,18 @@
 
                   <div class="col-md-6 border-left">
                     <small class="mt-0" style="font-size: 10px"><i>Lieu de résidence</i></small>
-                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Daloa</p>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.lieuResidCandidat | params:'zone'}}</p>
                   </div>
                 </div>
               </li>
 
               <li class="list-group-item mb-0">
                 <small class="mt-0" style="font-size: 10px"><i>Niveau d'étude</i></small>
-                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Néant</p>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.niveauEtudeCandidat | params:'niveau-etude'}}</p>
               </li>
               <li class="list-group-item mb-0">
                 <small class="mt-0" style="font-size: 10px"><i>Métier actuel</i></small>
-                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Planteur</p>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.metierActuelCandidat | params:'current-job'}}</p>
               </li>
               <li class="list-group-item mb-0">
                 <small class="mt-0" style="font-size: 10px"><i>Distance par rapport à l'école</i></small>
@@ -73,7 +73,7 @@
             <ul class="list-group">
               <li class="list-group-item mb-0">
                 <small class="mt-0" style="font-size: 10px"><i>Type de document</i></small>
-                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Carte Nationale d'Identité</p>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.typePieceCandidat | params:'piece'}}</p>
               </li>
               <li class="list-group-item mb-0">
                 <small class="mt-0" style="font-size: 10px"><i>Numéro de pièce</i></small>
@@ -100,7 +100,7 @@
 
               <li class="list-group-item mb-0">
                 <small class="mt-0" style="font-size: 10px"><i>Structure</i></small>
-                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">APROMAC</p>
+                <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.structureFormation | params:'structure'}}</p>
               </li>
 
               <li class="list-group-item mb-0">
@@ -126,7 +126,7 @@
 
                   <div class="col-md-6 border-left">
                     <small class="mt-0" style="font-size: 10px"><i>Lieu de formation</i></small>
-                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">Daloa</p>
+                    <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInfo.lieuFormation | params:'zone'}}</p>
                   </div>
                 </div>
               </li>
@@ -174,7 +174,7 @@
                 <small class="mt-0" style="font-size: 10px"><i>Pourquoi désirez vous cette formation ?</i></small>
                 <p>
                   <b class="">
-                    Exercer le métier de saigneur dans une autre plantation
+                    {{candidatInfo.motivation | params: 'motivation'}}
                   </b>
                 </p>
               </li>

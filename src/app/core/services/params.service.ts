@@ -4,6 +4,7 @@ import {map, Observable, pipe} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {TYPEPARAMS} from '../../data/enums/type-params';
 import {Params} from '../../data/schemas/params';
+import {Utility} from '../constants/utility';
 
 const baseUrl = environment.apiUrl + ''
 const motivation = 'motivation/'
@@ -20,13 +21,15 @@ export class ParamsService {
         console.log(m);
         return m.map((mt)=> {
           let mot = mt as any;
-          return {
-            nom : 'MOTIV'+mot.motivationID,
+          let motiv = {
+            nom : mot.descriptionMotivation,
             valeur : ''+mot.motivationID,
-            abbr: '',
+            abbr: 'MOTIV'+mot.motivationID,
             type: TYPEPARAMS.MOTIVATION,
             description : mot.descriptionMotivation
-          }
+          };
+          Utility.LOCALPARAMS.push(motiv);
+          return motiv;
         });
       } ));
   }

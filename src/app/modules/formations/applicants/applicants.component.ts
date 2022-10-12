@@ -92,8 +92,8 @@ export class ApplicantsComponent implements OnInit {
     this.campagneSelected = this.allCampagnes.find((c) => c.campagneID == val);
     console.log(val, this.campagneSelected);
     // this.campagneSelected = val
-    this.title = this.campagneSelected.libelleCampagne;
-    this.tableHeader.title = this.title;
+    // this.title = this.campagneSelected.libelleCampagne;
+    // this.tableHeader.title = this.title;
     this.getListApplicant();
 
   }
@@ -113,7 +113,7 @@ export class ApplicantsComponent implements OnInit {
     // this.candidatService.getCdtByCampagneID(this.campagneSelected.campagneID).subscribe({
     obs.subscribe({
       next: (resp) => {
-        this.allApplicants = (resp as any as Candidat[]).map((c) => {
+        this.allApplicants = (resp as any as Candidat[])?.map((c) => {
           let cdt = c;
           cdt.libelleGenre =  new GenderPipe().transform(c.genreCandidat);
           return cdt;

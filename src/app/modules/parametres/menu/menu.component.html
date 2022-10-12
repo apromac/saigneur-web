@@ -18,43 +18,51 @@
           </li>
         </ol>
         <div class="col border-primary border overflow-scroll justify-content-center">
-          <div class="row">
-            <div *ngFor="let m of allMenuForW" class="col-4 list-group mt-1">
-              <ng-container *ngTemplateOutlet="mItem; context:{m:m}"></ng-container>
+         <div style="min-height: 30em!important;max-height: 30em!important; overflow-y: auto" >
+           <div class="row">
+             <div *ngFor="let m of allMenuForW" class="col-4 list-group mt-1">
+               <ng-container *ngTemplateOutlet="mItem; context:{m:m}"></ng-container>
 
-              <ngb-accordion #a="ngbAccordion" *ngFor="let m_1 of m.children" [destroyOnHide]="false"
-                             [closeOthers]="true"
-                             [activeIds]="extraParameter">
-                <ngb-panel>
-                  <ng-template ngbPanelHeader>
-                    <div *ngIf="!m_1.hasSousMenu">
-                      <ng-container *ngTemplateOutlet="mItem; context:{m:m_1}"></ng-container>
-                    </div>
-                    <div role="button"  *ngIf="m_1.hasSousMenu" class=" list-group-item border d-flex
+               <ngb-accordion #a="ngbAccordion" *ngFor="let m_1 of m.children" [destroyOnHide]="false"
+                              [closeOthers]="true"
+                              [activeIds]="extraParameter">
+                 <ngb-panel>
+                   <ng-template ngbPanelHeader>
+                     <div *ngIf="!m_1.hasSousMenu">
+                       <ng-container *ngTemplateOutlet="mItem; context:{m:m_1}"></ng-container>
+                     </div>
+                     <div role="button"  *ngIf="m_1.hasSousMenu" class=" list-group-item border d-flex
                      align-items-start list-group-item-action">
-                      <button ngbPanelToggle class="accordion-button bg-transparent p-0 ms-2 me-auto">
-                        <div class="justify-content-start d-flex">
-                          <i class="vsm-icon pe-7s-{{m_1.iconMenu}} fs-5 mr-2">
-                          </i>
-                          <span class="vsm-title fw-bold">{{m_1.libelleMenu}}</span>
-                        </div>
-<!--                        <small class="fw-bold">{{m_1.children.length}} sous-menu</small>-->
-                      </button>
-                      <span (click)="menuClicked(m_1)" *ngIf="hasMenu(m_1)>=0"
-                            class="badge fs-5 rounded-pill material-icons text-primary">check_circle</span>
-                      <span  (click)="menuClicked(m_1)" *ngIf="hasMenu(m_1)<0"
-                            class="badge fs-5 rounded-pill material-icons text-danger">cancel</span>
-                    </div>
-                  </ng-template>
-                  <ng-template ngbPanelContent>
-                    <div class="vsm-list border border-left border-primary">
-                      <div *ngFor="let m2 of m_1.children">
-                        <ng-container *ngTemplateOutlet="mItem; context:{m:m2}"></ng-container>
-                      </div>
-                    </div>
-                  </ng-template>
-                </ngb-panel>
-              </ngb-accordion>
+                       <button ngbPanelToggle class="accordion-button bg-transparent p-0 ms-2 me-auto">
+                         <div class="justify-content-start d-flex">
+                           <i class="vsm-icon pe-7s-{{m_1.iconMenu}} fs-5 mr-2">
+                           </i>
+                           <span class="vsm-title fw-bold">{{m_1.libelleMenu}}</span>
+                         </div>
+                         <!--                        <small class="fw-bold">{{m_1.children.length}} sous-menu</small>-->
+                       </button>
+                       <span (click)="menuClicked(m_1)" *ngIf="hasMenu(m_1)>=0"
+                             class="badge fs-5 rounded-pill material-icons text-primary">check_circle</span>
+                       <span  (click)="menuClicked(m_1)" *ngIf="hasMenu(m_1)<0"
+                              class="badge fs-5 rounded-pill material-icons text-danger">cancel</span>
+                     </div>
+                   </ng-template>
+                   <ng-template ngbPanelContent>
+                     <div class="vsm-list border border-left border-primary">
+                       <div *ngFor="let m2 of m_1.children">
+                         <ng-container *ngTemplateOutlet="mItem; context:{m:m2}"></ng-container>
+                       </div>
+                     </div>
+                   </ng-template>
+                 </ngb-panel>
+               </ngb-accordion>
+             </div>
+           </div>
+         </div>
+
+          <div class="row">
+            <div class="col-12 text-right">
+              <div class="btn btn-sm btn-primary" (click)="saveAccess()">Enregistrer les modifications</div>
             </div>
           </div>
         </div>

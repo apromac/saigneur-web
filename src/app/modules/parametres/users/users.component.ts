@@ -54,14 +54,14 @@ export class UsersComponent implements OnInit {
 
   initForm(): void {
     this.formGroup = this.fb.group({
-      nomUtilisateur: [this.currentUser?.nomUtilisateur, Validators.required],
-      prenomsUtilisateur: [this.currentUser?.prenomsUtilisateur, Validators.required],
-      password: [this.currentUser?.password, Validators.required],
-      confPassword: [this.currentUser?.password, Validators.required],
+      nomUtilisateur: [this.currentUser?.nomUtilisateur, [Validators.required]],
+      prenomsUtilisateur: [this.currentUser?.prenomsUtilisateur, [Validators.required]],
+      password: [this.currentUser?.password, [Validators.required]],
+      confPassword: [this.currentUser?.password, [Validators.required]],
       // poste: [, Validators.required],
-      username: [this.currentUser?.username, Validators.required],
-      telephoneUtilisateur: [this.currentUser?.telephoneUtilisateur, Validators.required],
-      utilisateurID: [this.currentUser?.utilisateurID, Validators.required],
+      username: [this.currentUser?.username, [Validators.required]],
+      telephoneUtilisateur: [this.currentUser?.telephoneUtilisateur,[Validators.required]],
+      utilisateurID: [this.currentUser?.utilisateurID],
     });
 
   }
@@ -196,6 +196,10 @@ export class UsersComponent implements OnInit {
 
   saveUser(): void {
     console.log(this.formGroup);
+    if(this.formGroup.controls['confPassword'].value !== this.formGroup.controls['password'].value){
+      this.toast.warning('Les mots de passe ne correspondent pas');
+      return;
+    }
 
    let obs : Observable<any>
     if(this.currentUser && this.currentUser.utilisateurID) {

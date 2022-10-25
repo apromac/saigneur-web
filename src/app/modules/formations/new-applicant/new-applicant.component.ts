@@ -6,6 +6,7 @@ import {NgbActiveModal, NgbModal, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap
 import moment from 'moment';
 import {ToastrService} from 'ngx-toastr';
 import {debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject} from 'rxjs';
+import {Utility} from '../../../core/constants/utility';
 import {CandidatService} from '../../../core/services/candidat.service';
 import {ParamsService} from '../../../core/services/params.service';
 import {PosteService} from '../../../core/services/poste.service';
@@ -166,8 +167,13 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
         console.log('complete');
       }
     });
-
-    this.posteService.getPosteByProfil(4).subscribe({
+    let obs: Observable<any>;
+    if(Utility.loggedUser.profilActuel === 'ADMIN') {
+      obs = this.posteService.getPosteByProfil(4);
+    } else {
+      obs = this.posteService.getLocaliteByDistrictAndProfil(4);
+    }
+    obs.subscribe({
       next: value => {
         console.log(value);
         this.listPostes = value as any as PosteModel[];

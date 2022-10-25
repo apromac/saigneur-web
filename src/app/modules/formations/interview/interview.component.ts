@@ -19,8 +19,8 @@ import {InfoApplicantComponent} from '../info-applicant/info-applicant.component
 export class InterviewComponent implements OnInit {
 
   @ViewChild('contentInterview') contentInterview: TemplateRef<any>;
-  public allApplicants: InterviewModel[];
-  currentApplicant: InterviewModel;
+  public allApplicants: InscriptionDTO[];
+  currentApplicant: InscriptionDTO;
   isLoading = true;
 
   public tableHeader: CustomTableHeaderInfo = {
@@ -52,6 +52,7 @@ export class InterviewComponent implements OnInit {
         if (value){
           this.allApplicants = (value as any as InscriptionDTO[])?.map((v) => {
             v.genreCandidat = new GenderPipe().transform(v.genreCandidat);
+            v.statusVal = v.isInterviewer ? 'check-circle text-success' : 'close text-danger';
             // Object.assign(v, v.candidat);
             return v;
           });
@@ -73,13 +74,17 @@ export class InterviewComponent implements OnInit {
   // }
 
 
-  openInterview(content: TemplateRef<any>, cdt: InterviewModel) {
+  openInterview(content: TemplateRef<any>, cdt: InscriptionDTO) {
     this.currentApplicant = cdt;
     Object.assign(this.currentApplicant, cdt.candidat);
     this.offcanvasService.open(content, {position: 'end'});
   }
 
   confirmValidation(): void {
+    if(!this.currentApplicant.isInterviewer) {
+      this.toast.warning('Ce candidat n\'est pas encore interviewé!')
+      return;
+    }
     Swal.fire({
       title: 'Validation interview',
       text: 'Voulez-vous vraiment valider cet interview?',

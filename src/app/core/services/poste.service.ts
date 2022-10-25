@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {PosteModel} from '../../data/schemas/poste.model';
+import {Utility} from '../constants/utility';
 
 const baseUrl = environment.apiUserUrl + 'poste/';
 const baseUrlLocalite = environment.apiCandidatUrl + 'localite/';
@@ -28,6 +29,10 @@ export class PosteService {
 
   getLocaliteByTDH(idPoste: number): Observable<Response> {
     return this.http.get<Response>(`${baseUrlLocalite}findByPosteTDH/${idPoste}`);
+  }
+  getLocaliteByDistrictAndProfil(idProfil: number): Observable<Response> {
+
+    return this.http.get<Response>(`${baseUrlLocalite}district/${Utility.loggedUser.district}profil/${idProfil}`);
   }
 
   updatePoste(poste: PosteModel): Observable<Response>{

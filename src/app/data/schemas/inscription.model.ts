@@ -66,7 +66,29 @@ export class InscriptionDTO {
   secondContactCandidat: number;
   typePieceCandidat: string;
 
+  noteCouche: number;
+  noteLongueDistance: number;
+  noteObscurite: number;
+  noteOccupation: number;
+  notePresencePlantation: number;
+  noteReveil: number;
+  noteSprotif: number;
+  noteVelo: number;
+
+  peurObscurite : boolean;
+  sportif: boolean;
+  monteVelo: boolean;
+
+  motifPresencePlantation: string;
+  descriptionSportif: string;
+  descriptionReveil: string;
+  descriptionOccupation: string;
+  descriptionLongueDistance: string;
+  descriptionCouche: string;
+
+  isInterviewer: boolean;
 
   campagne: Campagne;
   candidat: Candidat;
+  statusVal: string;
 }

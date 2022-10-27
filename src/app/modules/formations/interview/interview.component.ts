@@ -1,9 +1,12 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
+import {Observable} from 'rxjs';
 import Swal from 'sweetalert2';
+import {Utility} from '../../../core/constants/utility';
 import {GenderPipe} from '../../../core/pipes/gender.pipe';
 import {CandidatService} from '../../../core/services/candidat.service';
+import {PROFIL} from '../../../data/enums/profil';
 import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
@@ -46,7 +49,14 @@ export class InterviewComponent implements OnInit {
     this.currentApplicant = null;
     this.allApplicants = [];
     this.offcanvasService.dismiss();
-    this.candidatService.getAllCurrentCandidatByStatus(STATUS_CANDIDAT.SELECTED).subscribe({
+    let obs: Observable<any>;
+    let status : STATUS_CANDIDAT = STATUS_CANDIDAT.SELECTED;
+    if(Utility.loggedUser.profilActuel === PROFIL.ADMIN) {
+      obs = this.candidatService.getCdtByCampagneID(Utility.CURRENTCAMPAGNE.campagneID, status);
+    } else {
+      obs = this.candidatService.getAllCurrentCandidatByStatus(status);
+    }
+    obs.subscribe({
       next: value => {
         console.log(value);
         if (value){

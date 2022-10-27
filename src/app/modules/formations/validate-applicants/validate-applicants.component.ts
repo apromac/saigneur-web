@@ -2,9 +2,12 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
+import {Observable} from 'rxjs';
 import Swal from 'sweetalert2';
+import {Utility} from '../../../core/constants/utility';
 import {GenderPipe} from '../../../core/pipes/gender.pipe';
 import {CandidatService} from '../../../core/services/candidat.service';
+import {PROFIL} from '../../../data/enums/profil';
 import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
@@ -54,7 +57,13 @@ export class ValidateApplicantsComponent implements OnInit {
       status = STATUS_CANDIDAT.NEW_CANDIDAT;
       this.isNotSelectedLoading =  true;
     }
-    this.candidatService.getAllCurrentCandidatByStatus(status).subscribe({
+  let obs: Observable<any>;
+    if(Utility.loggedUser.profilActuel === PROFIL.ADMIN) {
+      obs = this.candidatService.getCdtByCampagneID(Utility.CURRENTCAMPAGNE.campagneID, status);
+    } else {
+      obs = this.candidatService.getAllCurrentCandidatByStatus(status);
+    }
+    obs.subscribe({
       next: value => {
         const list = ((value || [])  as any as InscriptionDTO[])?.map((c) => {
           let cdt = c;

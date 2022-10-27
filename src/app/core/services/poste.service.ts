@@ -21,15 +21,15 @@ export class PosteService {
   }
 
   getPosteByProfil(idProfil: number): Observable<Response> {
-    return this.http.get<Response>(`${baseUrl}findByProfil/${idProfil}`);
+    return this.http.get<Response>(`${baseUrl}profil/${idProfil}`);
   }
   getDTOById(idPoste: number): Observable<Response> {
-    return this.http.get<Response>(`${baseUrl}findByPosteDTO/${idPoste}`);
+    return this.http.get<Response>(`${baseUrl}${idPoste}`);
   }
 
-  getLocaliteByTDH(idPoste: number): Observable<Response> {
-    return this.http.get<Response>(`${baseUrlLocalite}findByPosteTDH/${idPoste}`);
-  }
+  // getLocaliteByTDH(idPoste: number): Observable<Response> {
+  //   return this.http.get<Response>(`${baseUrlLocalite}findByPosteTDH/${idPoste}`);
+  // }
   getLocaliteByDistrictAndProfil(idProfil: number): Observable<Response> {
 
     return this.http.get<Response>(`${baseUrlLocalite}district/${Utility.loggedUser.district}profil/${idProfil}`);

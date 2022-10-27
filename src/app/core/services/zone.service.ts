@@ -16,7 +16,7 @@ export class ZoneService {
     return this.http.get<Response>(`${baseUrl}findAllZone`)
   }
   getAllZoneByDistrict(idDistrict): Observable<Response> {
-    return this.http.get<Response>(`${baseUrl}findByDistrict/${idDistrict}`)
+    return this.http.get<Response>(`${baseUrl}district/${idDistrict}`)
   }
 
   getAllZoneById(idZone): Observable<Response> {

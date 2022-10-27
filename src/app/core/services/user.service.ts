@@ -22,7 +22,7 @@ export class UserService {
 
   getAllUser(): Observable<Response> {
     // return this.http.get<Response>(`${baseUrl}findAllUtilisateur`)
-    return this.http.get<Response>(`${baseUrl}findUtilisateurDetails`);
+    return this.http.get<Response>(`${baseUrl}findByUtilisateurDTO`);
   }
 
   findUserById(idUser: number): Observable<Response> {

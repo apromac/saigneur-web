@@ -202,11 +202,23 @@ export class UsersComponent implements OnInit {
     }
 
    let obs : Observable<any>
+    let user: UsersModel = this.formGroup.value;
+    user.nomUtilisateur.toUpperCase();
+    // user.prenomsUtilisateur.charAt(0).toUpperCase();
+    var newPren = '';
+    var prenom = user.prenomsUtilisateur.split(' ');
+    prenom.forEach((c)=>{
+      c.charAt(0).toUpperCase();
+      newPren +=c+' ';
+    });
+    user.prenomsUtilisateur = newPren;
+    console.log(user);
     if(this.currentUser && this.currentUser.utilisateurID) {
-      obs = this.userService.editUser(this.formGroup.value)
+      obs = this.userService.editUser(user)
     } else {
-    obs = this.userService.createUser(this.formGroup.value);
+    obs = this.userService.createUser(user);
     }
+
       obs.subscribe({
       next: value => {
         console.log(value);

@@ -1,9 +1,11 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
+import {Observable} from 'rxjs';
 import {Utility} from '../../../core/constants/utility';
 import {GenderPipe} from '../../../core/pipes/gender.pipe';
 import {CandidatService} from '../../../core/services/candidat.service';
+import {PROFIL} from '../../../data/enums/profil';
 import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
@@ -47,7 +49,14 @@ export class SuccessApplicantsComponent implements OnInit {
   getCandidatRetenu(): void {
     this.isLoading = true;
     this.allApplicants = [];
-    this.candidatService.getAllCurrentCandidatByStatus(STATUS_CANDIDAT.INTERVIWED).subscribe({
+    let obs: Observable<any>;
+    let status : STATUS_CANDIDAT = STATUS_CANDIDAT.INTERVIWED;
+    if(Utility.loggedUser.profilActuel === PROFIL.ADMIN) {
+      obs = this.candidatService.getCdtByCampagneID(Utility.CURRENTCAMPAGNE.campagneID, status);
+    } else {
+      obs = this.candidatService.getAllCurrentCandidatByStatus(status);
+    }
+    obs.subscribe({
       next : value => {
         console.log(value);
         this.allApplicants = (value as any as InscriptionDTO[])?.map((v)=>{

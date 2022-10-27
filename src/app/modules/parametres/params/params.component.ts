@@ -35,7 +35,7 @@ export class ParamsComponent implements OnInit {
   fGrpCampagne: FormGroup;
   fGrpProfil: FormGroup;
   fGrpPoste: FormGroup;
-  config: {
+  config= {
     itemsPerPage: 5,
     currentPage: 1
   };

@@ -8,6 +8,7 @@ import {GenderPipe} from '../../../core/pipes/gender.pipe';
 import {CampagneService} from '../../../core/services/campagne.service';
 import {CandidatService} from '../../../core/services/candidat.service';
 import {ParamsService} from '../../../core/services/params.service';
+import {PROFIL} from '../../../data/enums/profil';
 import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
@@ -27,7 +28,7 @@ import {NewApplicantComponent} from '../new-applicant/new-applicant.component';
 export class ApplicantsComponent implements OnInit {
   title = 'Inscription des candidats';
   @ViewChild('contentInfo') contentInfo: TemplateRef<any>;
-  isAdmin = Utility.loggedUser.profilActuel === 'ADMIN';
+  isAdmin = Utility.loggedUser.profilActuel === PROFIL.ADMIN;
   public tableHeader: CustomTableHeaderInfo = {
     withBtn: true,
     btn: {
@@ -58,7 +59,9 @@ export class ApplicantsComponent implements OnInit {
 
   ngOnInit(): void {
     // this.comboCampagneChange(this.currentCampagne.campagneID);
+    if(!this.isAdmin) {
     this.getListApplicant();
+    }
     this.fetchCombosData();
   }
 
@@ -77,6 +80,8 @@ export class ApplicantsComponent implements OnInit {
     this.campagneService.getAllCampagne().subscribe({
       next: (resp) => {
         this.allCampagnes = (resp as any as Campagne[]);
+        this.currentCampagne = this.allCampagnes.find((c)=> c.activeCampagne);
+        this.comboCampagneChange(this.currentCampagne.campagneID);
       },
       error: (err: HttpErrorResponse) => {
         console.log(err);
@@ -106,7 +111,7 @@ export class ApplicantsComponent implements OnInit {
     this.allApplicants = [];
     let obs: Observable<any>;
     if(this.isAdmin && this.campagneSelected) {
-      obs =  this.candidatService.getCdtByCampagneID(this.campagneSelected.campagneID)
+      obs =  this.candidatService.getCdtByCampagneID(this.campagneSelected.campagneID, STATUS_CANDIDAT.NEW_CANDIDAT)
     } else {
       obs = this.candidatService.getAllCurrentCandidatByStatus(STATUS_CANDIDAT.NEW_CANDIDAT);
     }

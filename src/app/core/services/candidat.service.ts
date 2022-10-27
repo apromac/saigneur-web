@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {STATUS_CANDIDAT} from '../../data/enums/status';
 import {Candidat} from '../../data/schemas/candidat';
 import {InscriptionModel} from '../../data/schemas/inscription.model';
+import {Utility} from '../constants/utility';
 
 const baseUrl  = `${environment.apiCandidatUrl}candidat/`
 const baseUrlInscription  = `${environment.apiCandidatUrl}inscription/`
@@ -33,7 +34,7 @@ export class CandidatService {
   }
 
   getAllCurrentCandidatByStatus(status : STATUS_CANDIDAT): Observable<Response> {
-    return this.http.get<Response>(`${baseUrl}campagne/findByCurrentCampagne/statut/${status}`);
+    return this.http.get<Response>(`${baseUrl}campagne/statut/${status}/district/${Utility.loggedUser.district}`);
   }
 
   getAllCurrentCandidat(selected): Observable<Response> {
@@ -70,7 +71,7 @@ export class CandidatService {
     return this.http.get<Response>(`${baseUrlInscription}deleteCandidat/${idCandidat}`);
   }
 
-  getCdtByCampagneID(campagneID: number): Observable<any> {
-    return this.http.get<Response>(`${baseUrl}campagne/findByCampagneID/${campagneID}`);
+  getCdtByCampagneID(campagneID: number, statut: STATUS_CANDIDAT): Observable<any> {
+    return this.http.get<Response>(`${baseUrl}campagne/${campagneID}/statut/${statut}`);
   }
 }

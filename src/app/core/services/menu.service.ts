@@ -19,7 +19,7 @@ export class MenuService {
   }
 
   getProfilAcces(pID: number): Observable<Response>{
-    return  this.http.get<Response>(`${this.baseUrl_Access}profil/findByProfilID/${pID}`);
+    return  this.http.get<Response>(`${this.baseUrl_Access}profil/${pID}`);
   }
 
   saveAccess(access:any): Observable<Response>{

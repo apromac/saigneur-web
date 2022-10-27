@@ -11,6 +11,7 @@ import {CandidatService} from '../../../core/services/candidat.service';
 import {ParamsService} from '../../../core/services/params.service';
 import {PosteService} from '../../../core/services/poste.service';
 import {ZoneService} from '../../../core/services/zone.service';
+import {PROFIL} from '../../../data/enums/profil';
 import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {Campagne} from '../../../data/schemas/campagne';
 import {Candidat} from '../../../data/schemas/candidat';
@@ -168,7 +169,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       }
     });
     let obs: Observable<any>;
-    if(Utility.loggedUser.profilActuel === 'ADMIN') {
+    if(Utility.loggedUser.profilActuel === PROFIL.ADMIN) {
       obs = this.posteService.getPosteByProfil(4);
     } else {
       obs = this.posteService.getLocaliteByDistrictAndProfil(4);
@@ -190,8 +191,8 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     /**
      * fill Zone
      */
-    this.zoneService.getAllZone().subscribe({
-    // this.zoneService.getAllZoneByDistrict(idDistrict).subscribe({
+    // this.zoneService.getAllZone().subscribe({
+    this.zoneService.getAllZoneByDistrict(idDistrict).subscribe({
       next: (resp) => {
         console.log(resp);
         this.listZone = (resp as any as ZoneApromac[]);
@@ -211,7 +212,9 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       poste: ['', [Validators.required]],
       nom: [''],
       prenom: [''],
+      zone: [''],
       zoneInscription: ['', [Validators.required]],
+      district:[],
       districtInscription: ['', [Validators.required]],
       // numero: [''],
     });
@@ -311,13 +314,15 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
   }
 
   posteChange(id): void {
-    this.posteService.getLocaliteByTDH(id).subscribe({
+    this.posteService.getDTOById(id).subscribe({
       next: (value : any) => {
         // this.posteSelected = value as any as PosteModel;
         console.log(this.posteSelected, value);
         this.localForm.controls['zoneInscription'].setValue(value.zoneTDH);
+        this.localForm.controls['zone'].setValue(value.zone);
+        this.localForm.controls['district'].setValue(value.district);
         this.localForm.controls['districtInscription'].setValue(value.districtTDH);
-        this.getLieuResidence('');
+        this.getLieuResidence(value.districtInscription);
       },
       error: (err: HttpErrorResponse) => {
         console.error(err);

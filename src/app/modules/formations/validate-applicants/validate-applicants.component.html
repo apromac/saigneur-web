@@ -22,6 +22,12 @@
       [tableData]="allApplicants"
       [searchList]="allApplicants"
     >
+      <div>
+        <label class="h5" >
+          <b>Campagne en cours :</b> {{currentCampagne?.libelleCampagne}}
+        </label>
+      </div>
+      <hr class="m-0 p-0">
       <label class="h5 text-black">Candidats non sélectionnés</label>
     </app-custom-table>
     <hr>

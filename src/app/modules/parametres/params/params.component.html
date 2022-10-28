@@ -107,6 +107,15 @@
       <div class="row g-2">
         <div class="col-12">
           <div class="form-floating">
+            <select (change)="profilChange($event.target.value)" class="form-select" aria-label="Profil" formControlName="profil">
+              <option  *ngFor="let p of allProfils" [value]="p.profilID"  >{{p.libelleProfil}}</option>
+            </select>
+            <label for="type">Profil</label>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="form-floating">
             <input type="text"
                    formControlName="libellePoste"
                    class="form-control text-uppercase" placeholder="Libellé du poste" value="">
@@ -114,13 +123,26 @@
           </div>
         </div>
 
-        <div>
-          <div class="form-floating">
-            <select (change)="profilChange($event.target.value)" class="form-select" aria-label="Profil" formControlName="profil">
-              <option  *ngFor="let p of allProfils" [value]="p.profilID"  >{{p.libelleProfil}}</option>
-            </select>
-            <label for="type">Profil</label>
+<!--        <div >-->
+        <div *ngIf="profil && profil.profilID !== 1">
+          <div class="col-12 mb-2">
+            <div class="form-floating">
+              <select    (change)="getZoneByDistrict($event.target.value)" class="form-select" aria-label="District">
+                <option *ngFor="let d of allDistrict" [value]="d.districtID"  >{{d.libelleDistrict}}</option>
+              </select>
+              <label for="type">District</label>
+            </div>
           </div>
+
+          <div class="col-12" *ngIf="profil && profil.profilID === 4">
+            <div class="form-floating">
+              <select (change)="zoneChange($event.target.value)" class="form-select" aria-label="Zone">
+                <option  *ngFor="let p of allZone" [value]="p.zoneID"  >{{p.libelleZone}}</option>
+              </select>
+              <label for="type">Zone</label>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

@@ -5,13 +5,17 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
 import {Observable} from 'rxjs';
 import {CampagneService} from '../../../core/services/campagne.service';
+import {DistrictService} from '../../../core/services/district.service';
 import {PosteService} from '../../../core/services/poste.service';
 import {ProfilService} from '../../../core/services/profil.service';
+import {ZoneService} from '../../../core/services/zone.service';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
 import {Campagne} from '../../../data/schemas/campagne';
+import {District} from '../../../data/schemas/district';
 import {PosteModel} from '../../../data/schemas/poste.model';
 import {ProfilModel} from '../../../data/schemas/profil.model';
+import {ZoneApromac} from '../../../data/schemas/zone-apromac';
 
 @Component({
   selector: 'app-params',
@@ -40,6 +44,9 @@ export class ParamsComponent implements OnInit {
     currentPage: 1
   };
 
+  allDistrict : District[] = [];
+  allZone : ZoneApromac[] = [];
+
   PANEL: 'CAMPAGNE' | 'POSTE' | 'PROFIL';
 
   constructor(private modalService: NgbModal,
@@ -47,6 +54,8 @@ export class ParamsComponent implements OnInit {
               private fb: FormBuilder,
               private campagneService: CampagneService,
               private posteService: PosteService,
+              private districtService : DistrictService,
+              private zoneService : ZoneService,
               private profilService: ProfilService
   ) {
   }
@@ -104,8 +113,11 @@ export class ParamsComponent implements OnInit {
   initFormPoste(): void {
     this.fGrpPoste = this.fb.group({
       profil: ['', Validators.required],
+      districtBean: [''],
+      zoneBean: [''],
       libellePoste: ['', Validators.required],
     });
+
   }
 
   initFormCampagane(): void {
@@ -119,6 +131,33 @@ export class ParamsComponent implements OnInit {
     this.getAllProfil();
     this.getAllPoste();
     this.getAllCampagne();
+  }
+
+  getAllDisctrict() {
+    this.districtService.getAll().subscribe({
+      next : value => {
+        this.allDistrict = value as unknown as District[];
+      },
+      error: err => {
+        this.toast.error('Une erreur s\'est produite', 'STATUS ' + err.status);
+      }
+    })
+  }
+  getZoneByDistrict(val): void {
+    var dist = this.allDistrict.find((d)=> d.districtID == val);
+    this.fGrpPoste.controls['districtBean'].setValue(dist.libelleDistrict);
+    this.zoneService.getAllZoneByDistrict(dist.districtID).subscribe({
+      next : value =>  {
+        this.allZone = value as unknown as ZoneApromac[];
+        this.fGrpPoste.controls['zoneBean'].setValue(this.allZone[0].libelleZone);
+      }, error : err => {
+        this.toast.error('Une erreur s\'est produite', 'STATUS '+ err.status);
+      }
+    })
+  }
+  zoneChange(val) : void{
+    var z = this.allZone.find((z)=> z.zoneID == val);
+    this.fGrpPoste.controls['zoneBean'].setValue(z.libelleZone);
   }
 
   public tableHeaderCampagne: CustomTableHeaderInfo = {
@@ -157,6 +196,7 @@ export class ParamsComponent implements OnInit {
     },
     btnClick: () => {
       this.initFormPoste();
+      this.getAllDisctrict();
       this.openModal(this.nwposte);
       // document.getElementById('btnmodalcampagne').click();
     },
@@ -253,15 +293,17 @@ export class ParamsComponent implements OnInit {
 
   profilChange($e): void {
     console.log($e);
-    // this.fGrpPoste.controls['profil']
+
+    this.profil = this.allProfils.find((p)=> p.profilID == $e);
+    // this.fGrpPoste.controls['profil'].setValue(this.profil);
   }
   savePoste(): void {
     console.log(this.fGrpPoste.controls['profil'], this.fGrpPoste.value['profil'])
-    let profil = this.allProfils.find((p)=> p.profilID == this.fGrpPoste.controls['profil'].value )
+    // let profil = this.allProfils.find((p)=> p.profilID == this.fGrpPoste.controls['profil'].value )
     let isModif = this.fGrpPoste.value['posteID'];
     let obs: Observable<any>;
     let obj = this.fGrpPoste.value;
-    obj.profil = profil;
+    obj.profil = this.profil;
     console.log(this.fGrpPoste.value, obj);
     if (isModif) {
       obs = this.posteService.updatePoste(obj);
@@ -325,6 +367,7 @@ export class ParamsComponent implements OnInit {
             case 'POSTE':
               tplRef = this.nwposte;
               this.poste = item;
+              this.getAllDisctrict();
               this.setFormPoste();
               break;
             case 'PROFIL':

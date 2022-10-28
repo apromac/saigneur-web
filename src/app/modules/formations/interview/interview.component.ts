@@ -25,6 +25,8 @@ export class InterviewComponent implements OnInit {
   public allApplicants: InscriptionDTO[];
   currentApplicant: InscriptionDTO;
   isLoading = true;
+  currentCampagne = Utility.CURRENTCAMPAGNE;
+
 
   public tableHeader: CustomTableHeaderInfo = {
     withBtn: false,

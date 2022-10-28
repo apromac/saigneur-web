@@ -24,6 +24,7 @@ export class ValidateApplicantsComponent implements OnInit {
   public allApplicants: InscriptionDTO[] = [];
   public allApplicantsSelected: InscriptionDTO[] = [];
   currentCandidat: InscriptionDTO;
+  currentCampagne = Utility.CURRENTCAMPAGNE;
   isSelectedLoading = true;
   isNotSelectedLoading = true;
   btnToShow: 'valider' | 'retirer' | 'none' = 'valider';

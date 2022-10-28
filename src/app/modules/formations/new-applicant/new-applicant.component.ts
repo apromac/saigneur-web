@@ -318,10 +318,10 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       next: (value : any) => {
         // this.posteSelected = value as any as PosteModel;
         console.log(this.posteSelected, value);
-        this.localForm.controls['zoneInscription'].setValue(value.zoneTDH);
+        this.localForm.controls['zoneInscription'].setValue(value.zoneBean);
         this.localForm.controls['zone'].setValue(value.zone);
         this.localForm.controls['district'].setValue(value.district);
-        this.localForm.controls['districtInscription'].setValue(value.districtTDH);
+        this.localForm.controls['districtInscription'].setValue(value.districtBean);
         this.getLieuResidence(value.districtInscription);
       },
       error: (err: HttpErrorResponse) => {

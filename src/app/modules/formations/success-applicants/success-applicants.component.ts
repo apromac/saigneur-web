@@ -17,7 +17,7 @@ import {InscriptionDTO} from '../../../data/schemas/inscription.model';
   styleUrls: ['./success-applicants.component.scss']
 })
 export class SuccessApplicantsComponent implements OnInit {
-  @ViewChild('contentApplicant') contentApplicant : TemplateRef<any>;
+  @ViewChild('contentApplicant') contentApplicant: TemplateRef<any>;
 
   public allApplicants: InscriptionDTO[] = [];
   public currentCandidat: InscriptionDTO;
@@ -33,8 +33,9 @@ export class SuccessApplicantsComponent implements OnInit {
     // },
     title: 'Candidats retenus',
   };
+
   openEnd(content: TemplateRef<any>) {
-    this.offcanvasService.open(content, { position: 'end'});
+    this.offcanvasService.open(content, {position: 'end'});
   }
 
   constructor(private offcanvasService: NgbOffcanvas,
@@ -50,29 +51,31 @@ export class SuccessApplicantsComponent implements OnInit {
     this.isLoading = true;
     this.allApplicants = [];
     let obs: Observable<any>;
-    let status : STATUS_CANDIDAT = STATUS_CANDIDAT.INTERVIWED;
-    if(Utility.loggedUser.profilActuel === PROFIL.ADMIN) {
+    let status: STATUS_CANDIDAT = STATUS_CANDIDAT.ATTRIBUED   ;
+    if (Utility.loggedUser.profilActuel === PROFIL.ADMIN) {
       obs = this.candidatService.getCdtByCampagneID(Utility.CURRENTCAMPAGNE.campagneID, status);
     } else {
       obs = this.candidatService.getAllCurrentCandidatByStatus(status);
     }
     obs.subscribe({
-      next : value => {
+      next: value => {
         console.log(value);
-        this.allApplicants = (value as any as InscriptionDTO[])?.map((v)=>{
-          v.genreCandidat = new GenderPipe().transform(v.genreCandidat);
+        this.allApplicants = (value as any as InscriptionDTO[])?.map((v) => {
+          v.libelleGenre = new GenderPipe().transform(v.genreCandidat);
+          v.nbrePoint = v.noteSprotif + v.noteOccupation + v.noteReveil + v.noteVelo + v.noteObscurite + v.noteCouche + v.noteLongueDistance + v.notePresencePlantation;
           // Object.assign(v, v.candidat);
           return v;
-        });
+        }).sort((c1, c2)=> c2.nbrePoint - c1.nbrePoint);
 
         this.isLoading = false;
-      }, error : err => {
+      }, error: err => {
         this.isLoading = false;
-        this.toast.error(err.error.message, 'STATUS '+ err.status);
+        this.toast.error(err.error.message, 'STATUS ' + err.status);
         console.error(err);
       }
-    })
+    });
   }
+
   getMenus(): DropdownMenuInfo[] {
     return [
       {

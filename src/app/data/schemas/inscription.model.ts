@@ -50,6 +50,7 @@ export class InscriptionDTO {
   age: string;
   genreCandidat: string;
   libelleGenre: string;
+  nbrePoint: number;
   lieuNaisCandidat: string;
 
   lieuResidCandidat: string;
@@ -78,6 +79,7 @@ export class InscriptionDTO {
   peurObscurite : boolean;
   sportif: boolean;
   monteVelo: boolean;
+  presencePlantation: boolean;
 
   motifPresencePlantation: string;
   descriptionSportif: string;
@@ -91,4 +93,5 @@ export class InscriptionDTO {
   campagne: Campagne;
   candidat: Candidat;
   statusVal: string;
+  distanceInscription = 0;
 }

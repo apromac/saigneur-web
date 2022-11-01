@@ -52,7 +52,7 @@ export class InterviewComponent implements OnInit {
     this.allApplicants = [];
     this.offcanvasService.dismiss();
     let obs: Observable<any>;
-    let status : STATUS_CANDIDAT = STATUS_CANDIDAT.SELECTED;
+    let status : STATUS_CANDIDAT = STATUS_CANDIDAT.INTERVIWED;
     if(Utility.loggedUser.profilActuel === PROFIL.ADMIN) {
       obs = this.candidatService.getCdtByCampagneID(Utility.CURRENTCAMPAGNE.campagneID, status);
     } else {
@@ -63,7 +63,7 @@ export class InterviewComponent implements OnInit {
         console.log(value);
         if (value){
           this.allApplicants = (value as any as InscriptionDTO[])?.map((v) => {
-            v.genreCandidat = new GenderPipe().transform(v.genreCandidat);
+            v.libelleGenre = new GenderPipe().transform(v.genreCandidat);
             v.statusVal = v.isInterviewer ? 'check-circle text-success' : 'close text-danger';
             // Object.assign(v, v.candidat);
             return v;
@@ -114,7 +114,7 @@ export class InterviewComponent implements OnInit {
   }
 
   validateInterView(): void {
-    this.candidatService.validateInterview(this.currentApplicant.candidatID, true).subscribe({
+    this.candidatService.validateInterview(this.currentApplicant.inscriptionID, true).subscribe({
       next: value => {
         this.toast.success('Interview candidat validé avec succès');
         this.getCandidatInterview();

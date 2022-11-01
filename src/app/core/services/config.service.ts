@@ -1,4 +1,6 @@
 import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {PROFIL} from '../../data/enums/profil';
 import {TYPEPARAMS} from '../../data/enums/type-params';
 import {ZoneApromac} from '../../data/schemas/zone-apromac';
 import {Utility} from '../constants/utility';
@@ -20,12 +22,30 @@ export class ConfigService {
     this.getPiece();
     this.getStructure();
     this.getTypeFormation();
-    this.paramsService.getAllMotivation();
+    this.paramsService.getAllMotivation().subscribe((v)=> {
+      // let motiv = {
+      //   nom : mot.descriptionMotivation,
+      //   valeur : ''+mot.motivationID,
+      //   abbr: 'MOTIV'+mot.motivationID,
+      //   type: TYPEPARAMS.MOTIVATION,
+      //   description : mot.descriptionMotivation
+      // };
+      Utility.LOCALPARAMS.push(...v);
+    });
     this.getAllZone();
   }
 
   getAllZone(): void {
-    this.zonService.getAllZone().subscribe({
+    if(!Utility.loggedUser) {
+      return;
+    }
+    let obs: Observable<any>;
+    if(Utility.loggedUser.profilActuel === PROFIL.ADMIN){
+      obs =  this.zonService.getAllZone();
+    } else {
+      obs =  this.zonService.getAllZoneByDistrict();
+    }
+   obs.subscribe({
       next : value => {
         if(value) {
           (value as any as ZoneApromac[]).forEach((r)=>{

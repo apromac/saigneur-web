@@ -117,6 +117,8 @@ export class ParamsComponent implements OnInit {
       zoneBean: [''],
       libellePoste: ['', Validators.required],
     });
+    this.fGrpPoste.reset();
+    // this.profil = new ProfilModel();
 
   }
 
@@ -137,6 +139,8 @@ export class ParamsComponent implements OnInit {
     this.districtService.getAll().subscribe({
       next : value => {
         this.allDistrict = value as unknown as District[];
+        this.fGrpPoste.controls['districtBean'].setValue(this.allDistrict[0].libelleDistrict);
+        this.getZoneByDistrict(this.allDistrict[0].districtID);
       },
       error: err => {
         this.toast.error('Une erreur s\'est produite', 'STATUS ' + err.status);
@@ -146,7 +150,7 @@ export class ParamsComponent implements OnInit {
   getZoneByDistrict(val): void {
     var dist = this.allDistrict.find((d)=> d.districtID == val);
     this.fGrpPoste.controls['districtBean'].setValue(dist.libelleDistrict);
-    this.zoneService.getAllZoneByDistrict(dist.districtID).subscribe({
+    this.zoneService.getAllZoneByDistrict(dist.libelleDistrict).subscribe({
       next : value =>  {
         this.allZone = value as unknown as ZoneApromac[];
         this.fGrpPoste.controls['zoneBean'].setValue(this.allZone[0].libelleZone);
@@ -295,7 +299,8 @@ export class ParamsComponent implements OnInit {
     console.log($e);
 
     this.profil = this.allProfils.find((p)=> p.profilID == $e);
-    // this.fGrpPoste.controls['profil'].setValue(this.profil);
+    // this.fGrpPoste.reset();
+    this.fGrpPoste.controls['libellePoste'].setValue(null);
   }
   savePoste(): void {
     console.log(this.fGrpPoste.controls['profil'], this.fGrpPoste.value['profil'])

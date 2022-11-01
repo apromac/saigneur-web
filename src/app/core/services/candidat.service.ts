@@ -4,7 +4,7 @@ import {map, Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {STATUS_CANDIDAT} from '../../data/enums/status';
 import {Candidat} from '../../data/schemas/candidat';
-import {InscriptionModel} from '../../data/schemas/inscription.model';
+import {InscriptionDTO, InscriptionModel} from '../../data/schemas/inscription.model';
 import {Utility} from '../constants/utility';
 
 const baseUrl  = `${environment.apiCandidatUrl}candidat/`
@@ -34,14 +34,14 @@ export class CandidatService {
   }
 
   getAllCurrentCandidatByStatus(status : STATUS_CANDIDAT): Observable<Response> {
-    return this.http.get<Response>(`${baseUrl}campagne/statut/${status}/district/${Utility.loggedUser.district}`);
+    return this.http.get<Response>(`${baseUrl}statut/${status}/district/${Utility.loggedUser.district}`);
   }
 
   getAllCurrentCandidat(selected): Observable<Response> {
     return this.http.get<Response>(`${baseUrl}campagne/findByCurrentCampagne`);
   }
   validateInterview(idCdt: number, isSelected: boolean): Observable<Response> {
-    return this.http.get<Response>(`${baseUrlInscription}candidat/${idCdt}/interview/${isSelected}`);
+    return this.http.get<Response>(`${baseUrlInscription}${idCdt}/retenus/${isSelected}`);
   }
   getCandidatInterview(): Observable<Response> {
     return this.http.get<Response>(`${baseUrlInscription}interview`);
@@ -62,6 +62,10 @@ export class CandidatService {
 
   addCandidat(cdt: InscriptionModel): Observable<Response> {
     return this.http.post<Response>(`${baseUrlInscription}saveInscription`, cdt);
+  }
+
+  updateCandidat(cdt: InscriptionDTO): Observable<Response> {
+    return this.http.put<Response>(`${baseUrlInscription}${cdt.inscriptionID}`, cdt);
   }
   validateCandidat(selectionDTO : {inscriptionID: number,  status: boolean}): Observable<Response> {
     return this.http.get<Response>(`${baseUrlInscription}${selectionDTO.inscriptionID}/selection/${selectionDTO.status}`);

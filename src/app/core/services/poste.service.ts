@@ -32,7 +32,8 @@ export class PosteService {
   // }
   getLocaliteByDistrictAndProfil(idProfil: number): Observable<Response> {
 
-    return this.http.get<Response>(`${baseUrlLocalite}district/${Utility.loggedUser.district}profil/${idProfil}`);
+    // return this.http.get<Response>(`${baseUrlLocalite}district/${Utility.loggedUser.district}profil/${idProfil}`);
+    return this.http.get<Response>(`${baseUrl}profil/${idProfil}/district/${Utility.loggedUser.district}`);
   }
 
   updatePoste(poste: PosteModel): Observable<Response>{

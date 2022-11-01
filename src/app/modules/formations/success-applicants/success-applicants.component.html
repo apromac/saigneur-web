@@ -8,21 +8,28 @@
   'Prénoms',
   'Genre',
   'Zone',
-  'district',
+  'District',
+  'Points',
   ]"
   [tableRow]="[
   'nomCandidat',
   'prenomsCandidat',
-  'genreCandidat',
+  'libelleGenre',
   'zoneInscription',
-  'districtInscription'
+  'districtInscription',
+  'nbrePoint'
   ]"
   [tableData]="allApplicants"
   [searchList]="allApplicants"
 >
-  <div class="row">
-    <label class="h5 ml-1 font-weight-bold">
-    Campagne en cours : {{currentCampagne?.libelleCampagne}}
+<!--  <div class="row">-->
+<!--    <label class="h5 ml-1 font-weight-bold">-->
+<!--    En cours : {{currentCampagne?.libelleCampagne}}-->
+<!--    </label>-->
+<!--  </div>-->
+  <div>
+    <label class="h5" >
+      <b>En cours :</b> {{currentCampagne?.libelleCampagne}}
     </label>
   </div>
 </app-custom-table>

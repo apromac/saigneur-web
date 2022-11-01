@@ -15,7 +15,7 @@ import {PROFIL} from '../../../data/enums/profil';
 import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {Campagne} from '../../../data/schemas/campagne';
 import {Candidat} from '../../../data/schemas/candidat';
-import {InscriptionModel} from '../../../data/schemas/inscription.model';
+import {InscriptionDTO, InscriptionModel} from '../../../data/schemas/inscription.model';
 import {Params} from '../../../data/schemas/params';
 import {PosteModel} from '../../../data/schemas/poste.model';
 import {ZoneApromac} from '../../../data/schemas/zone-apromac';
@@ -29,6 +29,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
   @ViewChild('cdkStepper') cdkStepper: CdkStepper;
   @Input() name;
   @Input() campagne: Campagne;
+  @Input() inscription: InscriptionDTO;
   @Input() allCandidat: Candidat[];
   @ViewChild('instance', {static: true}) instance: NgbTypeahead;
 
@@ -138,7 +139,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.fetchCombosData();
-    console.log('Campagne====>', this.campagne, this.allCandidat);
+    console.log('Campagne====>', this.campagne, this.allCandidat, this.inscription);
     this.initForm();
     this.localForm.controls['poste'].valueChanges.subscribe((val) => {
       this.posteChange(val);
@@ -169,7 +170,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       }
     });
     let obs: Observable<any>;
-    if(Utility.loggedUser.profilActuel === PROFIL.ADMIN) {
+    if (Utility.loggedUser.profilActuel === PROFIL.ADMIN) {
       obs = this.posteService.getPosteByProfil(4);
     } else {
       obs = this.posteService.getLocaliteByDistrictAndProfil(4);
@@ -178,7 +179,10 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       next: value => {
         console.log(value);
         this.listPostes = value as any as PosteModel[];
-        this.posteChange(this.listPostes[0].posteID)
+        // FOR EDIT
+        var poste = this.listPostes.find((p) => p.zoneBean === this.inscription?.zoneInscription);
+        this.localForm.controls['poste'].setValue(poste.posteID);
+        this.posteChange(poste?.posteID || this.listPostes[0].posteID);
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error('Une erreur s\'est produite lors de la récupération des postes', 'STATUS ' + err.status);
@@ -206,6 +210,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     });
 
   }
+
   initForm(): void {
 
     this.localForm = this.fb.group({
@@ -213,68 +218,91 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       nom: [''],
       prenom: [''],
       zone: [''],
-      zoneInscription: ['', [Validators.required]],
-      district:[],
-      districtInscription: ['', [Validators.required]],
+      zoneInscription: [this.inscription?.zoneInscription, [Validators.required]],
+      district: [],
+      districtInscription: [this.inscription?.districtInscription, [Validators.required]],
       // numero: [''],
     });
 
 
     this.idForm = this.fb.group({
-      nomCandidat: ['', Validators.required],
-      prenomsCandidat: ['', Validators.required],
-      genreCandidat: [0, Validators.required],
-      dateNaisCandidat: ['', Validators.required],
-      lieuNaisCandidat: ['', Validators.required],
-      niveauEtudeCandidat: [0, Validators.required],
-      metierActuelCandidat: [0, Validators.required],
-      lieuResidCandidat: [1, Validators.required],
-      distanceEcoleCandidat: ['', Validators.required],
-      premierContactCandidat: ['', Validators.required],
-      secondContactCandidat: ['', Validators.required],
-      typePieceCandidat: [0, Validators.required],
-      numeroPieceCandidat: ['', Validators.required],
+      nomCandidat: [this.inscription?.nomCandidat, Validators.required],
+      prenomsCandidat: [this.inscription?.prenomsCandidat, Validators.required],
+      genreCandidat: [this.inscription?.genreCandidat || 0, Validators.required],
+      dateNaisCandidat: [this.inscription?.dateNaisCandidat, Validators.required],
+      lieuNaisCandidat: [this.inscription?.lieuNaisCandidat, Validators.required],
+      niveauEtudeCandidat: [this.inscription?.niveauEtudeCandidat || 1, Validators.required],
+      metierActuelCandidat: [this.inscription?.metierActuelCandidat || 1, Validators.required],
+      lieuResidCandidat: [this.inscription?.lieuResidCandidat, Validators.required],
+      distanceInscription: [this.inscription?.distanceInscription, Validators.required],
+      premierContactCandidat: [this.inscription?.premierContactCandidat, Validators.required],
+      secondContactCandidat: [this.inscription?.secondContactCandidat, Validators.required],
+      typePieceCandidat: [this.inscription?.typePieceCandidat || 1, Validators.required],
+      numeroPieceCandidat: [this.inscription?.numeroPieceCandidat, Validators.required],
     });
 
-
+    this.trained = this.inscription?.isFormer || false;
+    this.practice = this.inscription?.isAppliquer || false;
     this.trainingForm = this.fb.group({
-      isFormer : [false],
-      structureFormation : [0],
-      anneeFormation : ['', Validators.required],
-      isAppliquer : [false],
-      typeFormation : [0],
-      typeSaigneFormation : [0],
-      nomPlanteurFormation : ['', Validators.required],
-      matriculePlanteurFormation : ['', Validators.required],
-      contactPlanteurFormation : [''],
-      lieuPlanteurFormation : ['', Validators.required],
-      lieuFormation : ['', Validators.required],
-      anneePlanteurFormation : ['', Validators.required],
+      isFormer: [this.trained],
+      structureFormation: [this.inscription?.structureFormation || 1],
+      anneeFormation: [this.inscription?.anneeFormation, Validators.required],
+      isAppliquer: [this.practice],
+      typeFormation: [this.inscription?.typeFormation],
+      typeSaigneFormation: [this.inscription?.typeSaigneFormation || 1],
+      nomPlanteurFormation: [this.inscription?.nomPlanteurFormation, Validators.required],
+      matriculePlanteurFormation: [this.inscription?.matriculePlanteurFormation, Validators.required],
+      contactPlanteurFormation: [this.inscription?.contactPlanteurFormation],
+      lieuPlanteurFormation: [this.inscription?.lieuPlanteurFormation, Validators.required],
+      lieuFormation: [this.inscription?.lieuFormation, Validators.required],
+      anneePlanteurFormation: [this.inscription?.anneePlanteurFormation, Validators.required],
     });
-    //
-    //
-    this.jobForm = this.fb.group({
-      isActivite: [false],
-      nomPlanteurEmploi: ['', Validators.required],
-      matriculePlanteurEmploi: ['', Validators.required],
-      contactPlanteurEmploi: [''],
-      lieuPlanteurEmploi: ['', Validators.required],
-      anneePlanteurEmploi: ['', Validators.required],
 
-      propositionEmploi: [false],
-      nomPlanteurActivite: ['', Validators.required],
-      matriculePlanteurActivite: ['', Validators.required],
-      lieuPlanteurActivite: ['', Validators.required],
-      anneePlanteurActivite: ['', Validators.required],
+
+    //
+    //
+    this.isActive = this.inscription?.isActivite || false;
+    this.propositionEmploi = this.inscription?.propositionEmploi || false;
+    this.jobForm = this.fb.group({
+      isActivite: [this.isActive],
+      nomPlanteurEmploi: [this.inscription?.nomPlanteurEmploi, Validators.required],
+      matriculePlanteurEmploi: [this.inscription?.matriculePlanteurEmploi, Validators.required],
+      contactPlanteurEmploi: [this.inscription?.contactPlanteurEmploi],
+      lieuPlanteurEmploi: [this.inscription?.lieuPlanteurEmploi, Validators.required],
+      anneePlanteurEmploi: [this.inscription?.anneePlanteurEmploi, Validators.required],
+
+      propositionEmploi: [this.propositionEmploi],
+      nomPlanteurActivite: [this.inscription?.nomPlanteurActivite, Validators.required],
+      matriculePlanteurActivite: [this.inscription?.matriculePlanteurActivite, Validators.required],
+      lieuPlanteurActivite: [this.inscription?.lieuPlanteurActivite, Validators.required],
+      anneePlanteurActivite: [this.inscription?.anneePlanteurActivite, Validators.required],
     });
     //
     //
     // this.motivationForm.reset();
     this.motivationForm = this.fb.group({
-      motivation: ['', Validators.required]
+      motivation: [this.inscription?.motivation, Validators.required]
     });
 
 
+  }
+
+  posteChange(id): void {
+    this.posteService.getDTOById(id).subscribe({
+      next: (value: any) => {
+        // this.posteSelected = value as any as PosteModel;
+        console.log(this.posteSelected, value);
+        this.localForm.controls['zoneInscription'].setValue(value.zoneBean);
+        // this.localForm.controls['zone'].setValue(value.zone);
+        // this.localForm.controls['district'].setValue(value.district);
+        this.localForm.controls['districtInscription'].setValue(value.districtBean);
+        this.getLieuResidence(value.districtBean);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
+        this.toast.error(err.error.message, 'STATUS ' + err.status);
+      }
+    });
   }
 
   motivationChange(e): void {
@@ -313,46 +341,53 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     this.typePiece = $e;
   }
 
-  posteChange(id): void {
-    this.posteService.getDTOById(id).subscribe({
-      next: (value : any) => {
-        // this.posteSelected = value as any as PosteModel;
-        console.log(this.posteSelected, value);
-        this.localForm.controls['zoneInscription'].setValue(value.zoneBean);
-        this.localForm.controls['zone'].setValue(value.zone);
-        this.localForm.controls['district'].setValue(value.district);
-        this.localForm.controls['districtInscription'].setValue(value.districtBean);
-        this.getLieuResidence(value.districtInscription);
-      },
-      error: (err: HttpErrorResponse) => {
-        console.error(err);
-        this.toast.error(err.error.message, 'STATUS ' + err.status);
-      }
-    });
-  }
 
   saveForms(): void {
     console.log(this.idForm.value, this.localForm.value);
     let dataToSend = this.idForm.value;
     // Object.assign(dataToSend, ...this.localForm.value)
     let inscription = new InscriptionModel();
-    inscription.campagneEntity = this.campagne;
-    inscription.candidatEntity = this.idForm.value;
-    inscription.inscriptionDTO = this.trainingForm.value
+    // if (this.inscription && this.inscription.inscriptionID) {
+    //
+    // } else {
+    //   inscription.inscriptionDTO = this.trainingForm.value;
+    // }
+    inscription.inscriptionDTO = this.inscription;
+    if (inscription.inscriptionDTO) {
+      Object.assign(inscription.inscriptionDTO, this.jobForm.value, this.trainingForm.value);
+    } else {
+      inscription.inscriptionDTO = this.idForm.value;
+      Object.assign(inscription.inscriptionDTO, this.jobForm.value, this.trainingForm.value);
+
+    }
     inscription.inscriptionDTO.zoneInscription = this.localForm.controls['zoneInscription'].value;
     inscription.inscriptionDTO.districtInscription = this.localForm.controls['districtInscription'].value;
+    inscription.inscriptionDTO.distanceInscription = this.idForm.controls['distanceInscription'].value;
     inscription.inscriptionDTO.statut = STATUS_CANDIDAT.NEW_CANDIDAT;
     // const motiv = this.motivationForm.value['motivation'].valeur
-    inscription.inscriptionDTO.motivation = this.motivationForm.value['motivation'].valeur
-   Object.assign(inscription.inscriptionDTO, this.jobForm.value)
+    inscription.inscriptionDTO.motivation = this.motivationForm.value['motivation'].valeur;
+    inscription.candidatEntity = this.idForm.value;
     // inscription.inscriptionDTO.motivation = this.motivationForm.value;
 
     console.log(inscription);
     // return;
-    this.candidatService.addCandidat(inscription).subscribe({
+    let obs: Observable<any>;
+    if (this.inscription && this.inscription.inscriptionID) {
+      var inscr = inscription.inscriptionDTO;
+      inscr.campagne = this.campagne || Utility.CURRENTCAMPAGNE;
+      Object.assign(inscription.inscriptionDTO, this.trainingForm.value, this.idForm.value);
+      inscr.candidat = inscription.candidatEntity;
+      inscr.candidat.candidatID = inscription.inscriptionDTO.candidatID;
+      // inscr.
+      obs = this.candidatService.updateCandidat(inscr);
+    } else {
+      inscription.campagneEntity = this.campagne || Utility.CURRENTCAMPAGNE;
+      obs = this.candidatService.addCandidat(inscription);
+    }
+    obs.subscribe({
       next: value => {
         console.log(value);
-        this.toast.success('Candidat inscrit avec succès');
+        this.toast.success('Enregistrement effectué avec succès');
         this.inscriptionEnd.emit(true);
         this.activeModal.dismiss(true);
       },

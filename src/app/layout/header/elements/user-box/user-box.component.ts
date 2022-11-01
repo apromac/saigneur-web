@@ -20,9 +20,9 @@ export class UserBoxComponent implements OnInit {
   }
 
   setNom(): string {
-    let n = this.userConnected.nomUtilisateur.split(' ')[0];
+    let n = this.userConnected.nomUtilisateur.trimEnd().split(' ')[0];
 
-    let nn = this.userConnected.prenomsUtilisateur.split(' ')
+    let nn = this.userConnected.prenomsUtilisateur.trimEnd().split(' ')
 
     let prn = nn[nn.length - 1]
     return n + ' ' + prn;

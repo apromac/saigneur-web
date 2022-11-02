@@ -6,6 +6,7 @@ export class OccuperModel {
   districtOccuper?: string;
   isOccuper = true;
   libelleOccuper?: string;
+  motifOccuper?: string;
   occuperID?: number;
   poste: PosteModel;
   utilisateur: UsersModel;

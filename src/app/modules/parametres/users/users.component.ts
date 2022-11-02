@@ -10,6 +10,7 @@ import {UserService} from '../../../core/services/user.service';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
 import {TableHeaderInfo} from '../../../data/interfaces/table-header-info';
+import {OccuperModel} from '../../../data/schemas/occuper.model';
 import {PosteModel} from '../../../data/schemas/poste.model';
 import {UsersModel} from '../../../data/schemas/users.model';
 
@@ -28,6 +29,7 @@ export class UsersComponent implements OnInit {
 
   formGroup: FormGroup;
   posteFormGroupe: FormGroup;
+  currentOccuper: OccuperModel;
 
   constructor(private modalService: NgbModal,
               private fb: FormBuilder,
@@ -38,6 +40,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.initPosteForm();
+    this.initForm();
     this.getAllUser();
   }
 
@@ -62,7 +65,7 @@ export class UsersComponent implements OnInit {
       confPassword: [this.currentUser?.password, [Validators.required]],
       // poste: [, Validators.required],
       username: [this.currentUser?.username, [Validators.required]],
-      telephoneUtilisateur: [this.currentUser?.telephoneUtilisateur,[Validators.required]],
+      telephoneUtilisateur: [this.currentUser?.telephoneUtilisateur, [Validators.required]],
       utilisateurID: [this.currentUser?.utilisateurID],
     });
 
@@ -95,9 +98,7 @@ export class UsersComponent implements OnInit {
       next: value => {
         console.log(value);
         this.allPoste = value as any as PosteModel[];
-        this.currentPoste = this.allPoste.find((p=> p.libellePoste == this.currentUser?.posteActuel));
-        this.initPosteForm();
-              }
+      }
     });
   }
 
@@ -114,16 +115,6 @@ export class UsersComponent implements OnInit {
 
   getMenus(): DropdownMenuInfo[] {
     return [
-      // {
-      //   title: 'Détails',
-      //   isMatDesign: true,
-      //   className: 'h3',
-      //   icon: 'person',
-      //   color: 'var(--bs-primary)',
-      //   click: (item) => {
-      //     console.log(item);
-      //   }
-      // },
       {
         title: 'Attribuer poste',
         isMatDesign: true,
@@ -133,6 +124,7 @@ export class UsersComponent implements OnInit {
         click: (item) => {
           this.currentUser = item;
           this.getAllPost();
+          this.getUserPost();
           // this.initPosteForm();
           document.getElementById('btnmodalposte').click();
           console.log(item);
@@ -166,19 +158,19 @@ export class UsersComponent implements OnInit {
 
   initPosteForm(): void {
     this.posteFormGroupe = this.fb.group({
-      poste: [this.currentPoste || '', Validators.required],
-      zoneOccuper: [this.currentPoste?.zoneBean, Validators.required],
-      districtOccuper: [this.currentPoste?.districtBean, Validators.required],
-      motifOccuper: [''],
-      dateOccuper: ['', Validators.required],
-      utilisateur: '',
+      poste: [this.currentOccuper?.poste || '', Validators.required],
+      zoneOccuper: [this.currentOccuper?.zoneOccuper, Validators.required],
+      districtOccuper: [this.currentOccuper?.districtOccuper, Validators.required],
+      motifOccuper: [this.currentOccuper?.motifOccuper],
+      dateOccuper: [this.currentOccuper?.dateOccuper, Validators.required],
+      utilisateur: this.currentOccuper?.utilisateur,
     });
     // this.posteFormGroupe.reset();
     this.posteFormGroupe.controls['utilisateur'].setValue(this.currentUser);
 
     this.posteFormGroupe.controls['poste'].valueChanges.subscribe((v) => {
       console.log(v);
-      if(!v) {
+      if (!v) {
         this.posteFormGroupe.controls['zoneOccuper'].setValue('');
         this.posteFormGroupe.controls['districtOccuper'].setValue('');
         return;
@@ -198,32 +190,44 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  getUserPost() {
+    this.userService.getUserPoste(this.currentUser.utilisateurID).subscribe({
+      next: value => {
+        this.currentOccuper = value as unknown as OccuperModel;
+        this.initPosteForm();
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toast.error(err.error.message, 'STATUS '+err.status )
+      },
+    });
+  }
+
   saveUser(): void {
     console.log(this.formGroup);
-    if(this.formGroup.controls['confPassword'].value !== this.formGroup.controls['password'].value){
+    if (this.formGroup.controls['confPassword'].value !== this.formGroup.controls['password'].value) {
       this.toast.warning('Les mots de passe ne correspondent pas');
       return;
     }
 
-   let obs : Observable<any>
+    let obs: Observable<any>;
     let user: UsersModel = this.formGroup.value;
     user.nomUtilisateur.toUpperCase();
     // user.prenomsUtilisateur.charAt(0).toUpperCase();
     var newPren = '';
-    var prenom = user.prenomsUtilisateur.split(' ');
-    prenom.forEach((c)=>{
+    var prenom = user.prenomsUtilisateur.toString().trimEnd().split(' ');
+    prenom.forEach((c) => {
       c.charAt(0).toUpperCase();
-      newPren +=c+' ';
+      newPren += c + ' ';
     });
-    user.prenomsUtilisateur = newPren;
+    user.prenomsUtilisateur = newPren.toString().trimEnd();
     console.log(user);
-    if(this.currentUser && this.currentUser.utilisateurID) {
-      obs = this.userService.editUser(user)
+    if (this.currentUser && this.currentUser.utilisateurID) {
+      obs = this.userService.editUser(user);
     } else {
-    obs = this.userService.createUser(user);
+      obs = this.userService.createUser(user);
     }
 
-      obs.subscribe({
+    obs.subscribe({
       next: value => {
         console.log(value);
         this.getAllUser();

@@ -44,4 +44,8 @@ export class UserService {
     return this.http.post<Response>(`${baseOccuperUrl}saveOccuper`, occuper);
     // return this.http.post<Response>(`${baseOccuperUrl}saveOccuper/utilisateur/${occuper.utilisateur.utilisateurID}/poste/${occuper.poste.posteID}`, occuper);
   }
+
+  getUserPoste(userID): Observable<Response> {
+    return this.http.get<Response>(`${baseOccuperUrl}utilisateur/${userID}`);
+  }
 }

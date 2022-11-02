@@ -24,6 +24,7 @@ export class UsersComponent implements OnInit {
   isLoading = false;
 
   currentUser: UsersModel = {};
+  currentPoste: PosteModel = {};
 
   formGroup: FormGroup;
   posteFormGroupe: FormGroup;
@@ -36,6 +37,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initPosteForm();
     this.getAllUser();
   }
 
@@ -93,7 +95,9 @@ export class UsersComponent implements OnInit {
       next: value => {
         console.log(value);
         this.allPoste = value as any as PosteModel[];
-      }
+        this.currentPoste = this.allPoste.find((p=> p.libellePoste == this.currentUser?.posteActuel));
+        this.initPosteForm();
+              }
     });
   }
 
@@ -129,7 +133,7 @@ export class UsersComponent implements OnInit {
         click: (item) => {
           this.currentUser = item;
           this.getAllPost();
-          this.initPosteForm();
+          // this.initPosteForm();
           document.getElementById('btnmodalposte').click();
           console.log(item);
         }
@@ -162,14 +166,14 @@ export class UsersComponent implements OnInit {
 
   initPosteForm(): void {
     this.posteFormGroupe = this.fb.group({
-      poste: ['', Validators.required],
-      zoneOccuper: ['', Validators.required],
-      districtOccuper: ['', Validators.required],
+      poste: [this.currentPoste || '', Validators.required],
+      zoneOccuper: [this.currentPoste?.zoneBean, Validators.required],
+      districtOccuper: [this.currentPoste?.districtBean, Validators.required],
       motifOccuper: [''],
       dateOccuper: ['', Validators.required],
       utilisateur: '',
     });
-    this.posteFormGroupe.reset();
+    // this.posteFormGroupe.reset();
     this.posteFormGroupe.controls['utilisateur'].setValue(this.currentUser);
 
     this.posteFormGroupe.controls['poste'].valueChanges.subscribe((v) => {

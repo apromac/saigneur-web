@@ -107,7 +107,7 @@ export class MenuComponent implements OnInit {
     this.menuService.getProfilAcces(this.profilSelected.profilID).subscribe({
       next: value => {
         if (value) {
-
+          console.error(value);
           (value as any as AccederModel[]).map((a) => this.currentAcceder.menuIDs.push(a.menu.menuID));
           console.log(this.currentAcceder);
           this.accessLoading = false;
@@ -121,10 +121,13 @@ export class MenuComponent implements OnInit {
   }
 
   saveAccess(): void {
+    console.log(this.currentAcceder);
+    // return;
     this.menuService.saveAccess(this.currentAcceder).subscribe({
       next: value => {
         this.toast.success('Menus enregistrés avec succès');
         console.log(value);
+        this.getAcces();
       },
       error: err => {
         console.error(err);

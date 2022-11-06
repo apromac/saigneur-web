@@ -117,7 +117,14 @@ export class CustomTableComponent implements OnInit {
   }
 
   getPagination(): any[] {
-    return Array(Math.floor(this.searchList.length / this.config.itemsPerPage));
+    if (this.searchList.length <= this.config.itemsPerPage){
+      return [];
+    }
+    let l = Math.floor(this.searchList.length / this.config.itemsPerPage);
+    if(this.searchList.length % this.config.itemsPerPage !== 0){
+      l++;
+    }
+    return Array(l);
   }
 
   reload(val): void {

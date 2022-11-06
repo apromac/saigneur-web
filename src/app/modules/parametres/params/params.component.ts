@@ -231,7 +231,7 @@ export class ParamsComponent implements OnInit {
           let cp = c;
           cp.statusVal = c.activeCampagne ? 'check-circle text-success' : 'close text-danger';
           return cp;
-        });
+        }).sort((c1, c2)=>(c2.activeCampagne as any) - (c1.activeCampagne as any));
       },
       error: (err: HttpErrorResponse) => {
         console.log(err);

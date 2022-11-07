@@ -641,23 +641,33 @@
                 <!--                <ngb-highlight [see]="t.description" [term]="t"></ngb-highlight>-->
                 <label>{{r.description}}</label>
               </ng-template>
-              <div class="col-md-12">
+              <div class="col-md-12 p-0 m-0 ">
                 <div class="form-floating">
-                  <input id="motivation"
-                         type="text"
-                         class="form-control"
-                         formControlName="motivation"
-                         [inputFormatter]="formatter"
-                         [ngbTypeahead]="motivationSearch"
-                         [resultTemplate]="motvTplt"
-                         (focus)="focus$.next($any($event).target.value)"
-                         (click)="click$.next($any($event).target.value)"
-                         #instance="ngbTypeahead">
-                  <label for="typeahead-focus">Pourquoi désirez vous cette formation ?</label>
-
+                  <select [value]="0" formControlName="motivation" class="form-select" id="mot" aria-label="TDH">
+                    <option [value]="m.valeur" *ngFor="let m of listMotivations">{{m.description}}</option>
+                    <option value="" *ngIf="!listMotivations || listMotivations && listMotivations.length ===0">Aucune motivation trouvée
+                    </option>
+                  </select>
+                  <label for="mot">Pourquoi désirez vous cette formation ?</label>
                 </div>
-
               </div>
+<!--              <div class="col-md-12">-->
+<!--                <div class="form-floating">-->
+<!--                  <input id="motivation"-->
+<!--                         type="text"-->
+<!--                         class="form-control"-->
+<!--                         formControlName="motivation"-->
+<!--                         [inputFormatter]="formatter"-->
+<!--                         [ngbTypeahead]="motivationSearch"-->
+<!--                         [resultTemplate]="motvTplt"-->
+<!--                         (focus)="focus$.next($any($event).target.value)"-->
+<!--                         (click)="click$.next($any($event).target.value)"-->
+<!--                         #instance="ngbTypeahead">-->
+<!--                  <label for="typeahead-focus">Pourquoi désirez vous cette formation ?</label>-->
+
+<!--                </div>-->
+
+<!--              </div>-->
 
 
               <div class="col-12 animated fadeInUp" *ngIf="motivation === 'Autre'">

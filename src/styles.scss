@@ -18,4 +18,10 @@ bs-datepicker-container, bs-daterangepicker-container {
   font-size: 1.5em !important;
 }
 
+input[readonly].form-control:focus{
+  background: #e9ecef !important;
+  border-color: transparent !important;
+  box-shadow: unset !important;
+
+}
 

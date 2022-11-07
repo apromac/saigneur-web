@@ -181,8 +181,8 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
         this.listPostes = value as any as PosteModel[];
         // FOR EDIT
         var poste = this.listPostes.find((p) => p.zoneBean === this.inscription?.zoneInscription);
-        this.localForm.controls['poste'].setValue(poste.posteID);
-        this.posteChange(poste?.posteID || this.listPostes[0].posteID);
+        this.localForm.controls['poste'].setValue(poste?.posteID);
+        this.posteChange(poste?.posteID || this.listPostes[0]?.posteID);
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error('Une erreur s\'est produite lors de la récupération des postes', 'STATUS ' + err.status);
@@ -288,6 +288,9 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
   }
 
   posteChange(id): void {
+    if(!id){
+      return;
+    }
     this.posteService.getDTOById(id).subscribe({
       next: (value: any) => {
         // this.posteSelected = value as any as PosteModel;

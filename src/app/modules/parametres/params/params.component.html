@@ -124,7 +124,7 @@
         </div>
 
 <!--        <div >-->
-        <div *ngIf="profil && profil.profilID !== 1">
+        <div *ngIf="profil && [2, 3, 4].indexOf( profil.profilID)>=0">
           <div class="col-12 mb-2">
             <div class="form-floating">
               <select    (change)="getZoneByDistrict($event.target.value)" class="form-select" aria-label="District">

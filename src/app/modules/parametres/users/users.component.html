@@ -36,6 +36,7 @@
         <div class="form-floating">
                           <ng-select
                              [items]="allPoste"
+                             required
                             formControlName="poste"
                             placeholder="Sélectionner un poste"
                             bindLabel="libellePoste"
@@ -113,25 +114,26 @@
             <div class="form-floating">
               <input type="text"
                      formControlName="nomUtilisateur"
+                     required
                      class="form-control text-uppercase" id="name"
                      placeholder="Nom" value="">
-              <label for="name">Nom</label>
+              <label for="name">Nom<span class="badge-pill badge text-danger">*</span></label>
             </div>
           </div>
 
           <div class="col-md-6">
             <div class="form-floating">
               <input formControlName="prenomsUtilisateur" type="text" class="form-control text-capitalize" id="surname"
-                     placeholder="Prénoms" value="">
-              <label for="surname">Prénoms</label>
+                     placeholder="Prénoms" required value="">
+              <label for="surname">Prénoms<span class="badge-pill badge text-danger">*</span></label>
             </div>
           </div>
 
           <div class="col-md-6">
             <div class="form-floating">
-              <input [readOnly]="currentUser && currentUser.username"  formControlName="username" type="text" class="form-control" id="login" placeholder="Login"
+              <input required [readOnly]="currentUser && currentUser.username"  formControlName="username" type="text" class="form-control" id="login" placeholder="Login"
                      value="">
-              <label for="login">Login </label>
+              <label for="login">Login<span class="badge-pill badge text-danger">*</span> </label>
             </div>
           </div>
 
@@ -147,9 +149,10 @@
           <div class="col-md-6">
             <div class="form-floating">
               <input type="password"
+                     required
                      formControlName="password"
                      class="form-control" id="password" placeholder="Password" value="">
-              <label for="password">Mot de passe</label>
+              <label for="password">Mot de passe<span class="badge-pill badge text-danger">*</span></label>
             </div>
           </div>
 
@@ -157,9 +160,10 @@
             <div class="form-floating">
               <input type="password"
                      formControlName="confPassword"
+                     required
                      class="form-control" id="confpassword" placeholder="Confirmez le mot de passe"
                      value="">
-              <label for="confpassword">Confirmez le mot de passe</label>
+              <label for="confpassword">Confirmez le mot de passe<span class="badge-pill badge text-danger">*</span></label>
             </div>
           </div>
           <small class="text-danger" *ngIf="this.formGroup.controls['confPassword'].value !== this.formGroup.controls['password'].value">

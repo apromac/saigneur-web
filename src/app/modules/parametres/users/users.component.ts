@@ -65,7 +65,7 @@ export class UsersComponent implements OnInit {
       confPassword: [this.currentUser?.password, [Validators.required]],
       // poste: [, Validators.required],
       username: [this.currentUser?.username, [Validators.required]],
-      telephoneUtilisateur: [this.currentUser?.telephoneUtilisateur, [Validators.required]],
+      telephoneUtilisateur: [this.currentUser?.telephoneUtilisateur],
       utilisateurID: [this.currentUser?.utilisateurID],
     });
 

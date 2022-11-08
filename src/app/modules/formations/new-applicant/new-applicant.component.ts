@@ -200,6 +200,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       next: (resp) => {
         console.log(resp);
         this.listZone = (resp as any as ZoneApromac[]);
+        this.idForm.controls['lieuResidCandidat'].setValue(this.listZone[0]?.zoneID);
       },
       error: (err) => {
         console.error(err);
@@ -218,9 +219,9 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       nom: [''],
       prenom: [''],
       zone: [''],
-      zoneInscription: [this.inscription?.zoneInscription, [Validators.required]],
+      zoneInscription: [this.inscription?.zoneInscription, []],
       district: [],
-      districtInscription: [this.inscription?.districtInscription, [Validators.required]],
+      districtInscription: [this.inscription?.districtInscription, []],
       // numero: [''],
     });
 
@@ -234,9 +235,9 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       niveauEtudeCandidat: [this.inscription?.niveauEtudeCandidat || 1, Validators.required],
       metierActuelCandidat: [this.inscription?.metierActuelCandidat || 1, Validators.required],
       lieuResidCandidat: [this.inscription?.lieuResidCandidat, Validators.required],
-      distanceInscription: [this.inscription?.distanceInscription, Validators.required],
+      distanceInscription: [this.inscription?.distanceInscription || 0],
       premierContactCandidat: [this.inscription?.premierContactCandidat, Validators.required],
-      secondContactCandidat: [this.inscription?.secondContactCandidat, Validators.required],
+      secondContactCandidat: [this.inscription?.secondContactCandidat],
       typePieceCandidat: [this.inscription?.typePieceCandidat || 1, Validators.required],
       numeroPieceCandidat: [this.inscription?.numeroPieceCandidat, Validators.required],
     });
@@ -311,6 +312,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
   motivationChange(e): void {
     console.log(e);
     this.motivation = e;
+    this.motivationForm.controls['motivation'].setValue(e);
   }
 
   alreadyTrainedChange(e): void {
@@ -368,7 +370,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     inscription.inscriptionDTO.distanceInscription = this.idForm.controls['distanceInscription'].value;
     inscription.inscriptionDTO.statut = STATUS_CANDIDAT.NEW_CANDIDAT;
     // const motiv = this.motivationForm.value['motivation'].valeur
-    inscription.inscriptionDTO.motivation = this.motivationForm.value['motivation'].valeur;
+    inscription.inscriptionDTO.motivation = this.motivationForm.value['motivation'];
     inscription.candidatEntity = this.idForm.value;
     // inscription.inscriptionDTO.motivation = this.motivationForm.value;
 

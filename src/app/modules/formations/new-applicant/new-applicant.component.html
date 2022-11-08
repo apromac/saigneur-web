@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body h-50">
   <ng-stepper #cdkStepper [linear]="true">
-    <cdk-step [stepControl]="localForm" [optional]="true">
+    <cdk-step [stepControl]="localForm" [optional]="false">
       <ng-template cdkStepLabel>
         <div class="step-bullet">1</div>
         <h6><b>LOCALITE</b></h6>
@@ -26,12 +26,12 @@
 
                 <!--                </ng-select>-->
 
-                <select [value]="0" formControlName="poste" class="form-select" id="tdh" aria-label="TDH">
+                <select required [value]="0" formControlName="poste" class="form-select" id="tdh" aria-label="TDH">
                   <option [value]="p.posteID" *ngFor="let p of listPostes">{{p.libellePoste}}</option>
                   <option value="" *ngIf="!listPostes || listPostes && listPostes.length ===0">Aucun poste trouvé
                   </option>
                 </select>
-                <label for="sexe">Poste du TDH</label>
+                <label for="sexe">Poste du TDH <span class="badge-pill badge text-danger">*</span></label>
               </div>
             </div>
 
@@ -95,7 +95,7 @@
       </div>
     </cdk-step>
 
-    <cdk-step [stepControl]="idForm" [optional]="true">
+    <cdk-step [stepControl]="idForm" [optional]="false">
       <ng-template cdkStepLabel>
         <div class="step-bullet">2</div>
         <h6><b>IDENTITE</b></h6>
@@ -127,29 +127,32 @@
                   <input [class.is-invalid]="idForm.controls['nomCandidat'].invalid
                  && idForm.controls['nomCandidat'].touched
                  "
+                         required
                          type="text" class="form-control"
                          formControlName="nomCandidat"
                          id="name" placeholder="Nom" value=""
                   >
-                  <label for="name">Nom</label>
+                  <label for="name">Nom<span class="badge-pill badge text-danger">*</span></label>
                 </div>
               </div>
 
               <div class="col-md-6">
                 <div class="form-floating">
                   <input type="text"
+                         required
                          [class.is-invalid]="idForm.controls['prenomsCandidat'].invalid
                  && idForm.controls['prenomsCandidat'].touched
                  "
                          formControlName="prenomsCandidat"
                          class="form-control" id="surname" placeholder="Prénoms" value="">
-                  <label for="surname">Prénoms</label>
+                  <label for="surname">Prénoms<span class="badge-pill badge text-danger">*</span></label>
                 </div>
               </div>
 
                 <div class="col-md-4">
                   <div class="form-floating">
                     <select formControlName="genreCandidat"
+                            required
                             [class.is-invalid]="idForm.controls['genreCandidat'].invalid
                  && idForm.controls['genreCandidat'].touched
                  "
@@ -157,18 +160,21 @@
                       <option value="0" selected>Masculin</option>
                       <option value="1">Féminin</option>
                     </select>
-                    <label for="sexe">Genre du candidat</label>
+                    <label for="sexe">Genre du candidat<span class="badge-pill badge text-danger">*</span></label>
                   </div>
                 </div>
 
                 <div class="col-md-4">
                   <div class="form-floating">
                     <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
-                    <input [max]="maxBirthday" type="date" class="form-control" id="birthday"
+                    <input  [class.is-invalid]="idForm.controls['dateNaisCandidat'].invalid
+                 && idForm.controls['dateNaisCandidat'].touched
+                 " [max]="maxBirthday" type="date" class="form-control" id="birthday"
                            placeholder="Date de naissance"
                            formControlName="dateNaisCandidat"
+                           required
                            value="01/01/2000">
-                    <label for="birthday">Date de naissance</label>
+                    <label for="birthday">Date de naissance<span class="badge-pill badge text-danger">*</span></label>
                   </div>
                 </div>
 
@@ -177,8 +183,11 @@
                   <div class="form-floating">
                     <input type="text"
                            formControlName="lieuNaisCandidat"
-                           class="form-control" id="birthplace" placeholder="Lieu de naissance" value="">
-                    <label for="birthplace">Lieu de Naissance</label>
+                           [class.is-invalid]="idForm.controls['lieuNaisCandidat'].invalid
+                 && idForm.controls['lieuNaisCandidat'].touched
+                 "
+                           class="form-control" required id="birthplace" placeholder="Lieu de naissance" value="">
+                    <label for="birthplace">Lieu de Naissance<span class="badge-pill badge text-danger">*</span></label>
                   </div>
                 </div>
 
@@ -186,13 +195,13 @@
                 <div class="col-md-4">
 
                   <div class="form-floating">
-                    <select formControlName="niveauEtudeCandidat" class="form-select" id="level" aria-label="Level">
+                    <select required formControlName="niveauEtudeCandidat" class="form-select" id="level" aria-label="Level">
                       <option value="1" selected>Aucun</option>
                       <option value="2">Primaire</option>
                       <option value="3">Secondaire</option>
                       <option value="4">Supérieur</option>
                     </select>
-                    <label for="level">Niveau d'étude </label>
+                    <label for="level">Niveau d'étude<span class="badge-pill badge text-danger">*</span></label>
                   </div>
 
                   <!--                -->
@@ -204,12 +213,12 @@
                 <div class="col-md-4">
 
                   <div class="form-floating">
-                    <select formControlName="metierActuelCandidat" class="form-select" id="job" aria-label="job">
+                    <select required formControlName="metierActuelCandidat" class="form-select" id="job" aria-label="job">
                       <option value="1" selected>Actif agricole</option>
                       <option value="2">Actif non agricole</option>
                       <option value="3">Artisant</option>
                     </select>
-                    <label for="job">Métier actuel</label>
+                    <label for="job">Métier actuel<span class="badge-pill badge text-danger">*</span></label>
                   </div>
 
 
@@ -225,11 +234,11 @@
                   <div class="form-floating">
                     <!--                  <input type="text" class="form-control" id="home" placeholder="Lieu de résidence" value="">-->
                     <!--                           [value]="posteSelected?.zoneID"-->
-                    <select formControlName="lieuResidCandidat" class="form-select" id="home"
+                    <select required formControlName="lieuResidCandidat" class="form-select" id="home"
                             aria-label="Lieu de résidence">
                       <option *ngFor="let zone of listZone" [value]="zone.zoneID">{{zone.libelleZone}}</option>
                     </select>
-                    <label for="home">Lieu de résidence</label>
+                    <label for="home">Lieu de résidence<span class="badge-pill badge text-danger">*</span></label>
                   </div>
                 </div>
 
@@ -247,9 +256,9 @@
                 <div class="col-md-4">
                   <div class="form-floating">
                     <!--             <ngb-datepicker #d [startDate]="{year: 1789, month: 7}"></ngb-datepicker>-->
-                    <input formControlName="premierContactCandidat" type="tel" class="form-control" id="contact"
+                    <input required formControlName="premierContactCandidat" type="tel" class="form-control" id="contact"
                            placeholder="Ex : +225 0123456789" value="">
-                    <label for="contact">Contacts</label>
+                    <label for="contact">Contacts<span class="badge-pill badge text-danger">*</span></label>
                   </div>
                 </div>
 
@@ -267,7 +276,7 @@
 <!--              <div class="row g-2">-->
                 <div class="col-md-6">
                   <div class="form-floating">
-                    <select formControlName="typePieceCandidat" (change)="typePieceChange($event.target.value)"
+                    <select required formControlName="typePieceCandidat" (change)="typePieceChange($event.target.value)"
                             class="form-select" id="typepiece"
                             aria-label="Type de pièce">
                       <option value="1" selected>Carte Nationale d'Identité</option>
@@ -277,7 +286,7 @@
                       <option value="5">Extrait de naissance</option>
                       <option value="6">Carte scolaire</option>
                     </select>
-                    <label for="sexe">Type de pièce</label>
+                    <label for="sexe">Type de pièce<span class="badge-pill badge text-danger">*</span></label>
                   </div>
                 </div>
 
@@ -290,9 +299,9 @@
 
                 <div class="col-md-6">
                   <div class="form-floating">
-                    <input formControlName="numeroPieceCandidat" type="text" class="form-control" id="numpiece"
+                    <input required formControlName="numeroPieceCandidat" type="text" class="form-control" id="numpiece"
                            placeholder="Numéro de pièce" value="">
-                    <label for="numpiece">Numéro de pièce</label>
+                    <label for="numpiece">Numéro de pièce<span class="badge-pill badge text-danger">*</span></label>
                   </div>
                 </div>
 
@@ -643,12 +652,13 @@
               </ng-template>
               <div class="col-md-12 p-0 m-0 ">
                 <div class="form-floating">
-                  <select [value]="0" formControlName="motivation" class="form-select" id="mot" aria-label="TDH">
+                  <select [value]="1" (change)="motivationChange($event.target.value)"
+                          required formControlName="motivation" class="form-select" id="mot" aria-label="TDH">
                     <option [value]="m.valeur" *ngFor="let m of listMotivations">{{m.description}}</option>
                     <option value="" *ngIf="!listMotivations || listMotivations && listMotivations.length ===0">Aucune motivation trouvée
                     </option>
                   </select>
-                  <label for="mot">Pourquoi désirez vous cette formation ?</label>
+                  <label for="mot">Pourquoi désirez vous cette formation ?<span class="badge-pill badge text-danger">*</span></label>
                 </div>
               </div>
 <!--              <div class="col-md-12">-->

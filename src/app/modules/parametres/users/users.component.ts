@@ -29,7 +29,7 @@ export class UsersComponent implements OnInit {
 
   formGroup: FormGroup;
   posteFormGroupe: FormGroup;
-  currentOccuper: OccuperModel;
+  currentOccuper: OccuperModel = {};
 
   constructor(private modalService: NgbModal,
               private fb: FormBuilder,
@@ -247,8 +247,15 @@ export class UsersComponent implements OnInit {
   savePoste(): void {
     console.log(this.posteFormGroupe);
     this.currentUser.poste = this.posteFormGroupe.value['poste'];
-    console.log(this.posteFormGroupe.value);
-    this.userService.addPoste(this.posteFormGroupe.value).subscribe({
+    console.log(this.posteFormGroupe.value, this.currentOccuper);
+    this.currentOccuper.dateOccuper = this.posteFormGroupe.value['dateOccuper'];
+    this.currentOccuper.poste = this.posteFormGroupe.value['poste'];
+    this.currentOccuper.zoneOccuper = this.posteFormGroupe.value['zoneOccuper'];
+    this.currentOccuper.motifOccuper = this.posteFormGroupe.value['motifOccuper'];
+    this.currentOccuper.districtOccuper = this.posteFormGroupe.value['districtOccuper'];
+    this.currentOccuper.utilisateur = this.posteFormGroupe.value['utilisateur'];
+
+    this.userService.addPoste(this.currentOccuper).subscribe({
       next: value => {
         console.log(value);
         this.getAllUser();

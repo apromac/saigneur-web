@@ -160,6 +160,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       next: (resp) => {
         console.log(resp);
         this.listMotivations = (resp as Params[]);
+        this.motivationForm.controls['motivation'].setValue(this.listMotivations[0]?.valeur);
         // this.listZone = (resp as any as ZoneApromac[])
       },
       error: (err) => {
@@ -219,9 +220,9 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       nom: [''],
       prenom: [''],
       zone: [''],
-      zoneInscription: [this.inscription?.zoneInscription, []],
+      zoneInscription: [this.inscription?.zoneInscription],
       district: [],
-      districtInscription: [this.inscription?.districtInscription, []],
+      districtInscription: [this.inscription?.districtInscription],
       // numero: [''],
     });
 

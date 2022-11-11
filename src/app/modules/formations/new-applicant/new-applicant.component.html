@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body h-50">
   <ng-stepper #cdkStepper [linear]="true">
-    <cdk-step [stepControl]="localForm" [optional]="false">
+    <cdk-step [stepControl]="localForm" [optional]="true">
       <ng-template cdkStepLabel>
         <div class="step-bullet">1</div>
         <h6><b>LOCALITE</b></h6>
@@ -67,7 +67,8 @@
               <div class="col-md-6 mt-2">
                 <div class="form-floating">
                   <!--                         [value]="posteSelected?.district?.libelleDistrict"-->
-                  <input formControlName="districtInscription" readonly type="text" class="form-control" id="District"
+                  <input formControlName="districtInscription"
+                         readonly type="text" class="form-control" id="District"
                          placeholder="District"
                          value="District">
                   <label for="District">District</label>

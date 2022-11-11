@@ -248,6 +248,9 @@ export class UsersComponent implements OnInit {
     console.log(this.posteFormGroupe);
     this.currentUser.poste = this.posteFormGroupe.value['poste'];
     console.log(this.posteFormGroupe.value, this.currentOccuper);
+    if(!this.currentOccuper) {
+      this.currentOccuper = {};
+    }
     this.currentOccuper.dateOccuper = this.posteFormGroupe.value['dateOccuper'];
     this.currentOccuper.poste = this.posteFormGroupe.value['poste'];
     this.currentOccuper.zoneOccuper = this.posteFormGroupe.value['zoneOccuper'];

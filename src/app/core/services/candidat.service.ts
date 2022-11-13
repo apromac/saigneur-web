@@ -71,8 +71,8 @@ export class CandidatService {
     return this.http.get<Response>(`${baseUrlInscription}${selectionDTO.inscriptionID}/selection/${selectionDTO.status}`);
   }
 
-  removeCandidat(idCandidat): Observable<Response> {
-    return this.http.get<Response>(`${baseUrlInscription}deleteCandidat/${idCandidat}`);
+  removeCandidat(cdt): Observable<Response> {
+    return this.http.delete<Response>(`${baseUrlInscription}${cdt.inscriptionID}`);
   }
 
   getCdtByCampagneID(campagneID: number, statut: STATUS_CANDIDAT): Observable<any> {

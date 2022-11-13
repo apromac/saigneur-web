@@ -60,7 +60,10 @@
           <ul class="list-group">
             <li class="list-group-item border-0 mb-0 ">
               <small class="mt-0" style="font-size: 10px"><i>Faites-vous du sport?</i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInterview.sportif | boolVal}}</p>
+              <div class="row ml-0 pl-0">
+                <div class="col-3 pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInterview.sportif | boolVal}}</div>
+                <div class="col-9 pl-0 ml-0 pt-0 mt-0 mb-0 font-weight-bold" *ngIf="candidatInterview.sportif"> : {{candidatInterview.descriptionSportif}}</div>
+              </div>
             </li>
 
             <li class="list-group-item border-0 mb-0 ">
@@ -81,7 +84,10 @@
 
             <li class="list-group-item border-0 mb-5 ">
               <small class="mt-0" style="font-size: 10px"><i>Avez-vous déjà été une fois dans une plantation ? </i></small>
-              <p class="pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInterview.presencePlantation | boolVal}}</p>
+              <div class="row ml-0 pl-0">
+                <div class="col-3 pl-0 ml-0 pt-0 mt-0 mb-0">{{candidatInterview.presencePlantation | boolVal}}</div>
+                <div class="col-9 pl-0 ml-0 pt-0 mt-0 mb-0 font-weight-bold" *ngIf="candidatInterview.presencePlantation"> : {{candidatInterview.motifPresencePlantation}}</div>
+              </div>
             </li>
           </ul>
         </ng-template>

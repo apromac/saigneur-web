@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {CandidatDTO} from '../../../data/schemas/candidat';
 import {InscriptionDTO} from '../../../data/schemas/inscription.model';
 import {InterviewModel} from '../../../data/schemas/interview.model';
 
@@ -11,7 +12,7 @@ export class InterviewDetailsComponent implements OnInit {
   @Output() validateClick = new EventEmitter<any>();
   @Output() openInfo : EventEmitter<any> = new EventEmitter<any>();
 
-  @Input() candidatInterview : InscriptionDTO;
+  @Input() candidatInterview : CandidatDTO;
   constructor() { }
 
   ngOnInit(): void {

@@ -23,6 +23,9 @@ export class ProfilService {
   updateProfil(profil: ProfilModel): Observable<Response>{
     return   this.http.put<Response>(`${baseUrl}${profil.profilID}`, profil);
   }
+  delete(profil: ProfilModel): Observable<Response>{
+    return   this.http.delete<Response>(`${baseUrl}${profil.profilID}`);
+  }
   addProfil(profil: ProfilModel): Observable<Response>{
     return   this.http.post<Response>(`${baseUrl}saveProfil`, profil);
   }

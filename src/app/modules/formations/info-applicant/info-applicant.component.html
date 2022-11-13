@@ -1,4 +1,4 @@
-<div class="card h-100" *ngIf="candidatInfo && candidatInfo.nomCandidat">
+<div class="card {{(btnIs === 'none' || !btnIs )? 'h-100':''}}"   [ngStyle]="(btnIs === 'none' || !btnIs )? {height : 'unset'}: {height : '40em !important'}" *ngIf="candidatInfo && candidatInfo.nomCandidat">
   <div class="card-body animated fadeInRight row">
     <div class="m-auto d-flex" style="width: max-content;" [ngStyle]="(btnIs === 'none' || !btnIs )? {height : '200px'}: {height : '10em'}">
       <img class="img-thumbnail bg-transparent border-0" src="assets/images/avatars/1.jpg" alt="Logo"/>

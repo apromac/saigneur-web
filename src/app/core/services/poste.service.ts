@@ -39,6 +39,9 @@ export class PosteService {
   updatePoste(poste: PosteModel): Observable<Response>{
   return   this.http.put<Response>(`${baseUrl}${poste.posteID}`, poste);
   }
+  delete(poste: PosteModel): Observable<Response>{
+  return   this.http.delete<Response>(`${baseUrl}${poste.posteID}`);
+  }
 
   addPoste(poste: PosteModel): Observable<Response>{
   return   this.http.post<Response>(`${baseUrl}savePoste`, poste);

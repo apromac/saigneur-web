@@ -44,29 +44,6 @@ export class InscriptionDTO {
   typeSaigneFormation: string;
   zoneInscription: string;
 
-
-  candidatID: number;
-  dateNaisCandidat: string;
-  age: string;
-  genreCandidat: string;
-  libelleGenre: string;
-  nbrePoint: number;
-  lieuNaisCandidat: string;
-
-  lieuResidCandidat: string;
-  lieuResidLibelle: string;
-  metierActuelCandidat: string;
-
-  niveauEtudeCandidat: string;
-  niveauEtudeLibelle: string;
-
-  nomCandidat: string;
-  numeroPieceCandidat: string;
-  premierContactCandidat: number;
-  prenomsCandidat: string;
-  secondContactCandidat: number;
-  typePieceCandidat: string;
-
   noteCouche: number;
   noteLongueDistance: number;
   noteObscurite: number;
@@ -95,3 +72,4 @@ export class InscriptionDTO {
   statusVal: string;
   distanceInscription = 0;
 }
+

@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
 import {Observable} from 'rxjs';
+import Swal from 'sweetalert2';
 import {CampagneService} from '../../../core/services/campagne.service';
 import {DistrictService} from '../../../core/services/district.service';
 import {PosteService} from '../../../core/services/poste.service';
@@ -153,7 +154,7 @@ export class ParamsComponent implements OnInit {
     this.zoneService.getAllZoneByDistrict(dist.libelleDistrict).subscribe({
       next : value =>  {
         this.allZone = value as unknown as ZoneApromac[];
-        this.fGrpPoste.controls['zoneBean'].setValue(this.allZone[0].libelleZone);
+        this.fGrpPoste.controls['zoneBean'].setValue(this.allZone[0]?.libelleZone);
       }, error : err => {
         this.toast.error('Une erreur s\'est produite', 'STATUS '+ err.status);
       }
@@ -392,6 +393,59 @@ export class ParamsComponent implements OnInit {
         color: 'red',
         click: (item) => {
           console.log(item);
+
+          Swal.fire({
+            title: 'SUPPRESSION DE ' + s,
+            text: 'Voulez-vous vraiment supprimer cet enregistrement de '+s.toLowerCase()+'?',
+            icon: 'question',
+            showCloseButton : true,
+            showCancelButton: true,
+            confirmButtonColor: '#34c38f',
+            cancelButtonColor: '#f46a6a',
+            confirmButtonText: 'OUI',
+            cancelButtonText: 'NON'
+          }).then(result => {
+            console.log(result);
+            if (result.value) {
+              console.log(item);
+              switch (s) {
+                case 'CAMPAGNE':
+                  this.campagneService.delete(item).subscribe({
+                    next : value => {
+                      this.toast.success('Campagne supprimée avec succès');
+                      this.getAllCampagne();
+                    },
+                    error : err => {
+                      this.toast.error(err.error.message, 'STATUS ' + err.status);
+                    }
+                  })
+                  break;
+                case 'POSTE':
+                  this.posteService.delete(item).subscribe({
+                    next : value => {
+                      this.toast.success('Poste supprimé avec succès');
+                      this.getAllPoste();
+                    },
+                    error : err => {
+                      this.toast.error(err.error.message, 'STATUS ' + err.status);
+                    }
+                  })
+                  break;
+                case 'PROFIL':
+                  this.profilService.delete(item).subscribe({
+                    next : value => {
+                      this.toast.success('Profil supprimée avec succès');
+                      this.getAllProfil();
+                    },
+                    error : err => {
+                      this.toast.error(err.error.message, 'STATUS ' + err.status);
+                    }
+                  })
+                  break;
+              }
+            }
+          });
+
         }
       }
     ];

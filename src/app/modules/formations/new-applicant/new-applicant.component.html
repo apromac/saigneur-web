@@ -129,7 +129,7 @@
                  && idForm.controls['nomCandidat'].touched
                  "
                          required
-                         type="text" class="form-control"
+                         type="text" class="form-control text-uppercase"
                          formControlName="nomCandidat"
                          id="name" placeholder="Nom" value=""
                   >
@@ -145,7 +145,7 @@
                  && idForm.controls['prenomsCandidat'].touched
                  "
                          formControlName="prenomsCandidat"
-                         class="form-control" id="surname" placeholder="Prénoms" value="">
+                         class="form-control text-capitalize" id="surname" placeholder="Prénoms" value="">
                   <label for="surname">Prénoms<span class="badge-pill badge text-danger">*</span></label>
                 </div>
               </div>
@@ -596,7 +596,7 @@
                     <div class="col-md">
                       <div class="input-group">
                         <span class="input-group-text">Contacts</span>
-                        <input formControlName="contactPlanteurEmploi" id="contactpl" type="text" class="form-control"/>
+                        <input formControlName="contactPlanteurActivite" id="contactpl" type="text" class="form-control"/>
                       </div>
                     </div>
 

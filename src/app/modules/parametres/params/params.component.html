@@ -1,10 +1,11 @@
 <div class="row">
-  <div class="row col-lg-6 col-md-6 col-sm-12">
+  <div class="row col-lg-4 col-md-4 col-sm-12">
     <div class="col-md-12">
       <app-custom-table
         [header]="tableHeaderProfil"
         [searchList]="allProfils"
         [tableData]="allProfils"
+        [colSize]="12"
         [config]="config"
         [menus]="getMenus('PROFIL')"
         (actualiser)="getAllProfil()"
@@ -23,6 +24,7 @@
         [header]="tableHeaderCampagne"
         [searchList]="allCampagne"
         [tableData]="allCampagne"
+        [colSize]="12"
         [config]="config"
         [menus]="getMenus('CAMPAGNE')"
         (actualiser)="getAllCampagne()"
@@ -39,7 +41,7 @@
       </app-custom-table>
     </div>
   </div>
-  <div class="col-lg-6 col-md-6 col-sm-12">
+  <div class="col-lg-8 col-md-8 col-sm-12">
     <app-custom-table
       [header]="tableHeaderPoste"
       [searchList]="allPoste"
@@ -49,10 +51,14 @@
       [tableHeader]="[
   'Libellé',
   'Profil',
+  'Zone',
+  'District',
   ]"
       [tableRow]="[
   'libellePoste',
-  'libelleProfil'
+  'libelleProfil',
+  'zoneBean',
+  'districtBean'
   ]"
     >
 

@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
       location.assign('./');
       Utility.loggedUser = resp as any as UsersModel;
       console.log(Utility.loggedUser);
-      this.toast.success('Bienvenue ' + Utility.loggedUser.nomUtilisateur, 'Connecté');
+      this.toast.success('Bienvenue ' + Utility.loggedUser?.nomUtilisateur, 'Connecté');
       this.isSendig = false;
     }, (err: HttpErrorResponse) => {
       this.isSendig = false;

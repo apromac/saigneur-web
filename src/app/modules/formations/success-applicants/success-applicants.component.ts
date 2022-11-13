@@ -9,6 +9,7 @@ import {PROFIL} from '../../../data/enums/profil';
 import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
+import {CandidatDTO} from '../../../data/schemas/candidat';
 import {InscriptionDTO} from '../../../data/schemas/inscription.model';
 
 @Component({
@@ -60,7 +61,7 @@ export class SuccessApplicantsComponent implements OnInit {
     obs.subscribe({
       next: value => {
         console.log(value);
-        this.allApplicants = (value as any as InscriptionDTO[])?.map((v) => {
+        this.allApplicants = (value as any as CandidatDTO[])?.map((v) => {
           v.libelleGenre = new GenderPipe().transform(v.genreCandidat);
           v.nbrePoint = v.noteSprotif + v.noteOccupation + v.noteReveil + v.noteVelo + v.noteObscurite + v.noteCouche + v.noteLongueDistance + v.notePresencePlantation;
           // Object.assign(v, v.candidat);

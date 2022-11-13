@@ -10,6 +10,7 @@ import {PROFIL} from '../../../data/enums/profil';
 import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
+import {CandidatDTO} from '../../../data/schemas/candidat';
 import {InscriptionDTO} from '../../../data/schemas/inscription.model';
 import {InterviewModel} from '../../../data/schemas/interview.model';
 import {InfoApplicantComponent} from '../info-applicant/info-applicant.component';
@@ -62,7 +63,7 @@ export class InterviewComponent implements OnInit {
       next: value => {
         console.log(value);
         if (value){
-          this.allApplicants = (value as any as InscriptionDTO[])?.map((v) => {
+          this.allApplicants = (value as any as CandidatDTO[])?.map((v) => {
             v.libelleGenre = new GenderPipe().transform(v.genreCandidat);
             v.statusVal = v.isInterviewer ? 'check-circle text-success' : 'close text-danger';
             // Object.assign(v, v.candidat);

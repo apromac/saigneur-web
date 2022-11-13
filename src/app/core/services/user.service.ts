@@ -37,6 +37,10 @@ export class UserService {
     return this.http.put<Response>(`${baseUrl}${user.utilisateurID}`, user);
   }
 
+  delete(user: UsersModel): Observable<Response> {
+    return this.http.delete<Response>(`${baseUrl}${user.utilisateurID}`);
+  }
+
   addPoste(occuper: OccuperModel): Observable<Response> {
 
     // console.log(obj);

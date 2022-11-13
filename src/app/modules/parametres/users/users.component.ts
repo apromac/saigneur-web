@@ -5,6 +5,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
 import {Observable} from 'rxjs';
 import {ProfilService} from 'src/app/core/services/profil.service';
+import Swal from 'sweetalert2';
 import {PosteService} from '../../../core/services/poste.service';
 import {UserService} from '../../../core/services/user.service';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
@@ -150,7 +151,33 @@ export class UsersComponent implements OnInit {
         color: 'red',
         click: (item) => {
 
-          console.log(item);
+          Swal.fire({
+            title: 'SUPPRESSION DE COMPTE UTILISATEUR',
+            text: 'Voulez-vous vraiment supprimer ce compte?',
+            icon: 'question',
+            showCloseButton : true,
+            showCancelButton: true,
+            confirmButtonColor: '#34c38f',
+            cancelButtonColor: '#f46a6a',
+            confirmButtonText: 'OUI',
+            cancelButtonText: 'NON'
+          }).then(result => {
+            console.log(result);
+            if (result.value) {
+              console.log(item);
+              this.userService.delete(item).subscribe({
+                next: value => {
+                  this.toast.success('Compte supprimé avec succès');
+                  this.getAllUser();
+                },
+                error: (err: HttpErrorResponse) => {
+                  console.log(err);
+                  this.toast.error(err.error.message, 'STATUS ' + err.status);
+                }
+              });
+            }
+          });
+
         }
       },
     ];

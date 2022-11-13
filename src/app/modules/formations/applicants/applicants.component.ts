@@ -3,6 +3,7 @@ import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgbModal, NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrService} from 'ngx-toastr';
 import {Observable} from 'rxjs';
+import Swal from 'sweetalert2';
 import {Utility} from '../../../core/constants/utility';
 import {GenderPipe} from '../../../core/pipes/gender.pipe';
 import {CampagneService} from '../../../core/services/campagne.service';
@@ -13,7 +14,7 @@ import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
 import {Campagne} from '../../../data/schemas/campagne';
-import {Candidat} from '../../../data/schemas/candidat';
+import {Candidat, CandidatDTO} from '../../../data/schemas/candidat';
 import {InscriptionModel} from '../../../data/schemas/inscription.model';
 import {InfoApplicantComponent} from '../info-applicant/info-applicant.component';
 import {NewApplicantComponent} from '../new-applicant/new-applicant.component';
@@ -118,7 +119,7 @@ export class ApplicantsComponent implements OnInit {
     // this.candidatService.getCdtByCampagneID(this.campagneSelected.campagneID).subscribe({
     obs.subscribe({
       next: (resp) => {
-        this.allApplicants = (resp as any as Candidat[])?.map((c) => {
+        this.allApplicants = (resp as any as CandidatDTO[])?.map((c) => {
           let cdt = c;
           cdt.libelleGenre =  new GenderPipe().transform(c.genreCandidat);
           return cdt;
@@ -152,28 +153,7 @@ export class ApplicantsComponent implements OnInit {
       }
     });
 
-    // Swal.fire({
-    //   title: 'INSCRIPTION D\'UN CANDIDAT',
-    //   text: '',
-    //   icon: 'question',
-    //   showCloseButton : true,
-    //   showCancelButton: true,
-    //   confirmButtonColor: '#34c38f',
-    //   cancelButtonColor: '#f46a6a',
-    //   confirmButtonText: 'Nouveau candidat',
-    //   cancelButtonText: 'Ancien Candidat!'
-    // }).then(result => {
-    //   console.log(result);
-    //   if (result.value) {
-    //     const modalRef = this.modalService.open(NewApplicantComponent, {centered: true, size: 'lg', backdrop : 'static'});
-    //     modalRef.componentInstance.name = 'World';
-    //   } else if (result.dismiss === Swal.DismissReason.cancel)  {
-    //     document.getElementById('btnmodal').click();
-    //     // DismissReason.getCloseButton().addEventListener( 'click', (r, )=> {
-    //     //
-    //     // })
-    //   }
-    // });
+
   }
 
   oldCandidat(cont): void {
@@ -222,16 +202,36 @@ export class ApplicantsComponent implements OnInit {
         color: 'red',
         icon: 'delete',
         click: (item) => {
-          console.log(item);
-          this.candidatService.removeCandidat(item).subscribe({
-            next: value => {
-              this.toast.success('Candidat supprimé avec succès');
-            },
-            error: (err: HttpErrorResponse) => {
-              console.log(err);
-              this.toast.error(err.error.message, 'STATUS ' + err.status);
+
+          Swal.fire({
+            title: 'SUPPRESSION DE CANDIDAT',
+            text: 'Voulez-vous vraiment supprimer ce candidat?',
+            icon: 'question',
+            showCloseButton : true,
+            showCancelButton: true,
+            confirmButtonColor: '#34c38f',
+            cancelButtonColor: '#f46a6a',
+            confirmButtonText: 'OUI',
+            cancelButtonText: 'NON'
+          }).then(result => {
+            console.log(result);
+            if (result.value) {
+              console.log(item);
+              this.candidatService.removeCandidat(item).subscribe({
+                next: value => {
+                  this.toast.success('Candidat supprimé avec succès');
+                  this.getListApplicant();
+                },
+                error: (err: HttpErrorResponse) => {
+                  console.log(err);
+                  this.toast.error(err.error.message, 'STATUS ' + err.status);
+                }
+              });
             }
           });
+
+
+
         }
       }
     ];

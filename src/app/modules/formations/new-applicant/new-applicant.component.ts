@@ -14,7 +14,7 @@ import {ZoneService} from '../../../core/services/zone.service';
 import {PROFIL} from '../../../data/enums/profil';
 import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {Campagne} from '../../../data/schemas/campagne';
-import {Candidat} from '../../../data/schemas/candidat';
+import {Candidat, CandidatDTO} from '../../../data/schemas/candidat';
 import {InscriptionDTO, InscriptionModel} from '../../../data/schemas/inscription.model';
 import {Params} from '../../../data/schemas/params';
 import {PosteModel} from '../../../data/schemas/poste.model';
@@ -29,7 +29,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
   @ViewChild('cdkStepper') cdkStepper: CdkStepper;
   @Input() name;
   @Input() campagne: Campagne;
-  @Input() inscription: InscriptionDTO;
+  @Input() inscription: CandidatDTO;
   @Input() allCandidat: Candidat[];
   @ViewChild('instance', {static: true}) instance: NgbTypeahead;
 
@@ -201,7 +201,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       next: (resp) => {
         console.log(resp);
         this.listZone = (resp as any as ZoneApromac[]);
-        this.idForm.controls['lieuResidCandidat'].setValue(this.listZone[0]?.zoneID);
+        this.idForm.controls['lieuResidCandidat'].setValue(this.listZone[0]?.zoneID.toString());
       },
       error: (err) => {
         console.error(err);
@@ -217,11 +217,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
 
     this.localForm = this.fb.group({
       poste: ['', [Validators.required]],
-      nom: [''],
-      prenom: [''],
-      zone: [''],
       zoneInscription: [this.inscription?.zoneInscription],
-      district: [],
       districtInscription: [this.inscription?.districtInscription],
       // numero: [''],
     });
@@ -230,16 +226,16 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     this.idForm = this.fb.group({
       nomCandidat: [this.inscription?.nomCandidat, Validators.required],
       prenomsCandidat: [this.inscription?.prenomsCandidat, Validators.required],
-      genreCandidat: [this.inscription?.genreCandidat || 0, Validators.required],
+      genreCandidat: [this.inscription?.genreCandidat || '0', Validators.required],
       dateNaisCandidat: [this.inscription?.dateNaisCandidat, Validators.required],
       lieuNaisCandidat: [this.inscription?.lieuNaisCandidat, Validators.required],
-      niveauEtudeCandidat: [this.inscription?.niveauEtudeCandidat || 1, Validators.required],
-      metierActuelCandidat: [this.inscription?.metierActuelCandidat || 1, Validators.required],
+      niveauEtudeCandidat: [this.inscription?.niveauEtudeCandidat || '1', Validators.required],
+      metierActuelCandidat: [this.inscription?.metierActuelCandidat || '1', Validators.required],
       lieuResidCandidat: [this.inscription?.lieuResidCandidat, Validators.required],
-      distanceInscription: [this.inscription?.distanceInscription || 0],
+      distanceInscription: [this.inscription?.distanceInscription || '0'],
       premierContactCandidat: [this.inscription?.premierContactCandidat, Validators.required],
       secondContactCandidat: [this.inscription?.secondContactCandidat],
-      typePieceCandidat: [this.inscription?.typePieceCandidat || 1, Validators.required],
+      typePieceCandidat: [this.inscription?.typePieceCandidat || '1', Validators.required],
       numeroPieceCandidat: [this.inscription?.numeroPieceCandidat, Validators.required],
     });
 
@@ -247,17 +243,17 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     this.practice = this.inscription?.isAppliquer || false;
     this.trainingForm = this.fb.group({
       isFormer: [this.trained],
-      structureFormation: [this.inscription?.structureFormation || 1],
-      anneeFormation: [this.inscription?.anneeFormation, Validators.required],
+      structureFormation: [this.inscription?.structureFormation || '1'],
+      anneeFormation: [this.splitDate(this.inscription?.anneeFormation), Validators.required],
       isAppliquer: [this.practice],
       typeFormation: [this.inscription?.typeFormation],
-      typeSaigneFormation: [this.inscription?.typeSaigneFormation || 1],
+      typeSaigneFormation: [this.inscription?.typeSaigneFormation || '1'],
       nomPlanteurFormation: [this.inscription?.nomPlanteurFormation, Validators.required],
       matriculePlanteurFormation: [this.inscription?.matriculePlanteurFormation, Validators.required],
       contactPlanteurFormation: [this.inscription?.contactPlanteurFormation],
       lieuPlanteurFormation: [this.inscription?.lieuPlanteurFormation, Validators.required],
       lieuFormation: [this.inscription?.lieuFormation, Validators.required],
-      anneePlanteurFormation: [this.inscription?.anneePlanteurFormation, Validators.required],
+      anneePlanteurFormation: [this.splitDate(this.inscription?.anneePlanteurFormation), Validators.required],
     });
 
 
@@ -271,13 +267,14 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
       matriculePlanteurEmploi: [this.inscription?.matriculePlanteurEmploi, Validators.required],
       contactPlanteurEmploi: [this.inscription?.contactPlanteurEmploi],
       lieuPlanteurEmploi: [this.inscription?.lieuPlanteurEmploi, Validators.required],
-      anneePlanteurEmploi: [this.inscription?.anneePlanteurEmploi, Validators.required],
+      anneePlanteurEmploi: [this.splitDate(this.inscription?.anneePlanteurEmploi), Validators.required],
 
       propositionEmploi: [this.propositionEmploi],
       nomPlanteurActivite: [this.inscription?.nomPlanteurActivite, Validators.required],
       matriculePlanteurActivite: [this.inscription?.matriculePlanteurActivite, Validators.required],
+      contactPlanteurActivite: [this.inscription?.contactPlanteurActivite, Validators.required],
       lieuPlanteurActivite: [this.inscription?.lieuPlanteurActivite, Validators.required],
-      anneePlanteurActivite: [this.inscription?.anneePlanteurActivite, Validators.required],
+      anneePlanteurActivite: [this.splitDate(this.inscription?.anneePlanteurActivite), Validators.required],
     });
     //
     //
@@ -290,7 +287,7 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
   }
 
   posteChange(id): void {
-    if(!id){
+    if (!id) {
       return;
     }
     this.posteService.getDTOById(id).subscribe({
@@ -347,49 +344,111 @@ export class NewApplicantComponent implements OnInit, AfterViewInit {
     this.typePiece = $e;
   }
 
+  resetPracticeForm() {
+    if (!this.practice) {
+      this.trainingForm.controls['isAppliquer'].setValue(false);
+      this.trainingForm.controls['typeFormation'].setValue(null);
+      this.trainingForm.controls['typeSaigneFormation'].setValue(null);
+      this.trainingForm.controls['nomPlanteurFormation'].setValue(null);
+      this.trainingForm.controls['matriculePlanteurFormation'].setValue(null);
+      this.trainingForm.controls['contactPlanteurFormation'].setValue(null);
+      this.trainingForm.controls['lieuPlanteurFormation'].setValue(null);
+      this.trainingForm.controls['lieuFormation'].setValue(null);
+      this.trainingForm.controls['anneePlanteurFormation'].setValue(null);
+    }
+  }
+  splitDate(field: string) {
+    if(!field) {
+      return null;
+    }
+   return  field.split('-')[0];
+  }
+  setDate(field: string): string {
+    if (field) {
+      if (field.length > 4) {
+        return field;
+      }
+      return field + '-01-01';
+    }
+    return null;
+  }
 
   saveForms(): void {
+    /**
+     * FOR UPDATE, USE InscriptionDTO
+     *
+     * FOR NWRECORD, USE InscriptionModel
+     */
     console.log(this.idForm.value, this.localForm.value);
-    let dataToSend = this.idForm.value;
     // Object.assign(dataToSend, ...this.localForm.value)
     let inscription = new InscriptionModel();
-    // if (this.inscription && this.inscription.inscriptionID) {
-    //
-    // } else {
-    //   inscription.inscriptionDTO = this.trainingForm.value;
-    // }
-    inscription.inscriptionDTO = this.inscription;
-    if (inscription.inscriptionDTO) {
-      Object.assign(inscription.inscriptionDTO, this.jobForm.value, this.trainingForm.value);
-    } else {
-      inscription.inscriptionDTO = this.idForm.value;
-      Object.assign(inscription.inscriptionDTO, this.jobForm.value, this.trainingForm.value);
+    let obs: Observable<any>;
 
+    if (!this.trained) {
+      this.trainingForm.reset();
+      this.trainingForm.controls['isFormer'].setValue(false);
+      this.trainingForm.controls['isAppliquer'].setValue(false);
+    } else {
+      this.resetPracticeForm();
     }
-    inscription.inscriptionDTO.zoneInscription = this.localForm.controls['zoneInscription'].value;
-    inscription.inscriptionDTO.districtInscription = this.localForm.controls['districtInscription'].value;
-    inscription.inscriptionDTO.distanceInscription = this.idForm.controls['distanceInscription'].value;
-    inscription.inscriptionDTO.statut = STATUS_CANDIDAT.NEW_CANDIDAT;
-    // const motiv = this.motivationForm.value['motivation'].valeur
-    inscription.inscriptionDTO.motivation = this.motivationForm.value['motivation'];
-    inscription.candidatEntity = this.idForm.value;
-    // inscription.inscriptionDTO.motivation = this.motivationForm.value;
+
+    if (!this.jobForm.value['propositionEmploi']) {
+      this.jobForm.controls['propositionEmploi'].setValue(false);
+      this.jobForm.controls['nomPlanteurEmploi'].setValue(null);
+      this.jobForm.controls['matriculePlanteurEmploi'].setValue(null);
+      this.jobForm.controls['contactPlanteurEmploi'].setValue(null);
+      this.jobForm.controls['lieuPlanteurEmploi'].setValue(null);
+      this.jobForm.controls['anneePlanteurEmploi'].setValue(null);
+    }
+
+    if (!this.jobForm.value['isActivite']) {
+      this.jobForm.controls['isActivite'].setValue(false);
+      this.jobForm.controls['nomPlanteurActivite'].setValue(null);
+      this.jobForm.controls['matriculePlanteurActivite'].setValue(null);
+      this.jobForm.controls['lieuPlanteurActivite'].setValue(null);
+      this.jobForm.controls['anneePlanteurActivite'].setValue(null);
+      this.jobForm.controls['contactPlanteurActivite'].setValue(null);
+    }
+
+    /**
+     * Here is for update
+     */
+    if (this.inscription && this.inscription.inscriptionID) {
+      inscription.inscriptionDTO = this.inscription;
+      var insc = inscription.inscriptionDTO;
+      insc.campagne = this.campagne || Utility.CURRENTCAMPAGNE;
+      insc.motivation = this.motivationForm.value['motivation'];
+      insc.candidat = this.idForm.value;
+      insc.candidat.nomCandidat = insc.candidat.nomCandidat.toLocaleUpperCase();
+
+      insc.statut = STATUS_CANDIDAT.NEW_CANDIDAT;
+      Object.assign(insc, this.trainingForm.value, this.jobForm.value, this.localForm.value);
+      insc.distanceInscription = this.idForm.value['distanceInscription'];
+      insc.anneeFormation = this.setDate(insc.anneeFormation);
+      insc.anneePlanteurEmploi = this.setDate(insc.anneePlanteurEmploi);
+      insc.anneePlanteurFormation = this.setDate(insc.anneePlanteurFormation);
+      insc.anneePlanteurActivite = this.setDate(insc.anneePlanteurActivite);
+      obs = this.candidatService.updateCandidat(insc);
+    } else {
+      inscription.candidatEntity = this.idForm.value;
+      inscription.campagneEntity = this.campagne || Utility.CURRENTCAMPAGNE;
+      inscription.inscriptionDTO = new InscriptionDTO();
+      inscription.inscriptionDTO.statut = STATUS_CANDIDAT.NEW_CANDIDAT;
+      inscription.inscriptionDTO.dateInscription = moment().format('YYYY-MM-DD');
+      inscription.inscriptionDTO.distanceInscription = this.idForm.value['distanceInscription'];
+
+      Object.assign(inscription.inscriptionDTO, this.jobForm.value,
+        this.trainingForm.value, this.localForm.value, this.motivationForm.value);
+
+      inscription.inscriptionDTO.anneeFormation = this.setDate(inscription.inscriptionDTO.anneeFormation);
+      inscription.inscriptionDTO.anneePlanteurEmploi = this.setDate(inscription.inscriptionDTO.anneePlanteurEmploi);
+      inscription.inscriptionDTO.anneePlanteurFormation = this.setDate(inscription.inscriptionDTO.anneePlanteurFormation);
+      inscription.inscriptionDTO.anneePlanteurActivite = this.setDate(inscription.inscriptionDTO.anneePlanteurActivite);
+      obs = this.candidatService.addCandidat(inscription);
+    }
 
     console.log(inscription);
     // return;
-    let obs: Observable<any>;
-    if (this.inscription && this.inscription.inscriptionID) {
-      var inscr = inscription.inscriptionDTO;
-      inscr.campagne = this.campagne || Utility.CURRENTCAMPAGNE;
-      Object.assign(inscription.inscriptionDTO, this.trainingForm.value, this.idForm.value);
-      inscr.candidat = inscription.candidatEntity;
-      inscr.candidat.candidatID = inscription.inscriptionDTO.candidatID;
-      // inscr.
-      obs = this.candidatService.updateCandidat(inscr);
-    } else {
-      inscription.campagneEntity = this.campagne || Utility.CURRENTCAMPAGNE;
-      obs = this.candidatService.addCandidat(inscription);
-    }
     obs.subscribe({
       next: value => {
         console.log(value);

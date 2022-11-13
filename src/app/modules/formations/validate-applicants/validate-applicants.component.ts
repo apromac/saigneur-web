@@ -11,6 +11,7 @@ import {PROFIL} from '../../../data/enums/profil';
 import {STATUS_CANDIDAT} from '../../../data/enums/status';
 import {CustomTableHeaderInfo} from '../../../data/interfaces/custom-table-header-info';
 import {DropdownMenuInfo} from '../../../data/interfaces/dropdown-menu-info';
+import {CandidatDTO} from '../../../data/schemas/candidat';
 import {InscriptionDTO} from '../../../data/schemas/inscription.model';
 
 
@@ -66,7 +67,7 @@ export class ValidateApplicantsComponent implements OnInit {
     }
     obs.subscribe({
       next: value => {
-        const list = ((value || [])  as any as InscriptionDTO[])?.map((c) => {
+        const list = ((value || [])  as any as CandidatDTO[])?.map((c) => {
           let cdt = c;
           cdt.genreCandidat = new GenderPipe().transform(c.genreCandidat);
           return cdt;

@@ -229,6 +229,6 @@ export class MenuComponent implements OnInit {
   }
 
   hasMenu(m: MenuModel): number {
-    return this.currentAcceder.menuIDs.findIndex((ac) => ac == m.menuID);
+    return this.currentAcceder?.menuIDs?.findIndex((ac) => ac == m.menuID);
   }
 }

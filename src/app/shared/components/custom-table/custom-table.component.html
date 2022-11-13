@@ -9,7 +9,7 @@
         <div class="col pr-0 mr-0 text-left align-items-start align-content-start align-self-start">
           <ng-content></ng-content>
         </div>
-       <div class="row col-lg-6 col-sm-12">
+       <div class="row col-lg-{{colSize}} col-sm-12">
          <div (click)="reload($event)" style="width: 3em !important;" class="btn btn-dark" matTooltip="Rafraichir">
            <i class="fa fa-refresh"></i>
          </div>

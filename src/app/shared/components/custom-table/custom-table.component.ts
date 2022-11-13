@@ -28,7 +28,7 @@ export class CustomTableComponent implements OnInit {
   @Input() allSearchBox: SearchBoxInfo[] | undefined;
   @Input() searchWithBtn = false;
   @Input() searchWithCriteras = true;
-  @Input() colSize = 8;
+  @Input() colSize = 6;
   // Menus en bas de la table au cas où il y en a
   @Input() bottomMenus: DropdownMenuInfo[] | undefined;
   // Si true le menu en bas sera affiché

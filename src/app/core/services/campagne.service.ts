@@ -30,4 +30,7 @@ export class CampagneService {
   public updateCampagne(c: Campagne): Observable<Response> {
     return this.http.put<Response>(`${basrUrl}${c.campagneID}`, c);
   }
+  public delete(c: Campagne): Observable<Response> {
+    return this.http.delete<Response>(`${basrUrl}${c.campagneID}`);
+  }
 }

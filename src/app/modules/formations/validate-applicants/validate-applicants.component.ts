@@ -60,7 +60,7 @@ export class ValidateApplicantsComponent implements OnInit {
       this.isNotSelectedLoading =  true;
     }
   let obs: Observable<any>;
-    if(Utility.loggedUser.profilActuel === PROFIL.ADMIN) {
+    if(!Utility.loggedUser.district || Utility.loggedUser.district && Utility.loggedUser.district.length===0) {
       obs = this.candidatService.getCdtByCampagneID(Utility.CURRENTCAMPAGNE.campagneID, status);
     } else {
       obs = this.candidatService.getAllCurrentCandidatByStatus(status);

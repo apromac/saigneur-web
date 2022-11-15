@@ -111,7 +111,7 @@ export class ApplicantsComponent implements OnInit {
     this.isLoading = true;
     this.allApplicants = [];
     let obs: Observable<any>;
-    if(this.isAdmin && this.campagneSelected) {
+    if((!Utility.loggedUser.district || Utility.loggedUser.district && Utility.loggedUser.district.length===0) && this.campagneSelected) {
       obs =  this.candidatService.getCdtByCampagneID(this.campagneSelected.campagneID, STATUS_CANDIDAT.NEW_CANDIDAT)
     } else {
       obs = this.candidatService.getAllCurrentCandidatByStatus(STATUS_CANDIDAT.NEW_CANDIDAT);

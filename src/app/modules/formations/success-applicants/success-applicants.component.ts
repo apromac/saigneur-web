@@ -53,7 +53,7 @@ export class SuccessApplicantsComponent implements OnInit {
     this.allApplicants = [];
     let obs: Observable<any>;
     let status: STATUS_CANDIDAT = STATUS_CANDIDAT.ATTRIBUED   ;
-    if (Utility.loggedUser.profilActuel === PROFIL.ADMIN) {
+    if (!Utility.loggedUser.district || Utility.loggedUser.district && Utility.loggedUser.district.length===0) {
       obs = this.candidatService.getCdtByCampagneID(Utility.CURRENTCAMPAGNE.campagneID, status);
     } else {
       obs = this.candidatService.getAllCurrentCandidatByStatus(status);

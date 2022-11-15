@@ -158,20 +158,35 @@ export class MenuComponent implements OnInit {
       this.isPresent(m, isPresent);
       // m.ch
     }
-    this.addOrRemoveParent(m, isPresent);
+    this.addOrRemoveParent(m);
 
     console.log(this.currentAcceder);
   }
-  addOrRemoveParent(m: MenuModel, isPresent: boolean){
+  addOrRemoveParent(m: MenuModel){
     if(m.parentIdMenu!==0) {
       let parent = this.allMenu.find((men)=> men.menuID === m.parentIdMenu);
-      let isSelected = this.hasMenu(parent);
-      if(isPresent) {
+      let isSelected = this.hasMenu(parent)>= 0;
+      // if(isPresent) {
         if(!isSelected) {
-          this.currentAcceder.menuIDs.push(m.parentIdMenu)
+          this.currentAcceder.menuIDs.push(m.parentIdMenu);
+
+        } else {
+          let allChildren = this.allMenu.filter((m)=> m.parentIdMenu == parent.menuID);
+          if(allChildren && allChildren.length>0) {
+            let hasChildChecked = allChildren.findIndex((m)=> this.hasMenu(m)>=0);
+            console.log(hasChildChecked);
+            if(hasChildChecked<0) {
+              let hasMenu = this.hasMenu(parent);
+              if(hasMenu>=0) {
+                this.currentAcceder.menuIDs.splice(hasMenu, 1);
+                // this.currentAcceder.menuIDs.push(hasMenu);
+              }
+              // this.currentAcceder.menuIDs.splice(parent.menuID, 1);
+            }
+          }
         }
-        this.addOrRemoveParent(parent, isPresent);
-      }
+        this.addOrRemoveParent(parent);
+      // }
       /**
        * UNSELECTED PARENT
        */

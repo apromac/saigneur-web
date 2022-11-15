@@ -53,8 +53,10 @@ export class InterviewComponent implements OnInit {
     this.allApplicants = [];
     this.offcanvasService.dismiss();
     let obs: Observable<any>;
-    let status : STATUS_CANDIDAT = STATUS_CANDIDAT.INTERVIWED;
-    if(Utility.loggedUser.profilActuel === PROFIL.ADMIN) {
+    let status: STATUS_CANDIDAT = STATUS_CANDIDAT.INTERVIWED;
+    if (Utility.loggedUser.profilActuel === PROFIL.TDH) {
+      obs = this.candidatService.getCandidatByZone();
+    } else if (!Utility.loggedUser.district || Utility.loggedUser.district && Utility.loggedUser.district.length===0) {
       obs = this.candidatService.getCdtByCampagneID(Utility.CURRENTCAMPAGNE.campagneID, status);
     } else {
       obs = this.candidatService.getAllCurrentCandidatByStatus(status);
@@ -62,7 +64,7 @@ export class InterviewComponent implements OnInit {
     obs.subscribe({
       next: value => {
         console.log(value);
-        if (value){
+        if (value) {
           this.allApplicants = (value as any as CandidatDTO[])?.map((v) => {
             v.libelleGenre = new GenderPipe().transform(v.genreCandidat);
             v.statusVal = v.isInterviewer ? 'check-circle text-success' : 'close text-danger';
@@ -94,8 +96,8 @@ export class InterviewComponent implements OnInit {
   }
 
   confirmValidation(): void {
-    if(!this.currentApplicant.isInterviewer) {
-      this.toast.warning('Ce candidat n\'est pas encore interviewé!')
+    if (!this.currentApplicant.isInterviewer) {
+      this.toast.warning('Ce candidat n\'est pas encore interviewé!');
       return;
     }
     Swal.fire({
@@ -109,7 +111,7 @@ export class InterviewComponent implements OnInit {
       cancelButtonText: 'Non!'
     }).then(result => {
       if (result.value) {
-       this.validateInterView();
+        this.validateInterView();
       }
     });
   }

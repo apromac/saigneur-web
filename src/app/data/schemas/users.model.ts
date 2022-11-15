@@ -14,4 +14,5 @@ export class UsersModel {
   menus?:MenuModel[]
   profilActuel?: string;
   district?: any;
+  zone?: any;
 }

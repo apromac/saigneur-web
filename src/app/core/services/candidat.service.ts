@@ -46,6 +46,9 @@ export class CandidatService {
   getCandidatInterview(): Observable<Response> {
     return this.http.get<Response>(`${baseUrlInscription}interview`);
   }
+  getCandidatByZone(): Observable<Response> {
+    return this.http.get<Response>(`${baseUrl}/statut/${STATUS_CANDIDAT.INTERVIWED}/zone/${Utility.loggedUser.zone}/interview`);
+  }
   getCandidatRetenu(): Observable<Response> {
     return this.http.get<Response>(`${baseUrlInscription}retenu`);
   }

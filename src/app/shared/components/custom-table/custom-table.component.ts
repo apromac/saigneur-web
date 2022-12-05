@@ -142,7 +142,6 @@ export class CustomTableComponent implements OnInit {
         rowSearch = this.checking.map((c) => c.column);
         console.log(rowSearch);
       }
-
       // @ts-ignore
       this.tableData = this.searchList.filter((data) => {
           if (!data) {

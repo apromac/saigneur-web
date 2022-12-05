@@ -17,6 +17,7 @@ export class MenuComponent implements OnInit {
   allProfil: ProfilModel[] = [];
   currentAcceder: { profilID: number, menuIDs?: number[] };
   accessLoading = true;
+  isSaving = false;
   // currentMenuId = 0;
 
   allMenu: MenuModel[] = [];
@@ -29,10 +30,6 @@ export class MenuComponent implements OnInit {
       libelle: 'Enregistrer les modifications',
       bg: 'btn-primary',
     },
-    btnClick: () => {
-      console.log(this.currentAcceder);
-      this.saveAccess();
-    }
   };
   extraParameter = '4';
 
@@ -110,8 +107,8 @@ export class MenuComponent implements OnInit {
           console.error(value);
           (value as any as AccederModel[]).map((a) => this.currentAcceder.menuIDs.push(a.menu.menuID));
           console.log(this.currentAcceder);
-          this.accessLoading = false;
         }
+        this.accessLoading = false;
       }, error: (err: HttpErrorResponse) => {
         console.log(err);
         this.accessLoading = false;
@@ -123,14 +120,19 @@ export class MenuComponent implements OnInit {
   saveAccess(): void {
     console.log(this.currentAcceder);
     // return;
+    this.isSaving = true;
+    this.currentAcceder.menuIDs = [...new Set(this.currentAcceder.menuIDs)];
     this.menuService.saveAccess(this.currentAcceder).subscribe({
       next: value => {
         this.toast.success('Menus enregistrés avec succès');
         console.log(value);
+        this.isSaving = false;
         this.getAcces();
       },
       error: err => {
         console.error(err);
+        this.isSaving = false;
+        // this.accessLoading = false;
       }
     });
   }
